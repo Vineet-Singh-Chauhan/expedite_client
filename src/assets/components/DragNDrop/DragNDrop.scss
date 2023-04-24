@@ -1,0 +1,51 @@
+@import "../../global/variables";
+.dragNDrop {
+  padding: 0.5rem;
+  display: grid;
+  // overflow-x: auto;
+  // width: 100%;
+  // height: 100%;
+  grid-template-columns: repeat(auto-fill, 300px);
+  grid-auto-columns: minmax(300px, 1fr);
+  grid-auto-flow: column;
+  gap: 0.5rem;
+  color: $primaryFont;
+  align-items: start;
+  .dndGroup {
+    background: $secondaryBg;
+    border-radius: 5px;
+    padding: 0.5rem;
+    .groupTitle {
+      margin-bottom: 0.5rem;
+    }
+    .dndItem {
+      // min-height: 150px;
+      background-color: $primaryBg;
+      border-radius: 5px;
+      color: $secondaryFont;
+
+      &:not(:last-of-type) {
+        margin-bottom: 0.5rem;
+      }
+    }
+    .dragCurrent {
+      background-color: $tertiarBg;
+    }
+    .createGrp__btn {
+      background-color: $primaryBg;
+      width: 100%;
+      border: none;
+      padding: 0.5rem;
+      color: #1ac888;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.1s linear;
+      gap: 5px;
+      &:hover {
+        background: $secondaryBg;
+        cursor: pointer;
+      }
+    }
+  }
+}

@@ -1,0 +1,238 @@
+@import "../../global/variables";
+.TaskCardExpanded {
+  font-family: $primaryFamily;
+  color: $secondaryFont;
+  .TaskCardExpanded__options {
+    margin: 0.3rem 0;
+    // margin-bottom: 0.8rem;
+    display: flex;
+    > button {
+      font-size: 0.9rem;
+      display: flex;
+      align-items: first baseline baseline;
+      // background: transparent;
+      color: $primaryFont;
+      border: none;
+      padding: 0.3rem 0.4rem;
+      border-radius: 0.3rem;
+      transition: all 0.1s linear;
+      &:hover {
+        cursor: pointer;
+        filter: brightness(0.9);
+      }
+      &:not(:last-of-type) {
+        margin-right: 0.3rem;
+      }
+      &:first-child {
+        background: $error;
+      }
+      &:nth-child(2) {
+        background: #1794ff;
+      }
+    }
+  }
+  .TaskCardExpanded__header {
+    display: flex;
+    justify-content: space-between;
+    > .taskStatus {
+      background: $primaryBg;
+      color: $primaryFont;
+      border-radius: 0.3rem;
+      padding: 5px 10px;
+
+      .taskStatus__notStarted {
+        color: white;
+      }
+      .taskStatus__completed {
+        color: seagreen;
+      }
+      .taskStatus__review {
+        color: orange;
+      }
+      .taskStatus__dependency {
+        color: orangered;
+      }
+      .taskStatus__overdue {
+        color: red;
+      }
+      .taskStatus__cancel {
+        color: darkgray;
+      }
+    }
+  }
+  .taskDesc {
+    .taskDescTextarea {
+      width: 100%;
+      height: fit-content;
+      resize: none;
+    }
+  }
+  .taskTags {
+    margin-top: 10rem;
+    h3 {
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+    }
+    .taskTags__header {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      .tasktags__relative {
+        position: relative;
+        .taskTags__tray {
+          display: none;
+          position: absolute;
+          background: #000;
+          border-radius: 0.3rem;
+          z-index: 101;
+          // top: 0;
+          // left: 100%;
+          // bottom: 10px;
+          div {
+            border-top: 2px solid $secondaryBg;
+            border-bottom: 0px solid $secondaryBg;
+            padding: 10px;
+            height: 40px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            &:hover {
+              background-color: rgba(255, 255, 255, 0.128);
+              cursor: pointer;
+            }
+          }
+        }
+      }
+      .addTags__btn {
+        font-size: 0.8rem;
+        border: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: rgb(0, 203, 136);
+        gap: 3px;
+        padding: 3px 5px;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+        transition: all 0.1s linear;
+        &:hover {
+          background: rgb(0, 140, 93);
+        }
+      }
+    }
+    .labelContainer {
+      display: inline-block;
+      &:hover {
+        cursor: pointer;
+      }
+      &:not(:last-of-type) {
+        margin-right: 0.3rem;
+      }
+    }
+  }
+  .dueDateContainer {
+    margin-top: 3rem;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .addAssignees {
+    .addAssignees__header {
+      position: relative;
+      width: fit-content;
+      margin-top: 3rem;
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      button {
+        border: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: rgb(0, 203, 136);
+        gap: 3px;
+        padding: 3px 5px;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+        transition: all 0.1s linear;
+        &:hover {
+          background: rgb(0, 140, 93);
+        }
+      }
+      h3 {
+        font-weight: 400;
+        margin-bottom: 0.5rem;
+      }
+      .addAssignees__tray {
+        display: none;
+        position: absolute;
+        background: #000;
+        border-radius: 0.3rem;
+        max-height: 200px;
+        overflow-y: auto;
+        z-index: 101;
+        // top: 0;
+        left: 102%;
+        // bottom: -100%;
+        div {
+          border-top: 2px solid $secondaryBg;
+          border-bottom: 0px solid $secondaryBg;
+          padding: 10px;
+          height: 40px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          &:hover {
+            background-color: rgba(255, 255, 255, 0.128);
+            cursor: pointer;
+          }
+        }
+      }
+    }
+    .assigneesTable__container {
+      overflow-x: auto;
+      .assigneesTable {
+        width: 100%;
+        margin: 20px 0;
+        border-spacing: 0px;
+        th,
+        td {
+          padding: 10px;
+          text-align: start;
+        }
+      }
+      &::-webkit-scrollbar {
+        height: 3px;
+      }
+      &::-webkit-scrollbar-corner {
+        display: none;
+      }
+      .assigneesTableRow {
+        border: $base-border;
+        margin: 16px 0;
+        > td {
+          padding: 10px;
+        }
+        &:hover {
+          background: $secondaryBg;
+        }
+        .assignees__actionBtn {
+          background-color: $error;
+          color: $primaryFont;
+          cursor: pointer;
+          padding: 5px;
+          border: 1px solid transparent;
+          border-radius: 0.3rem;
+          transition: all 0.1s linear;
+          &:hover {
+            background-color: $secondaryBg;
+            color: $error;
+            border: 1px solid $error;
+          }
+        }
+      }
+    }
+  }
+}

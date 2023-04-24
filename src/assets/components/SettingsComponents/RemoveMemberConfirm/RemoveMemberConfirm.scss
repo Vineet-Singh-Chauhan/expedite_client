@@ -1,0 +1,14 @@
+@import "../../../global/variables";
+.RemoveMemberConfirmModal {
+  font-family: $primaryFamily;
+  p {
+    color: $secondaryFont;
+    margin-top: 20px;
+  }
+  .RemoveMemberConfirmModal__btnGrp {
+    display: flex;
+    gap: 30px;
+    width: fit-content;
+    margin: 20px auto;
+  }
+}

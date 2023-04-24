@@ -1,0 +1,99 @@
+@import "./variables";
+.App {
+  background: $primaryBg;
+}
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 10px;
+}
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: $primaryBg;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: $secondaryBg;
+  border-radius: 999px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+::-webkit-inner-spin-button {
+  display: none;
+}
+.logo {
+  color: $primaryFont;
+  font-weight: 700;
+  font-size: $font-size-lg;
+  font-family: $logoFamily;
+  letter-spacing: 0.1rem;
+  margin: $base-margin 0;
+}
+.absolute {
+  position: absolute;
+}
+.button {
+  padding: $base-padding;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+  font-size: 1rem;
+  color: $secondaryFont;
+  background-color: transparent;
+  outline: none;
+  border: $base-border;
+  border-radius: $base-border-radius;
+  gap: 1rem;
+  transition: all 0.2s ease-out;
+  &:hover {
+    background: $secondaryBg;
+    cursor: pointer;
+  }
+}
+.overlay {
+  z-index: -1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  background: transparent;
+}
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+.ml-auto {
+  margin-left: auto;
+}
+.standardOneLineInput {
+  padding-left: 5px !important;
+  padding-right: 5px !important;
+  background: transparent;
+  outline: none;
+  border: $base-border;
+  font-size: 1rem;
+  border-radius: $base-border-radius;
+  color: $secondaryFont;
+  &:focus {
+    background: transparent;
+  }
+}
+::selection {
+  background-color: #2b6587;
+  color: white;
+}

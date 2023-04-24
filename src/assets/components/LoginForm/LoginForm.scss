@@ -1,0 +1,63 @@
+@import "../../global/variables";
+.loginForm {
+  min-width: 300px;
+  font-family: $primaryFamily;
+  margin: 50px 0;
+  color: $secondaryFont;
+  > h3 {
+    color: $secondaryFont;
+    margin: 50px 0;
+    font-weight: 500;
+  }
+  > button {
+    margin: auto;
+  }
+
+  .orGroup {
+    display: flex;
+    margin: 30px auto;
+    max-width: fit-content;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+    hr {
+      flex: 1;
+      min-width: 30px;
+      border-color: gray;
+    }
+  }
+
+  .loginFormOptions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .rememberMeDiv {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+    }
+    .forgotPasswordDiv {
+      text-align: end;
+      a {
+        text-underline-offset: 0.3rem;
+        color: $secondaryFont;
+      }
+    }
+  }
+  .loginButton {
+    margin: 50px 0px;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    button {
+      padding: 0.7rem 1.5rem;
+      color: white;
+      background: $secondaryBg;
+      color: #fff;
+      &:hover {
+        background: transparent;
+      }
+    }
+  }
+}

@@ -1,0 +1,34 @@
+@import "../../../global/variables";
+.searchBar {
+  flex: 1;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  border: $base-border;
+  border-radius: $base-border-radius;
+  padding: 0 10px;
+  background: $secondaryBg;
+  background-blend-mode: lighten;
+
+  .searchIcon {
+    font-size: 1.3rem;
+  }
+  input {
+    padding: 0.4rem;
+    background: transparent;
+    font-size: 1rem;
+    outline: none;
+    border: none;
+
+    color: $secondaryFont;
+  }
+  &:hover {
+    background: $secondaryBg;
+  }
+  .search__shortcut {
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+}

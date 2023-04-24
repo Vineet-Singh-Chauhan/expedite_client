@@ -1,0 +1,35 @@
+@import "../../../global/variables";
+.usermenu {
+  .user__logo {
+    background: #d66400;
+    padding: 5px;
+    width: 30px;
+    text-align: center;
+    border-radius: 5px;
+    color: white;
+    font-weight: 500;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  .userMenuTray {
+    z-index: 2;
+    position: absolute;
+    border: $base-border;
+    background-color: $primaryBg;
+    display: none;
+    border-radius: $base-border-radius;
+    top: 60px;
+    right: 10px;
+    min-width: 200px;
+    div {
+      border-top: 2px solid $secondaryBg;
+      border-bottom: 0px solid $secondaryBg;
+      padding: 10px;
+      &:hover {
+        background-color: $secondaryBg;
+        cursor: pointer;
+      }
+    }
+  }
+}

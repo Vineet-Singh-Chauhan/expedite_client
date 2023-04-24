@@ -1,0 +1,17 @@
+@import "../../global/variables";
+.NetworkIssue {
+  height: 100%;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  .iconContainer {
+    font-size: 3rem;
+    color: $secondaryFont;
+    > div {
+      font-size: 1rem;
+      font-family: $primaryFamily;
+    }
+  }
+}

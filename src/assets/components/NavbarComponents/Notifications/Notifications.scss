@@ -1,0 +1,44 @@
+@import "../../../global/variables";
+.workSpace__notification {
+  position: relative;
+  .workSpace__notificationIcon {
+    //   color: $secondaryFont;
+    font-size: 1.3rem;
+    margin-left: 20px;
+    transition: all 0.2s linear;
+    &:hover {
+      color: $primaryFont;
+      cursor: pointer;
+    }
+  }
+  .notificationsTray {
+    z-index: 2;
+    position: absolute;
+    border: $base-border;
+    background-color: $primaryBg;
+    display: none;
+    border-radius: $base-border-radius;
+    top: 45px;
+    width: 300px;
+    max-height: 300px;
+    overflow-y: auto;
+    div {
+      border-top: 2px solid $secondaryBg;
+      border-bottom: 0px solid $secondaryBg;
+      padding: 10px;
+      height: 40px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      &:hover {
+        background-color: $secondaryBg;
+        cursor: pointer;
+      }
+    }
+  }
+  @media (max-width: 500px) {
+    .workSpace__notificationIcon {
+      margin-left: 5px;
+    }
+  }
+}

@@ -1,0 +1,45 @@
+@import "../../global/variables";
+.editable__inputWrapperOuter {
+  // margin-top: 5px;
+  // margin-bottom: 20px;
+
+  .editable__inputWrapper {
+    display: flex;
+    align-items: center;
+    gap: 0 10px;
+    width: 400px;
+    position: relative;
+  }
+  .editable__inputWrapper input {
+    color: $secondaryFont;
+    width: 90%;
+    padding: 5px 0;
+  }
+  .editable__inputWrapper textarea {
+    position: absolute;
+    top: 0;
+    color: $secondaryFont;
+    width: 90%;
+    padding: 5px 0;
+  }
+  .editable__inputWrapper span {
+    color: $secondaryFont;
+    // padding: 12px 10px;
+    /* padding: 5px 10px ;
+    border: 2px solid rgba(128, 128, 128, 0.45);
+    border-radius:5px;*/
+  }
+  .editable__inputWrapper .editable__content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    height: 3rem;
+  }
+  .editable__editIcon {
+    &:hover {
+      cursor: pointer;
+      color: $primaryFont;
+    }
+  }
+}

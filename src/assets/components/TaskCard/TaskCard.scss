@@ -1,0 +1,50 @@
+@import "../../global/variables/";
+.taskCard {
+  font-family: $primaryFamily;
+  padding: 0.5rem;
+  // width: 100%;
+  // min-height: 150px;
+  height: 100%;
+  position: relative;
+  &:hover {
+    cursor: pointer;
+  }
+  .labelsContainer {
+    margin-bottom: 0.3rem;
+  }
+  > h1 {
+    font-family: $primaryFamily;
+    color: $primaryFont;
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+  > p {
+    // isolation: isolate;
+    font-size: 0.8rem;
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .taskCard__footer {
+    margin-top: 10px;
+    font-size: 0.8rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    > .dueDate {
+      font-weight: 600;
+    }
+    > .assignees {
+      display: flex;
+      flex-direction: row;
+      max-width: 100px;
+      overflow-x: hidden;
+
+      > div:not(:last-of-type) {
+        margin-right: -10px;
+      }
+    }
+  }
+}

@@ -1,0 +1,49 @@
+@import "../../../global/variables";
+.main__sideBar {
+  // left: 0;
+  // top: 0;
+  // bottom: 0;
+  // position: absolute;
+  height: 100%;
+  background: $primaryBg;
+  // border-right: $base-border;
+  color: $secondaryFont;
+  padding: 0.1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: $primaryFamily;
+  transition: all 0.3s linear;
+  width: 2.9rem;
+  overflow-x: hidden;
+  white-space: nowrap;
+
+  &:hover {
+    width: 10rem;
+  }
+
+  .sideBar__submenu {
+    .menuItemWrap {
+      padding: 0.3rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-radius: 0.3rem;
+      transition: all 0.3s ease-in-out;
+      margin: 5px 8px;
+      &:hover {
+        cursor: pointer;
+        background-color: $secondaryBg;
+      }
+
+      .menuItemIcon {
+        font-size: 1.4rem;
+      }
+      .menuItemName {
+        font-weight: 400;
+        padding-bottom: 5px;
+        font-size: 1.1rem;
+      }
+    }
+  }
+}

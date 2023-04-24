@@ -1,0 +1,42 @@
+@import "../../global/variables";
+.authPage {
+  min-height: 100vh;
+  display: flex;
+  .formContainer {
+    width: 40%;
+    padding: $base-padding * 2;
+    .formContainer__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .formToggleLink {
+        color: $secondaryFont;
+        text-decoration: underline;
+        text-underline-offset: 0.5rem;
+        cursor: pointer;
+        font-family: $primaryFamily;
+      }
+    }
+  }
+  .LoginPageimageSection {
+    background-repeat: no-repeat;
+    flex: 1;
+  }
+
+  //* media queries 1200
+  @media (max-width: 1200px) {
+    .formContainer {
+      width: 50%;
+    }
+  }
+
+  //* media queries 740
+  @media (max-width: 740px) {
+    .loginPage {
+      flex-direction: column;
+    }
+    .formContainer {
+      width: 100%;
+    }
+  }
+}

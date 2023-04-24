@@ -1,0 +1,16 @@
+@import "../../global/variables";
+.NewGroupDialog {
+  font-family: $primaryFamily;
+  min-width: 600px;
+  .NewGroupDialog__btnGrp {
+    display: flex;
+    gap: 30px;
+    width: fit-content;
+    margin: 20px auto;
+  }
+  @media (max-width: 650px) {
+    & {
+      min-width: 300px;
+    }
+  }
+}

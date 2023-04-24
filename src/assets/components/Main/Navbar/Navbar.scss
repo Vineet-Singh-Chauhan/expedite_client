@@ -1,0 +1,39 @@
+@import "../../../global/variables";
+.main__Navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  background-color: $primaryBg;
+  padding: 10px 20px;
+  font-family: $primaryFamily;
+  color: $secondaryFont;
+  .leftMenu {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .rightMenu {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 30px;
+  }
+  @media (max-width: 800px) {
+    .centralMenu {
+      display: none;
+    }
+  }
+  @media (max-width: 500px) {
+    .centralMenu {
+      display: none;
+    }
+    .rightMenu .createBtn {
+      display: none;
+    }
+  }
+}

@@ -1,0 +1,18 @@
+@import "../../global/variables";
+.createTask__btn {
+  background-color: $primaryBg;
+  width: 100%;
+  border: none;
+  padding: 0.5rem;
+  color: #1ac888;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.1s linear;
+  gap: 5px;
+  margin-top: 5px;
+  &:hover {
+    background: $secondaryBg;
+    cursor: pointer;
+  }
+}

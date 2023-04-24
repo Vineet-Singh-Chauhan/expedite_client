@@ -1,0 +1,42 @@
+@import "../../global/variables";
+.modalContainer {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(1px);
+  background: #0000008a;
+  z-index: 99;
+  color: $primaryFont;
+  .modal {
+    background: $primaryBg;
+    // max-width: 900px;
+    width: fit-content;
+    min-width: 250px;
+    // width: 80%;
+    border-radius: 0.6rem;
+    padding: 20px;
+    position: relative;
+    z-index: 100;
+
+    .modalCloseBtn {
+      position: absolute;
+      top: -0.5rem;
+      right: -0.5rem;
+      color: $primaryFont;
+      font-size: 1.5rem;
+      margin: auto;
+      transition: all 0.1s linear;
+      &:hover {
+        cursor: pointer;
+        color: $secondaryFont;
+      }
+    }
+  }
+}

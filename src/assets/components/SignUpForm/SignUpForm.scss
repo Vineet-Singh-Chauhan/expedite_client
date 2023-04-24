@@ -1,0 +1,98 @@
+@import "../../global/variables";
+.SignupForm {
+  min-width: 300px;
+  font-family: $primaryFamily;
+  margin: 50px 0;
+  color: $secondaryFont;
+  > h3 {
+    color: $secondaryFont;
+    margin: 50px 0;
+    font-weight: 500;
+  }
+  > button {
+    margin: auto;
+  }
+  .orGroup {
+    display: flex;
+    margin: 30px auto;
+    max-width: fit-content;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+    hr {
+      flex: 1;
+      min-width: 30px;
+      border-color: gray;
+    }
+  }
+  .genderContainer {
+    p {
+      margin: 10px 0;
+    }
+  }
+  .genderLabel {
+    padding: $base-padding;
+    display: flex;
+    gap: 50px 10px;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    font-size: 1rem;
+    color: $secondaryFont;
+    background-color: transparent;
+    outline: none;
+    border: $base-border;
+    border-radius: $base-border-radius;
+    transition: all 0.2s ease-out;
+    cursor: pointer;
+
+    input {
+      visibility: hidden;
+      height: 0;
+      width: 0;
+    }
+    &:hover {
+      background: $secondaryBg;
+      cursor: pointer;
+    }
+  }
+  .genderLabel:has(input:checked) {
+    background: rgb(1, 65, 1);
+  }
+  .dobContainer {
+    display: flex;
+    gap: 10px;
+    margin: 30px 0px;
+    p {
+      margin: 10px 0;
+    }
+    input {
+      padding: 0.4rem;
+      background: transparent;
+      outline: none;
+      border: $base-border;
+      font-size: 1rem;
+      border-radius: $base-border-radius;
+      color: $secondaryFont;
+      &:focus {
+        background: $secondaryBg;
+      }
+    }
+    ::-webkit-calendar-picker-indicator {
+      filter: invert(1);
+    }
+  }
+  .signUpButton {
+    display: flex;
+    justify-content: end;
+    button {
+      padding: 0.7rem 1.5rem;
+      color: white;
+      background: $secondaryBg;
+      color: #fff;
+      &:hover {
+        background: transparent;
+      }
+    }
+  }
+}

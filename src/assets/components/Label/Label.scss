@@ -1,0 +1,16 @@
+@import "../../global/variables";
+.taskLabel {
+  display: inline-block;
+  text-transform: uppercase;
+  font-family: $primaryFamily;
+  color: rgba(255, 255, 255, 0.872);
+  // background-color: rgb(236, 58, 58);
+  padding: 2px;
+  font-size: 0.6rem;
+  font-weight: 600;
+  border-radius: 0.3rem;
+  word-wrap: none;
+  &:not(:last-of-type) {
+    margin-right: 0.3rem;
+  }
+}

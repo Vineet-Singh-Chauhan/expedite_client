@@ -1,0 +1,77 @@
+@import "../../../global/variables";
+.workspaceSelector {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  .workSpace__logo {
+    background: #17c0eb;
+    padding: 5px;
+    width: 30px;
+    text-align: center;
+    border-radius: 5px;
+    color: white;
+    font-weight: 500;
+  }
+  .workSpace__select {
+    position: relative;
+    min-width: 200px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.4rem;
+    background: transparent;
+    outline: none;
+    border: $base-border;
+    font-size: 1rem;
+    border-radius: $base-border-radius;
+    color: $secondaryFont;
+    cursor: pointer;
+    &:focus {
+      background: $secondaryBg;
+    }
+
+    option {
+      padding: 0.4rem;
+      background: $primaryBg;
+      outline: none;
+      border: $base-border;
+      font-size: 1rem;
+      border-radius: $base-border-radius;
+      color: $secondaryFont;
+      &:hover {
+        background: $secondaryBg;
+      }
+    }
+  }
+  .workSpace__name {
+    position: relative;
+    .workSpaces__options {
+      z-index: 2;
+      position: absolute;
+      border: $base-border;
+      background-color: $primaryBg;
+      display: none;
+      border-radius: $base-border-radius;
+      top: 50px;
+      max-height: 300px;
+      overflow-y: auto;
+      div {
+        // display: flex;
+        // align-items: center;
+        border-top: 2px solid $secondaryBg;
+        border-bottom: 0px solid $secondaryBg;
+        padding: 10px;
+        height: 40px;
+        width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        &:hover {
+          background-color: $secondaryBg;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

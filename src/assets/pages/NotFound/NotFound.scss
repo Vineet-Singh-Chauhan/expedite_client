@@ -1,0 +1,21 @@
+@import "../../global/variables";
+.NotFound {
+  height: 100vh;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  .iconContainer {
+    font-size: 3rem;
+    color: $secondaryFont;
+    > div {
+      font-size: 1rem;
+      font-family: $primaryFamily;
+      a {
+        color: blue;
+        text-underline-offset: 5px;
+      }
+    }
+  }
+}

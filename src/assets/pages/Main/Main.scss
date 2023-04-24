@@ -1,0 +1,28 @@
+@import "../../global/variables";
+.mainPage {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  .main__mainScreen {
+    flex: 1;
+    display: flex;
+    background: $secondaryBg;
+    position: relative;
+    overflow-y: scroll;
+  }
+
+  .main__workspaceArea {
+    flex: 1;
+    background: $tertiarBg;
+    color: white;
+    padding: 1rem;
+    overflow-x: scroll;
+    overflow-y: scroll;
+  }
+  .main__workspaceArea::-webkit-scrollbar {
+    height: 10px;
+  }
+  .main__workspaceArea::-webkit-scrollbar-corner {
+    display: none;
+  }
+}

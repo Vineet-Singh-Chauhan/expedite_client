@@ -1,0 +1,52 @@
+@import "../../global/variables";
+
+.WorkspaceMembersTable {
+  .workspaceSettings__userlist {
+    margin-top: 50px;
+    h2 {
+      color: $primaryFont;
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+    .userListHead {
+      display: flex;
+      gap: 50px;
+      .userListHead__button {
+        background-color: rgb(0, 203, 136);
+        color: $primaryFont;
+        margin-bottom: 5px;
+        padding: 2px 8px;
+        border: none;
+        border-radius: 0.3rem;
+        display: flex;
+        align-items: center;
+        gap: 3px;
+        transition: all 0.1s linear;
+        &:hover {
+          background: rgb(0, 140, 93);
+          cursor: pointer;
+        }
+      }
+    }
+
+    .userlistTableContainer {
+      overflow-x: auto;
+      .userListTable {
+        width: 100%;
+        margin: 20px 0;
+        border-spacing: 0px;
+        th,
+        td {
+          padding: 10px;
+          text-align: start;
+        }
+      }
+      &::-webkit-scrollbar {
+        height: 3px;
+      }
+      &::-webkit-scrollbar-corner {
+        display: none;
+      }
+    }
+  }
+}
