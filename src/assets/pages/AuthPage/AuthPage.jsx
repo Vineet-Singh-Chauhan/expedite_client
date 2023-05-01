@@ -40,7 +40,6 @@ const AuthPage = () => {
   const initializeGoogleAuth = () => {
     /* global google */
     if (window.google) {
-      console.log("run");
       google.accounts.id.initialize({
         // client_id: process.env.GOOGLE_CLIENT_ID,
         client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
@@ -90,7 +89,7 @@ const AuthPage = () => {
           )}
 
           {/* //*to be populated by google auth */}
-          <button id="GoogleSignUpBtn"></button>
+          <button id="GoogleSignUpBtn" disabled={loading}></button>
 
           {loading ? (
             <Spinner size={"40px"} stroke={"4px"} />
