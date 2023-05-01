@@ -8,6 +8,7 @@ import LoginForm from "../../components/LoginForm/LoginForm";
 import SignUpForm from "../../components/SignUpForm/SignUpForm";
 import Spinner from "../../utilities/Spinner/Spinner";
 import useFetch from "./useFetch";
+
 const AuthPage = () => {
   const [isLoginPage, setIsLoginPage] = useState(true);
   const { loading, googleAuthError, handleGoogle } = useFetch(

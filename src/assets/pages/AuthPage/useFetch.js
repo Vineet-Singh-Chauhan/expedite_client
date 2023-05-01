@@ -1,7 +1,13 @@
 import { useState } from "react";
 import postData from "../../utilities/PostFunctions/postData";
+import useAuth from "../../../hooks/useAuth";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const useFetch = (url) => {
+  const { setAuth } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
   const [loading, setLoading] = useState(false);
   const [googleAuthError, setgoogleAuthError] = useState("");
   const handleGoogle = async (response) => {
@@ -16,8 +22,10 @@ const useFetch = (url) => {
           setgoogleAuthError(data.error);
           return;
         }
+        setAuth({ accessToken: data.accessToken });
         setgoogleAuthError("");
         setLoading(false);
+        navigate(from, { replace: true });
       })
       .catch((error) => {
         console.log("from catch", error.message);

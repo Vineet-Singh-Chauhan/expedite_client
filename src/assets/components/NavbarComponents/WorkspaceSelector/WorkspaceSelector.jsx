@@ -18,7 +18,7 @@ const Index = () => {
       <div className="workSpace__name">
         <div className="workSpace__select" onClick={toggleTray}>
           <span>Test</span>
-          <BiChevronDown />
+          <FiChevronDown />
         </div>
 
         <div className="workSpaces__options" ref={trayRef}>

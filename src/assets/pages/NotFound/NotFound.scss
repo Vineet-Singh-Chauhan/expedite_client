@@ -12,9 +12,16 @@
     > div {
       font-size: 1rem;
       font-family: $primaryFamily;
-      a {
+      span {
         color: blue;
+        text-decoration: underline;
         text-underline-offset: 5px;
+        background: transparent;
+        outline: none;
+        border: none;
+        &:hover {
+          cursor: pointer;
+        }
       }
     }
   }

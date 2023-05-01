@@ -1,18 +1,25 @@
 import React, { useState } from "react";
 //*CSS
 import "./LoginForm.scss";
-
 //* Components
 import PasswordInput from "../../utilities/form/PasswordInput";
 import Input from "../../utilities/form/Input";
 import MainButton from "../../utilities/MainButton/MainButton";
 import { emailregex } from "../../utilities/FormValidation/regex";
-//* Icons
-import { FcGoogle } from "react-icons/fc";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import postData from "../../utilities/PostFunctions/postData";
 import Spinner from "../../utilities/Spinner/Spinner";
+import useAuth from "../../../hooks/useAuth";
+
+//* Icons
+import { FcGoogle } from "react-icons/fc";
 
 const LoginForm = () => {
+  const { setAuth } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+
   const [loading, setLoading] = useState(false);
   const [resMsg, setResMsg] = useState("");
 
@@ -63,8 +70,10 @@ const LoginForm = () => {
                 setResMsg(data.error);
                 return;
               }
+              setAuth({ accessToken: data.accessToken });
               setResMsg("");
               setLoading(false);
+              navigate(from, { replace: true });
             })
             .catch((error) => {
               console.log("from catch", error);
