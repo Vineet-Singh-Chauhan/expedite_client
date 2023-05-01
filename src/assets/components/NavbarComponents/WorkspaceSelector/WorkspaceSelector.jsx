@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 //*CSS
 import "./WorkspaceSelector.scss";
 //* Icons
-import { BiChevronDown } from "react-icons/Bi";
+import { FiChevronDown } from "react-icons/fi";
 
 const Index = () => {
   const trayRef = useRef();
