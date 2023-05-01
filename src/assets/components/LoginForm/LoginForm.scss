@@ -2,7 +2,6 @@
 .loginForm {
   min-width: 300px;
   font-family: $primaryFamily;
-  margin: 50px 0;
   color: $secondaryFont;
   > h3 {
     color: $secondaryFont;
@@ -11,6 +10,13 @@
   }
   > button {
     margin: auto;
+  }
+  .resMsgFieldError {
+    background: rgba(255, 0, 0, 0.16);
+    color: $error;
+    padding: 0.3rem;
+    border-radius: 0.3rem;
+    text-align: center;
   }
 
   .orGroup {

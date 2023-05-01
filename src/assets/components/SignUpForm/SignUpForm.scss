@@ -1,33 +1,26 @@
 @import "../../global/variables";
 .SignupForm {
-  min-width: 300px;
+  // min-width: 300px;
   font-family: $primaryFamily;
-  margin: 50px 0;
   color: $secondaryFont;
-  > h3 {
-    color: $secondaryFont;
-    margin: 50px 0;
-    font-weight: 500;
-  }
-  > button {
-    margin: auto;
-  }
-  .orGroup {
+
+  .nameGrp {
     display: flex;
-    margin: 30px auto;
-    max-width: fit-content;
-    gap: 5px;
-    justify-content: center;
-    align-items: center;
-    hr {
-      flex: 1;
-      min-width: 30px;
-      border-color: gray;
-    }
+    align-items: flex-end;
   }
   .genderContainer {
     p {
       margin: 10px 0;
+    }
+    .errorField {
+      background-color: rgba(255, 0, 0, 0.683);
+      border-radius: 0.3rem;
+      padding: 0.1rem;
+      font-size: 0.9rem;
+      // display: none;
+      // visibility: hidden;
+      // opacity: 0;
+      color: white;
     }
   }
   .genderLabel {
@@ -61,6 +54,7 @@
   }
   .dobContainer {
     display: flex;
+    align-items: center;
     gap: 10px;
     margin: 30px 0px;
     p {
@@ -80,6 +74,17 @@
     }
     ::-webkit-calendar-picker-indicator {
       filter: invert(1);
+    }
+    .errorField {
+      background-color: rgba(255, 0, 0, 0.683);
+      border-radius: 0.3rem;
+      padding: 0.1rem;
+      font-size: 0.9rem;
+
+      // display: none;
+      // visibility: hidden;
+      // opacity: 0;
+      color: white;
     }
   }
   .signUpButton {

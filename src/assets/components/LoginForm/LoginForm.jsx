@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 //*CSS
 import "./LoginForm.scss";
 
@@ -6,37 +6,96 @@ import "./LoginForm.scss";
 import PasswordInput from "../../utilities/form/PasswordInput";
 import Input from "../../utilities/form/Input";
 import MainButton from "../../utilities/MainButton/MainButton";
-
+import { emailregex } from "../../utilities/FormValidation/regex";
 //* Icons
 import { FcGoogle } from "react-icons/fc";
+import postData from "../../utilities/PostFunctions/postData";
+import Spinner from "../../utilities/Spinner/Spinner";
 
 const LoginForm = () => {
+  const [loading, setLoading] = useState(false);
+  const [resMsg, setResMsg] = useState("");
   const handleGoogleLogin = () => {
     console.log("login");
   };
-  const handleSubmit = () => {};
+  const [formErrors, setFormErrors] = useState({
+    email: "This field cannot be empty!",
+    password: "This field cannot be empty!",
+  });
+  const validateLoginFields = async (params) => {
+    if (params.value === "") {
+      return "This field cannot be empty!";
+    } else if (params.type === "email") {
+      if (!emailregex.test(params.value)) {
+        return "This does not appear to be valid email address";
+      }
+    }
+    return false;
+  };
+  const handleChange = (e) => {
+    validateLoginFields(e.target).then((result) => {
+      setFormErrors({ ...formErrors, [e.target.name]: result });
+    });
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    e.target.querySelectorAll("input").forEach((e) => {
+      e.setAttribute("focused", true);
+      validateLoginFields(e);
+    });
+    setTimeout(() => {
+      let isValid = true;
+      for (let key in formErrors) {
+        if (formErrors[key] !== false) {
+          isValid = false;
+          return;
+        }
+      }
+      setTimeout(() => {
+        if (isValid) {
+          const data = new FormData(e.target);
+          const formValues = Object.fromEntries(data.entries());
+          console.log(formValues);
+          setLoading(true);
+          postData(`${import.meta.env.VITE_BASE_URL}/api/signin`, formValues)
+            .then((data) => {
+              console.log(data);
+              if (data.error) {
+                setLoading(false);
+                setResMsg(data.error);
+                return;
+              }
+              setResMsg("");
+              setLoading(false);
+            })
+            .catch((error) => {
+              console.log("from catch", error);
+              setResMsg(error.message);
+              setLoading(false);
+            });
+        }
+      }, 0);
+    }, 0);
+  };
+
   return (
     <div className="loginForm">
-      <h3>
-        Welcome back, Please login <br /> to your account
-      </h3>
-      <MainButton
+      {/* <MainButton
         title="Login with Google"
         Icon={<FcGoogle />}
-        onClick={handleGoogleLogin}
-      />
-      <div className="orGroup">
-        <hr />
-        <span>or</span>
-        <hr />
-      </div>
+        // onClick={handleGoogleLogin}
+      /> */}
+
       <form onSubmit={handleSubmit} noValidate>
+        {resMsg ? <div className="resMsgFieldError">{resMsg}</div> : <></>}
         <Input
           inputId="email"
-          name="email address"
+          name="email"
           label="Email address"
           type="email"
           required={true}
+          errorMsg={formErrors.email}
+          onChange={handleChange}
         />
         <PasswordInput
           inputId="password"
@@ -44,6 +103,8 @@ const LoginForm = () => {
           label="Password"
           type="password"
           required={true}
+          errorMsg={formErrors.password}
+          onChange={handleChange}
         />
 
         <div className="loginFormOptions">
@@ -56,7 +117,12 @@ const LoginForm = () => {
           </div>
         </div>
         <div className="loginButton">
-          <MainButton type="submit" title="Login" onClick={handleSubmit} />
+          <MainButton
+            type="submit"
+            disabled={loading}
+            title={loading ? "Logging in..." : "Login"}
+            Icon={loading && <Spinner size={"20px"} stroke={"3px"} />}
+          />
         </div>
       </form>
     </div>

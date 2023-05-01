@@ -9,7 +9,7 @@
 .flex {
   display: flex;
   flex-wrap: wrap;
-  gap: 0 10px;
+  gap: 5px 10px;
 }
 ::-webkit-scrollbar {
   width: 5px;
@@ -96,4 +96,20 @@
 ::selection {
   background-color: #2b6587;
   color: white;
+}
+.requiredAsterik {
+  color: $error;
+}
+#GoogleSignUpBtn,
+#signUpDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+  font-size: 1rem;
+  color: $secondaryFont;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  transition: all 0.2s ease-out;
 }

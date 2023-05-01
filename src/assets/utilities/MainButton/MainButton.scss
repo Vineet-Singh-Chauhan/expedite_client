@@ -4,6 +4,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 0.5rem;
   font-weight: 500;
   font-size: 1rem;
   color: $secondaryFont;
@@ -14,8 +15,9 @@
   transition: all 0.2s ease-out;
   .icon {
     font-size: 1.2rem;
-    padding-top: 3px;
-    margin-right: 0.5rem;
+  }
+  .icon:empty {
+    display: none;
   }
 
   &:hover {

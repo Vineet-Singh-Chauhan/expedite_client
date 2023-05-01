@@ -25,13 +25,13 @@ const Main = () => {
           <SideBar />
         </div>
         <div className="main__workspaceArea">
-          {/* <Settings /> */}
+          <Settings />
           {/* <UserInfo /> */}
           {/* <WorkspaceSettings /> */}
           {/* <WorkspaceTasks /> */}
           {/* <CreateNewTask /> */}
           {/* <MyTasks /> */}
-          <NetworkIssue />
+          {/* <NetworkIssue /> */}
         </div>
       </div>
     </div>

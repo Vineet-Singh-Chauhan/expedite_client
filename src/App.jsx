@@ -9,12 +9,12 @@ import Settings from "./assets/pages/Settings/Settings";
 import WorkspaceTasks from "./assets/pages/WorspaceTasks/WorkspaceTasks";
 import NetworkIssue from "./assets/components/NetworkIssue/NetworkIssue";
 import NotFound from "./assets/pages/NotFound/NotFound";
-import Spinner from "./assets/components/Spinner/Spinner";
+// import Spinner from "./assets/components/Spinner/Spinner";
 
 function App() {
   return (
     <div className="App">
-      {/* <AuthPage /> */}
+      <AuthPage />
       {/* <ForgotPassword /> */}
       {/* <ResetPassword /> */}
       {/* <Navbar /> */}

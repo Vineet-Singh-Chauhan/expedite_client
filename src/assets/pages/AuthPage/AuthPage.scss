@@ -2,9 +2,11 @@
 .authPage {
   min-height: 100vh;
   display: flex;
+  color: $secondaryFont;
+  font-family: $primaryFamily;
   .formContainer {
     width: 40%;
-    padding: $base-padding * 2;
+    padding: $base-padding;
     .formContainer__header {
       display: flex;
       justify-content: space-between;
@@ -13,8 +15,45 @@
         color: $secondaryFont;
         text-decoration: underline;
         text-underline-offset: 0.5rem;
+        text-align: end;
+        line-height: 1.8rem;
+        font-size: 1rem;
         cursor: pointer;
         font-family: $primaryFamily;
+      }
+    }
+    .googleAuthContainer {
+      > h3 {
+        color: $secondaryFont;
+        margin: 50px 0;
+        font-weight: 500;
+      }
+      > button {
+        margin: auto;
+      }
+      .orGroup {
+        display: flex;
+        margin: 30px auto;
+        max-width: fit-content;
+        gap: 5px;
+        justify-content: center;
+        align-items: center;
+        hr {
+          flex: 1;
+          min-width: 30px;
+          border-color: gray;
+        }
+      }
+      #GoogleSignUpBtn {
+        margin-bottom: 20px;
+      }
+      .googleAuthError {
+        background: rgba(255, 0, 0, 0.16);
+        color: $error;
+        padding: 0.3rem;
+        border-radius: 0.3rem;
+        text-align: center;
+        margin-top: 10px;
       }
     }
   }
