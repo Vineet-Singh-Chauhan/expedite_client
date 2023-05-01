@@ -40,6 +40,7 @@ const AuthPage = () => {
   const initializeGoogleAuth = () => {
     /* global google */
     if (window.google) {
+      console.log("run");
       google.accounts.id.initialize({
         // client_id: process.env.GOOGLE_CLIENT_ID,
         client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,

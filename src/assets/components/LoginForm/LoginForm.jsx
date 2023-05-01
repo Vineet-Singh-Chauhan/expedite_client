@@ -15,9 +15,7 @@ import Spinner from "../../utilities/Spinner/Spinner";
 const LoginForm = () => {
   const [loading, setLoading] = useState(false);
   const [resMsg, setResMsg] = useState("");
-  const handleGoogleLogin = () => {
-    console.log("login");
-  };
+
   const [formErrors, setFormErrors] = useState({
     email: "This field cannot be empty!",
     password: "This field cannot be empty!",
