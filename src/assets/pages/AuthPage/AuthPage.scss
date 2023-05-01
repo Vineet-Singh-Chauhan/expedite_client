@@ -41,7 +41,9 @@
         hr {
           flex: 1;
           min-width: 30px;
-          border-color: gray;
+          border-color: transparent;
+          background: #808080;
+          border-radius: 10px;
         }
       }
       #GoogleSignUpBtn {
