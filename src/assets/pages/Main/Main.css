@@ -1,0 +1,26 @@
+.mainPage {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+.mainPage .main__mainScreen {
+  flex: 1;
+  display: flex;
+  background: rgba(255, 255, 255, 0.0470588235);
+  position: relative;
+  overflow-y: scroll;
+}
+.mainPage .main__workspaceArea {
+  flex: 1;
+  background: #1b273f;
+  color: white;
+  padding: 1rem;
+  overflow-x: scroll;
+  overflow-y: scroll;
+}
+.mainPage .main__workspaceArea::-webkit-scrollbar {
+  height: 10px;
+}
+.mainPage .main__workspaceArea::-webkit-scrollbar-corner {
+  display: none;
+}/*# sourceMappingURL=Main.css.map */

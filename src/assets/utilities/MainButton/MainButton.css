@@ -1,0 +1,25 @@
+.utilities__mainButton {
+  padding: 0.625rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  font-size: 1rem;
+  color: #909598;
+  background-color: transparent;
+  outline: none;
+  border: 2px solid rgba(128, 128, 128, 0.295);
+  border-radius: 0.3rem;
+  transition: all 0.2s ease-out;
+}
+.utilities__mainButton .icon {
+  font-size: 1.2rem;
+}
+.utilities__mainButton .icon:empty {
+  display: none;
+}
+.utilities__mainButton:hover {
+  background: rgba(255, 255, 255, 0.0470588235);
+  cursor: pointer;
+}/*# sourceMappingURL=MainButton.css.map */

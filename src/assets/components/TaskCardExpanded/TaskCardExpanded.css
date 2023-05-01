@@ -1,0 +1,227 @@
+.TaskCardExpanded {
+  font-family: "Inter", sans-serif;
+  color: #909598;
+}
+.TaskCardExpanded .TaskCardExpanded__options {
+  margin: 0.3rem 0;
+  display: flex;
+}
+.TaskCardExpanded .TaskCardExpanded__options > button {
+  font-size: 0.9rem;
+  display: flex;
+  align-items: first baseline baseline;
+  color: #ffffff;
+  border: none;
+  padding: 0.3rem 0.4rem;
+  border-radius: 0.3rem;
+  transition: all 0.1s linear;
+}
+.TaskCardExpanded .TaskCardExpanded__options > button:hover {
+  cursor: pointer;
+  filter: brightness(0.9);
+}
+.TaskCardExpanded .TaskCardExpanded__options > button:not(:last-of-type) {
+  margin-right: 0.3rem;
+}
+.TaskCardExpanded .TaskCardExpanded__options > button:first-child {
+  background: #d32752;
+}
+.TaskCardExpanded .TaskCardExpanded__options > button:nth-child(2) {
+  background: #1794ff;
+}
+.TaskCardExpanded .TaskCardExpanded__header {
+  display: flex;
+  justify-content: space-between;
+}
+.TaskCardExpanded .TaskCardExpanded__header > .taskStatus {
+  background: #101c36;
+  color: #ffffff;
+  border-radius: 0.3rem;
+  padding: 5px 10px;
+}
+.TaskCardExpanded .TaskCardExpanded__header > .taskStatus .taskStatus__notStarted {
+  color: white;
+}
+.TaskCardExpanded .TaskCardExpanded__header > .taskStatus .taskStatus__completed {
+  color: seagreen;
+}
+.TaskCardExpanded .TaskCardExpanded__header > .taskStatus .taskStatus__review {
+  color: orange;
+}
+.TaskCardExpanded .TaskCardExpanded__header > .taskStatus .taskStatus__dependency {
+  color: orangered;
+}
+.TaskCardExpanded .TaskCardExpanded__header > .taskStatus .taskStatus__overdue {
+  color: red;
+}
+.TaskCardExpanded .TaskCardExpanded__header > .taskStatus .taskStatus__cancel {
+  color: darkgray;
+}
+.TaskCardExpanded .taskDesc .taskDescTextarea {
+  width: 100%;
+  height: -moz-fit-content;
+  height: fit-content;
+  resize: none;
+}
+.TaskCardExpanded .taskTags {
+  margin-top: 10rem;
+}
+.TaskCardExpanded .taskTags h3 {
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+}
+.TaskCardExpanded .taskTags .taskTags__header {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.TaskCardExpanded .taskTags .taskTags__header .tasktags__relative {
+  position: relative;
+}
+.TaskCardExpanded .taskTags .taskTags__header .tasktags__relative .taskTags__tray {
+  display: none;
+  position: absolute;
+  background: #000;
+  border-radius: 0.3rem;
+  z-index: 101;
+}
+.TaskCardExpanded .taskTags .taskTags__header .tasktags__relative .taskTags__tray div {
+  border-top: 2px solid rgba(255, 255, 255, 0.0470588235);
+  border-bottom: 0px solid rgba(255, 255, 255, 0.0470588235);
+  padding: 10px;
+  height: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.TaskCardExpanded .taskTags .taskTags__header .tasktags__relative .taskTags__tray div:hover {
+  background-color: rgba(255, 255, 255, 0.128);
+  cursor: pointer;
+}
+.TaskCardExpanded .taskTags .taskTags__header .addTags__btn {
+  font-size: 0.8rem;
+  border: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(0, 203, 136);
+  gap: 3px;
+  padding: 3px 5px;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.1s linear;
+}
+.TaskCardExpanded .taskTags .taskTags__header .addTags__btn:hover {
+  background: rgb(0, 140, 93);
+}
+.TaskCardExpanded .taskTags .labelContainer {
+  display: inline-block;
+}
+.TaskCardExpanded .taskTags .labelContainer:hover {
+  cursor: pointer;
+}
+.TaskCardExpanded .taskTags .labelContainer:not(:last-of-type) {
+  margin-right: 0.3rem;
+}
+.TaskCardExpanded .dueDateContainer {
+  margin-top: 3rem;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.TaskCardExpanded .addAssignees .addAssignees__header {
+  position: relative;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin-top: 3rem;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.TaskCardExpanded .addAssignees .addAssignees__header button {
+  border: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(0, 203, 136);
+  gap: 3px;
+  padding: 3px 5px;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.1s linear;
+}
+.TaskCardExpanded .addAssignees .addAssignees__header button:hover {
+  background: rgb(0, 140, 93);
+}
+.TaskCardExpanded .addAssignees .addAssignees__header h3 {
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+}
+.TaskCardExpanded .addAssignees .addAssignees__header .addAssignees__tray {
+  display: none;
+  position: absolute;
+  background: #000;
+  border-radius: 0.3rem;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 101;
+  left: 102%;
+}
+.TaskCardExpanded .addAssignees .addAssignees__header .addAssignees__tray div {
+  border-top: 2px solid rgba(255, 255, 255, 0.0470588235);
+  border-bottom: 0px solid rgba(255, 255, 255, 0.0470588235);
+  padding: 10px;
+  height: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.TaskCardExpanded .addAssignees .addAssignees__header .addAssignees__tray div:hover {
+  background-color: rgba(255, 255, 255, 0.128);
+  cursor: pointer;
+}
+.TaskCardExpanded .addAssignees .assigneesTable__container {
+  overflow-x: auto;
+}
+.TaskCardExpanded .addAssignees .assigneesTable__container .assigneesTable {
+  width: 100%;
+  margin: 20px 0;
+  border-spacing: 0px;
+}
+.TaskCardExpanded .addAssignees .assigneesTable__container .assigneesTable th,
+.TaskCardExpanded .addAssignees .assigneesTable__container .assigneesTable td {
+  padding: 10px;
+  text-align: start;
+}
+.TaskCardExpanded .addAssignees .assigneesTable__container::-webkit-scrollbar {
+  height: 3px;
+}
+.TaskCardExpanded .addAssignees .assigneesTable__container::-webkit-scrollbar-corner {
+  display: none;
+}
+.TaskCardExpanded .addAssignees .assigneesTable__container .assigneesTableRow {
+  border: 2px solid rgba(128, 128, 128, 0.295);
+  margin: 16px 0;
+}
+.TaskCardExpanded .addAssignees .assigneesTable__container .assigneesTableRow > td {
+  padding: 10px;
+}
+.TaskCardExpanded .addAssignees .assigneesTable__container .assigneesTableRow:hover {
+  background: rgba(255, 255, 255, 0.0470588235);
+}
+.TaskCardExpanded .addAssignees .assigneesTable__container .assigneesTableRow .assignees__actionBtn {
+  background-color: #d32752;
+  color: #ffffff;
+  cursor: pointer;
+  padding: 5px;
+  border: 1px solid transparent;
+  border-radius: 0.3rem;
+  transition: all 0.1s linear;
+}
+.TaskCardExpanded .addAssignees .assigneesTable__container .assigneesTableRow .assignees__actionBtn:hover {
+  background-color: rgba(255, 255, 255, 0.0470588235);
+  color: #d32752;
+  border: 1px solid #d32752;
+}/*# sourceMappingURL=TaskCardExpanded.css.map */

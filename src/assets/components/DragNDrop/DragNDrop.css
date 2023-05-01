@@ -1,0 +1,45 @@
+.dragNDrop {
+  padding: 0.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 300px);
+  grid-auto-columns: minmax(300px, 1fr);
+  grid-auto-flow: column;
+  gap: 0.5rem;
+  color: #ffffff;
+  align-items: start;
+}
+.dragNDrop .dndGroup {
+  background: rgba(255, 255, 255, 0.0470588235);
+  border-radius: 5px;
+  padding: 0.5rem;
+}
+.dragNDrop .dndGroup .groupTitle {
+  margin-bottom: 0.5rem;
+}
+.dragNDrop .dndGroup .dndItem {
+  background-color: #101c36;
+  border-radius: 5px;
+  color: #909598;
+}
+.dragNDrop .dndGroup .dndItem:not(:last-of-type) {
+  margin-bottom: 0.5rem;
+}
+.dragNDrop .dndGroup .dragCurrent {
+  background-color: #1b273f;
+}
+.dragNDrop .dndGroup .createGrp__btn {
+  background-color: #101c36;
+  width: 100%;
+  border: none;
+  padding: 0.5rem;
+  color: #1ac888;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.1s linear;
+  gap: 5px;
+}
+.dragNDrop .dndGroup .createGrp__btn:hover {
+  background: rgba(255, 255, 255, 0.0470588235);
+  cursor: pointer;
+}/*# sourceMappingURL=DragNDrop.css.map */

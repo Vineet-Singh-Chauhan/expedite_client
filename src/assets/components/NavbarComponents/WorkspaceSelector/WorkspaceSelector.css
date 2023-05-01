@@ -1,0 +1,72 @@
+.workspaceSelector {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+}
+.workspaceSelector .workSpace__logo {
+  background: #17c0eb;
+  padding: 5px;
+  width: 30px;
+  text-align: center;
+  border-radius: 5px;
+  color: white;
+  font-weight: 500;
+}
+.workspaceSelector .workSpace__select {
+  position: relative;
+  min-width: 200px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.4rem;
+  background: transparent;
+  outline: none;
+  border: 2px solid rgba(128, 128, 128, 0.295);
+  font-size: 1rem;
+  border-radius: 0.3rem;
+  color: #909598;
+  cursor: pointer;
+}
+.workspaceSelector .workSpace__select:focus {
+  background: rgba(255, 255, 255, 0.0470588235);
+}
+.workspaceSelector .workSpace__select option {
+  padding: 0.4rem;
+  background: #101c36;
+  outline: none;
+  border: 2px solid rgba(128, 128, 128, 0.295);
+  font-size: 1rem;
+  border-radius: 0.3rem;
+  color: #909598;
+}
+.workspaceSelector .workSpace__select option:hover {
+  background: rgba(255, 255, 255, 0.0470588235);
+}
+.workspaceSelector .workSpace__name {
+  position: relative;
+}
+.workspaceSelector .workSpace__name .workSpaces__options {
+  z-index: 2;
+  position: absolute;
+  border: 2px solid rgba(128, 128, 128, 0.295);
+  background-color: #101c36;
+  display: none;
+  border-radius: 0.3rem;
+  top: 50px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+.workspaceSelector .workSpace__name .workSpaces__options div {
+  border-top: 2px solid rgba(255, 255, 255, 0.0470588235);
+  border-bottom: 0px solid rgba(255, 255, 255, 0.0470588235);
+  padding: 10px;
+  height: 40px;
+  width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.workspaceSelector .workSpace__name .workSpaces__options div:hover {
+  background-color: rgba(255, 255, 255, 0.0470588235);
+  cursor: pointer;
+}/*# sourceMappingURL=WorkspaceSelector.css.map */

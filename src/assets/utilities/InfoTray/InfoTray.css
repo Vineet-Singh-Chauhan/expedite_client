@@ -1,0 +1,41 @@
+.InfoTray__container {
+  font-family: "Inter", sans-serif;
+  position: fixed;
+  bottom: -100px;
+  left: 45%;
+  margin: auto;
+  height: -moz-fit-content;
+  height: fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  align-items: center;
+  -webkit-backdrop-filter: blur(0.5px);
+          backdrop-filter: blur(0.5px);
+  background: rgba(18, 18, 18, 0.1725490196);
+  border: 1px solid #909598;
+  border-radius: 0.3rem;
+  padding: 0.5rem;
+  z-index: 99;
+  color: #ffffff;
+  transform: translateY(-120px);
+  animation: fadeIn 0.1s ease-in;
+}
+.InfoTray__container .InfoTray {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 5px;
+}
+.InfoTray__container .infoTrayIcon {
+  color: red;
+  font-size: 1.3rem;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}/*# sourceMappingURL=InfoTray.css.map */

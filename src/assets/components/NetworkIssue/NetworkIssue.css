@@ -1,0 +1,16 @@
+.NetworkIssue {
+  height: 100%;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.NetworkIssue .iconContainer {
+  font-size: 3rem;
+  color: #909598;
+}
+.NetworkIssue .iconContainer > div {
+  font-size: 1rem;
+  font-family: "Inter", sans-serif;
+}/*# sourceMappingURL=NetworkIssue.css.map */

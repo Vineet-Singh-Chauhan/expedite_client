@@ -1,0 +1,16 @@
+.NewGroupDialog {
+  font-family: "Inter", sans-serif;
+  min-width: 600px;
+}
+.NewGroupDialog .NewGroupDialog__btnGrp {
+  display: flex;
+  gap: 30px;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: 20px auto;
+}
+@media (max-width: 650px) {
+  .NewGroupDialog {
+    min-width: 300px;
+  }
+}/*# sourceMappingURL=NewGroupDialog.css.map */
