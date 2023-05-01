@@ -4,7 +4,7 @@ import "./Sidebar.scss";
 //*icons
 import { FaTasks } from "react-icons/fa";
 import { GoTasklist } from "react-icons/go";
-import { BiPlus } from "react-icons/Bi";
+import { AiOutlinePlus } from "react-icons/ai";
 const SideBar = () => {
   return (
     <div className="main__sideBar">
@@ -25,7 +25,7 @@ const SideBar = () => {
       <div className="sideBar__submenu">
         <div className="menuItemWrap">
           <span className="menuItemIcon">
-            <BiPlus />
+            <AiOutlinePlus />
           </span>
           <span className="menuItemName">Extension</span>
         </div>
