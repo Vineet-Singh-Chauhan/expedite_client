@@ -13,10 +13,12 @@ import WorkspaceTasks from "../WorspaceTasks/WorkspaceTasks";
 import MyTasks from "../MyTasks/MyTasks";
 import TaskCardExpanded from "../../components/TaskCardExpanded/TaskCardExpanded";
 import NetworkIssue from "../../components/NetworkIssue/NetworkIssue";
+import { Link } from "react-router-dom";
 
 const Main = () => {
   return (
     <div className="mainPage">
+      <Link to="/dummy">Dummy</Link>
       <div className="main__navbarContainer">
         <Navbar />
       </div>
