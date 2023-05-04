@@ -12,6 +12,7 @@ import NotFound from "./assets/pages/NotFound/NotFound";
 import { Route, Routes } from "react-router-dom";
 import Layout from "./assets/components/Layout";
 import RequireAuth from "./assets/components/RequireAuth";
+import Dummy from "./assets/components/Dummy/Dummy";
 // import Spinner from "./assets/components/Spinner/Spinner";
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
           <Route path="/" element={<Main />} />
           <Route path="/home" element={<Main />} />
           <Route path="/reset" element={<ResetPassword />} />
+          <Route path="/dummy" element={<Dummy />} />
         </Route>
 
         {/* catch all */}
