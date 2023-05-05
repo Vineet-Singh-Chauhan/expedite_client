@@ -5,29 +5,42 @@ import useAuth from "../../hooks/useAuth";
 import LoadingScreen from "./LoadingScreen/LoadingScreen";
 
 const PersistLogin = () => {
-  //   const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const refresh = useRefreshToken();
-  const { auth } = useAuth();
+  const { auth, persist } = useAuth();
 
   useEffect(() => {
+    let isMounted = true;
     const verifyRefreshToken = async () => {
       try {
         await refresh();
       } catch (error) {
-        console.log(error);
+        console.log(error.message);
       } finally {
-        // setLoading(false);
+        isMounted && setLoading(false);
       }
     };
-    !auth?.accessToken ? verifyRefreshToken() : null;
+    !auth?.accessToken ? verifyRefreshToken() : setLoading(false);
+
+    return () => (isMounted = false);
   }, []);
 
   useEffect(() => {
     console.log("loading");
     console.log(`at: ${JSON.stringify(auth?.accessToken)}`);
   }, []);
-  // return <>{loading ? <LoadingScreen /> : <Outlet />}</>;
-  return <Outlet />;
+  return (
+    <>
+      {!persist ? (
+        <Outlet />
+      ) : loading ? (
+        <LoadingScreen status={true} />
+      ) : (
+        <Outlet />
+      )}
+    </>
+  );
+  // return <Outlet />;
 };
 
 export default PersistLogin;

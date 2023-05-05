@@ -20,9 +20,11 @@ const Dummy = () => {
       try {
         const response = await axiosPrivate.post("/api/getuser", {
           signal: controller.signal,
+          withCredentials: true,
+          credentials: "include",
         });
         console.log(response.data);
-        isMounted && setUser(response.data);
+        isMounted && setUser(JSON.stringify(response.data));
         console.log(user);
       } catch (err) {
         console.error(err.message);
@@ -39,7 +41,7 @@ const Dummy = () => {
   }, []);
   return (
     <div>
-      {/* {user} */}
+      {user}
       <button
         onClick={() => {
           refresh();

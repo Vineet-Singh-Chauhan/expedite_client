@@ -15,7 +15,7 @@ const Usermenu = () => {
   };
   const handleSignOut = async () => {
     await signout();
-    navigate("/");
+    navigate("/auth");
   };
   return (
     <div className="usermenu">

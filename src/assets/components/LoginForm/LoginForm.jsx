@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 //*CSS
 import "./LoginForm.scss";
 //* Components
@@ -15,7 +15,7 @@ import useAuth from "../../../hooks/useAuth";
 import { FcGoogle } from "react-icons/fc";
 
 const LoginForm = () => {
-  const { setAuth } = useAuth();
+  const { setAuth, persist, setPersist } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
@@ -26,6 +26,12 @@ const LoginForm = () => {
   const [formErrors, setFormErrors] = useState({
     email: "This field cannot be empty!",
     password: "This field cannot be empty!",
+  });
+  const togglePersist = () => {
+    setPersist((prev) => !prev);
+  };
+  useEffect(() => {
+    localStorage.setItem("expeditePersist", persist);
   });
   const validateLoginFields = async (params) => {
     if (params.value === "") {
@@ -116,7 +122,13 @@ const LoginForm = () => {
 
         <div className="loginFormOptions">
           <div className="rememberMeDiv">
-            <input type="checkbox" name="remember me" id="rememberMe" />
+            <input
+              type="checkbox"
+              name="remember me"
+              id="rememberMe"
+              onChange={togglePersist}
+              checked={persist}
+            />
             <label htmlFor="rememberMe">Remember Me</label>
           </div>
           <div className="forgotPasswordDiv">

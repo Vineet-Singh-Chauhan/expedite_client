@@ -21,7 +21,7 @@ import NotFound from "../NotFound/NotFound";
 const Main = () => {
   return (
     <div className="mainPage">
-      {/* <Link to="/dummy">Dummy</Link> */}
+      <Link to="/dummy">Dummy</Link>
       <div className="main__navbarContainer">
         <Navbar />
       </div>
