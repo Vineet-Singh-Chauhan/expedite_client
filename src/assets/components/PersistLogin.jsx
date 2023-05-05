@@ -22,11 +22,11 @@ const PersistLogin = () => {
     !auth?.accessToken ? verifyRefreshToken() : null;
   }, []);
 
-  //   useEffect(() => {
-  //     console.log(`loading : ${loading}`);
-  //     console.log(`at: ${JSON.stringify(auth?.accessToken)}`);
-  //   }, []);
-  //   return <>{loading ? <LoadingScreen /> : <Outlet />}</>;
+  useEffect(() => {
+    console.log("loading");
+    console.log(`at: ${JSON.stringify(auth?.accessToken)}`);
+  }, []);
+  // return <>{loading ? <LoadingScreen /> : <Outlet />}</>;
   return <Outlet />;
 };
 

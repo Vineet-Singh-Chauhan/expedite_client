@@ -21,7 +21,6 @@ const AuthPage = () => {
   const initializeGoogleAuth = () => {
     /* global google */
     if (window.google) {
-      console.log("object 3");
       google.accounts.id.initialize({
         client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
         callback: handleGoogle,
@@ -36,7 +35,6 @@ const AuthPage = () => {
           shape: "rectangular",
         }
       );
-      console.log("object 4");
 
       google.accounts.id.prompt();
     }
