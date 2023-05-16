@@ -30,15 +30,7 @@ const PersistLogin = () => {
     console.log(`at: ${JSON.stringify(auth?.accessToken)}`);
   }, []);
   return (
-    <>
-      {!persist ? (
-        <Outlet />
-      ) : loading ? (
-        <LoadingScreen status={true} />
-      ) : (
-        <Outlet />
-      )}
-    </>
+    <>{!persist ? <Outlet /> : loading ? <LoadingScreen /> : <Outlet />}</>
   );
   // return <Outlet />;
 };

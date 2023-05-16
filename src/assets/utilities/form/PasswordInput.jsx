@@ -19,7 +19,8 @@ const PasswordInput = (props) => {
         </label>
         {/* {props.errorMsg ? ( */}
         <span className="errorField">
-          {props.name === "confirmPassword"
+          {props.name === "confirmPassword" ||
+          props.name === "confirmNewPassword"
             ? "Passwords do not match!"
             : props.errorMsg}
         </span>

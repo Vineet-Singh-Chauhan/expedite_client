@@ -6,7 +6,6 @@ import RequireAuth from "./assets/components/RequireAuth";
 import LoadingScreen from "./assets/components/LoadingScreen/LoadingScreen";
 import "./assets/global/globalStyle.scss";
 import PersistLogin from "./assets/components/PersistLogin";
-
 const AuthPage = lazy(() => import("./assets/pages/AuthPage/AuthPage"));
 const ForgotPassword = lazy(() =>
   import("./assets/pages/ForgotPassword/ForgotPassword")
@@ -28,6 +27,7 @@ function App() {
           <Route path="forgot" element={<ForgotPassword />} />
 
           {/* to be protected */}
+
           <Route element={<PersistLogin />}>
             <Route element={<RequireAuth />}>
               <Route path="/" element={<Main />} />

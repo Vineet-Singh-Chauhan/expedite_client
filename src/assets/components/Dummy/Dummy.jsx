@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 import { useNavigate, useLocation } from "react-router-dom";
-import useRefreshToken from "../../../hooks/useRefreshToken";
+// import useRefreshToken from "../../../hooks/useRefreshToken";
 // import useInterceptedFetch from "../../../hooks/useInterceptedFetch";
 import { Link } from "react-router-dom";
 
@@ -11,7 +11,7 @@ const Dummy = () => {
   const navigate = useNavigate();
   const location = useLocation();
   // const refreshFetch = useInterceptedFetch();
-  const refresh = useRefreshToken();
+  // const refresh = useRefreshToken();
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
@@ -42,13 +42,13 @@ const Dummy = () => {
   return (
     <div>
       {user}
-      <button
+      {/* <button
         onClick={() => {
           refresh();
         }}
       >
         refresh
-      </button>
+      </button> */}
       <Link to="/home">HOME</Link>
       <Link to="/reset">RESET</Link>
       <Link to="/forgot">FOrgot</Link>

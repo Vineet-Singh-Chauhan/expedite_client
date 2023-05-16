@@ -117,3 +117,17 @@ a {
   text-decoration: none;
   color: inherit;
 }
+.resMsgFieldError {
+  background: rgba(255, 0, 0, 0.16);
+  color: $error;
+  padding: 0.3rem;
+  border-radius: 0.3rem;
+  text-align: center;
+}
+.successMsgField {
+  background: rgba(68, 255, 0, 0.16);
+  color: $success;
+  padding: 0.3rem;
+  border-radius: 0.3rem;
+  text-align: center;
+}

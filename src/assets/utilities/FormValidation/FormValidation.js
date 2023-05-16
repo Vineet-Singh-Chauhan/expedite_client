@@ -24,7 +24,7 @@ const validate = async (params, formValues) => {
       params.scrollIntoView();
       return `This doesn't appear to be a valid mobile number`;
     }
-  } else if (params.name === "password") {
+  } else if (params.name === "password" || params.name === "newPassword") {
     if (!passwordRegex.test(params.value)) {
       params.setCustomValidity(
         "Password must contain atleast  one lowercase, one digit and one special character. Length of password should be 7 to 19 characters."
@@ -43,6 +43,12 @@ const validate = async (params, formValues) => {
     if (new Date(params.value).getTime() > ToDate.getTime()) {
       params.setCustomValidity("Please enter a valid date of birth");
       return "Please enter a valid date of birth";
+    }
+  } else if (params.name === "confirmNewPassword") {
+    if (!(formValues.newPassword === params.value)) {
+      params.setCustomValidity("Passwords do not match!");
+      params.scrollIntoView();
+      return `Passwords do not match!`;
     }
   }
   params.setCustomValidity("");

@@ -6,7 +6,7 @@ import "./Notifications.scss";
 //*Icons
 import { IoIosNotifications } from "react-icons/io";
 
-const Notifications = () => {
+const Notifications = ({ notifications }) => {
   const trayRef = useRef();
   const toggleTray = () => {
     trayRef.current.style.display = "block";

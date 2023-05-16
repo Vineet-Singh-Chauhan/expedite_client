@@ -127,8 +127,8 @@ const DragNDrop = ({ data }) => {
                     : null
                 }
               >
-                <p>{item}</p>
-                {/* <TaskCard /> */}
+                {/* <p>{item}</p> */}
+                <TaskCard />
               </div>
             ))}
             <AddTaskBtn />

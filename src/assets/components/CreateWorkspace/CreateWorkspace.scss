@@ -2,6 +2,9 @@
 .CreateWorkspaceDialog {
   font-family: $primaryFamily;
   min-width: 600px;
+  h2 {
+    margin-top: 10px;
+  }
   .CreateWorkspaceDialog__btnGrp {
     display: flex;
     gap: 30px;

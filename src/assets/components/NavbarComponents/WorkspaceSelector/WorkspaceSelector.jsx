@@ -1,10 +1,14 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef, useState } from "react";
 //*CSS
 import "./WorkspaceSelector.scss";
 //* Icons
 import { FiChevronDown } from "react-icons/fi";
+import { Link } from "react-router-dom";
+import WorkspaceContext from "../../../../context/WorkspaceProvider";
 
-const Index = () => {
+const Index = ({ workspaces }) => {
+  const { activeWorkspace, setActiveWorkSpace } = useContext(WorkspaceContext);
+  // const [activeWorkspace, setActiveWorkSpace] = useState("Select");
   const trayRef = useRef();
   const toggleTray = () => {
     trayRef.current.style.display = "block";
@@ -14,22 +18,28 @@ const Index = () => {
   };
   return (
     <div className="workspaceSelector">
-      <div className="workSpace__logo">T</div>
+      <div className="workSpace__logo">
+        {activeWorkspace?.slice(0, 1).toUpperCase() || "S"}
+      </div>
       <div className="workSpace__name">
         <div className="workSpace__select" onClick={toggleTray}>
-          <span>Test</span>
+          <span>{activeWorkspace || "Select"}</span>
           <FiChevronDown />
         </div>
 
         <div className="workSpaces__options" ref={trayRef}>
-          <div value={"test"}>Test</div>
-          <div value={"test2"}>Test2</div>
-          <div value={"test3"}>Test3</div>
-          <div value={"test4"}>Test4</div>
-          <div value={"new"}>
-            Create new workspace ghxghfd dy sy dtysdsy Lorem ipsum dolor sit
-            amet consectetur adipisicing elit. Minus, repellat.
-          </div>
+          {workspaces.map((e, i) => (
+            <Link
+              key={i}
+              to={`/user/${e.id}`}
+              onClick={() => {
+                setActiveWorkSpace(e.name);
+              }}
+            >
+              <div>{e.name}</div>
+            </Link>
+          ))}
+          {workspaces.length === 0 ? <div>No workspaces</div> : <></>}
 
           <span className="overlay" onClick={handleOverlayClick}></span>
         </div>

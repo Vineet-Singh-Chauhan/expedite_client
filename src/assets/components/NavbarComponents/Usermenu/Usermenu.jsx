@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 //*CSS
 import "./Usermenu.scss";
 import useSignout from "../../../../hooks/useSignout";
-const Usermenu = () => {
+const Usermenu = ({ firstName }) => {
   const navigate = useNavigate();
   const signout = useSignout();
   const trayRef = useRef();
@@ -20,7 +20,7 @@ const Usermenu = () => {
   return (
     <div className="usermenu">
       <div className="user__logo" onClick={toggleTray}>
-        V
+        {firstName.slice(0, 1).toUpperCase()}
       </div>
       <div className="userMenuTray" ref={trayRef}>
         <Link to="/user/settings">
