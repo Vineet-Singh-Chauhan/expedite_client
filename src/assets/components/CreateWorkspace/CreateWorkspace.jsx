@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 //*css
 import "./CreateWorkspace.scss";
 import Input from "../../utilities/form/Input";
@@ -6,8 +6,10 @@ import MainButton from "../../utilities/MainButton/MainButton";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 import Spinner from "../../utilities/Spinner/Spinner";
 import { useLocation, useNavigate } from "react-router-dom";
+import WorkspaceContext from "../../../context/WorkspaceProvider";
 
 const CreateWorkspace = ({ hide }) => {
+  const { activeWorkspace, setActiveWorkSpace } = useContext(WorkspaceContext);
   const [errMsg, setErrMsg] = useState("This field is required!");
   const [resMsg, setResMsg] = useState();
   const [loading, setLoading] = useState(false);
@@ -30,6 +32,8 @@ const CreateWorkspace = ({ hide }) => {
           navigate("/auth", { state: { from: location }, replace: true });
         }
         if (response?.status === 201) {
+          console.log(response?.data?.workspaceName);
+          setActiveWorkSpace(response?.data?.name);
           hide();
           navigate(`/user/${response?.data?.id}`, {
             state: { from: location },

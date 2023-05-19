@@ -39,9 +39,9 @@ const Main = () => {
           withCredentials: true,
           credentials: "include",
         });
-        console.log(response.data);
+        // console.log(response.data);
         isMounted && setUser(response.data);
-        console.log(user);
+        // console.log(user);
       } catch (err) {
         console.error(err);
         navigate("/auth", { state: { from: location }, replace: true });
@@ -81,6 +81,7 @@ const Main = () => {
                   <Route path="/" element={<EmptyWorkspace />} />
                   <Route path="/home" element={<EmptyWorkspace />} />
                   <Route path="/settings" element={<Settings />} />
+                  <Route path="/404" element={<NotFound />} />
                   <Route path="/:id/" element={<MyTasks />} />
                   <Route path="*" element={<NotFound />} />
                   {/* <Route path="/reset" element={<ResetPassword />} />

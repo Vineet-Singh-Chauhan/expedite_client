@@ -2,6 +2,9 @@
 .NewGroupDialog {
   font-family: $primaryFamily;
   min-width: 600px;
+  h2 {
+    margin-top: 0.3rem;
+  }
   .NewGroupDialog__btnGrp {
     display: flex;
     gap: 30px;

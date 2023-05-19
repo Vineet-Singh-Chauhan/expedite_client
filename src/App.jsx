@@ -34,6 +34,7 @@ function App() {
               <Route path="/user/*" element={<Main />} />
               <Route path="/reset" element={<ResetPassword />} />
               <Route path="/dummy" element={<Dummy />} />
+              <Route path="/404" element={<NotFound />} />
             </Route>
           </Route>
 

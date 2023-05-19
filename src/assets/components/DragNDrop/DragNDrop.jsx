@@ -107,8 +107,8 @@ const DragNDrop = ({ data }) => {
                 : null
             }
           >
-            <div className="groupTitle">{grp.title}</div>
-            {grp.items.map((item, itemI) => (
+            <div className="groupTitle">{grp.name}</div>
+            {/* {grp.items.map((item, itemI) => (
               <div
                 draggable
                 key={itemI}
@@ -127,10 +127,9 @@ const DragNDrop = ({ data }) => {
                     : null
                 }
               >
-                {/* <p>{item}</p> */}
                 <TaskCard />
               </div>
-            ))}
+            ))} */}
             <AddTaskBtn />
           </div>
         ))}

@@ -16,7 +16,7 @@ const useFetch = (url) => {
       credential: response.credential,
     })
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         if (data.error) {
           setLoading(false);
           setgoogleAuthError(data.error);
@@ -28,7 +28,7 @@ const useFetch = (url) => {
         navigate(from, { replace: true });
       })
       .catch((error) => {
-        console.log("from catch", error.message);
+        // console.log("from catch", error.message);
         setgoogleAuthError(error.message);
         setLoading(false);
       });
