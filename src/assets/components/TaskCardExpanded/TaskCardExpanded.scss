@@ -2,6 +2,8 @@
 .TaskCardExpanded {
   font-family: $primaryFamily;
   color: $secondaryFont;
+  width: 80vw;
+  max-width: 800px;
   .TaskCardExpanded__options {
     margin: 0.3rem 0;
     // margin-bottom: 0.8rem;
@@ -29,11 +31,15 @@
       &:nth-child(2) {
         background: #1794ff;
       }
+      &:disabled {
+        filter: brightness(0.7);
+      }
     }
   }
   .TaskCardExpanded__header {
     display: flex;
     justify-content: space-between;
+    margin: 1rem 0;
     > .taskStatus {
       background: $primaryBg;
       color: $primaryFont;
@@ -61,14 +67,16 @@
     }
   }
   .taskDesc {
+    height: auto;
+    margin: 1rem 0;
     .taskDescTextarea {
       width: 100%;
-      height: fit-content;
+      // height: fit-content;
       resize: none;
     }
   }
   .taskTags {
-    margin-top: 10rem;
+    margin-top: 2rem;
     h3 {
       font-weight: 400;
       margin-bottom: 0.5rem;
@@ -234,5 +242,7 @@
         }
       }
     }
+  }
+  @media (max-width: 600px) {
   }
 }

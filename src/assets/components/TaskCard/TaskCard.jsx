@@ -11,7 +11,7 @@ import TaskCardExpanded from "../TaskCardExpanded/TaskCardExpanded";
 //*Icons
 import UserTextIcon from "../UserTextIcon/UserTextIcon";
 
-const TaskCard = () => {
+const TaskCard = ({ data }) => {
   const { isShowing, toggle } = useModal();
   return (
     <>
@@ -22,23 +22,27 @@ const TaskCard = () => {
       />
       <div className="taskCard" onClick={toggle}>
         <div className="labelsContainer">
-          <Label text="high Priority" bgColor={"#d63031"} />
-          <Label text="Pending" bgColor={"#ff9900"} />
+          {data?.taskTags.map((e, i) => (
+            <Label key={i} text={e} bgColor={"#d63031"} />
+          ))}
+          {/* <Label text="Pending" bgColor={"#ff9900"} />
           <Label text="Completed" bgColor={"#00cec9"} />
           <Label text="Overdue" bgColor={"#636e72"} />
-          <Label text="Frontend" bgColor={"#a29bfe"} />
+          <Label text="Frontend" bgColor={"#a29bfe"} /> */}
         </div>
-        <h1>Title of task</h1>
-        <p>
-          Desc of task Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Odit, quos.{" "}
-        </p>
+        <h1>{data?.taskTitle}</h1>
+        <p>{data?.taskDesc}</p>
         <div className="taskCard__footer">
-          <span className="dueDate">Apr 22, 11:59PM</span>
+          <span className="dueDate">
+            {data?.dueDate &&
+              new Intl.DateTimeFormat("en-US").format(new Date(data?.dueDate))}
+          </span>
           <span className="assignees">
-            <UserTextIcon text="VSC" bgColor={"#1ac888"} />
-            <UserTextIcon text="AD" bgColor={"#f6c31c"} />
-            <UserTextIcon text="V" bgColor={"#17c0eb"} />
+            {data?.assignees.map((e, i) => (
+              <UserTextIcon key={i} text={e} bgColor={"#1ac888"} />
+            ))}
+            {/* <UserTextIcon text="AD" bgColor={"#f6c31c"} />
+            <UserTextIcon text="V" bgColor={"#17c0eb"} /> */}
           </span>
         </div>
       </div>

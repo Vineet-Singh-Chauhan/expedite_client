@@ -1,9 +1,10 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 //*css
 import "./TaskCardExpanded.scss";
 //*Components
 import Editable from "../../utilities/EditableInput/EditableInput";
 import Input from "../../utilities/form/Input";
+import { useParams } from "react-router-dom";
 import EditableInputWithoutIcon from "../../utilities/EditableInput/EditableInputWithoutIcon";
 import Label from "../Label/Label";
 //*Icons
@@ -14,11 +15,14 @@ import {
   AiOutlineRight,
   AiOutlineSave,
 } from "react-icons/ai";
+import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
-const TaskCardExpanded = () => {
+const TaskCardExpanded = ({ grpId }) => {
   const inputRef = useRef();
   const taskTagsTrayRef = useRef();
   const addAssigneesTrayRef = useRef();
+  const axiosPrivate = useAxiosPrivate();
+  const params = useParams();
   const handleAddTag = () => {
     taskTagsTrayRef.current.style.display = "block";
   };
@@ -31,20 +35,70 @@ const TaskCardExpanded = () => {
   const handleaddAssigneesOverlayClick = () => {
     addAssigneesTrayRef.current.style.display = "none";
   };
+  const [formData, setFormData] = useState({
+    taskTags: [],
+    assignees: [],
+    taskStatus: "Not Started",
+  });
+  const [disabled, setDisabled] = useState(false);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(formData);
+    if (formData?.taskTitle) {
+      try {
+        console.log(grpId);
+        const response = await axiosPrivate.post("/api/createtask", {
+          ...formData,
+          grpId,
+          workspaceId: params.id,
+        });
+        console.log(response.message);
+      } catch (err) {
+        console.log(err.message);
+      }
+    }
+  };
+  const handleDelete = (e) => {
+    e.preventDefault();
+  };
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value.trim() });
+  };
+  const addAttribute = (e) => {
+    const attribute = e.target.getAttribute("name");
+    const value = e.target.getAttribute("value");
+    if (!formData[attribute].includes(value)) {
+      setFormData({
+        ...formData,
+        [attribute]: [...formData[attribute], value],
+      });
+    }
+  };
+  useEffect(() => {
+    if (!formData?.taskTitle || formData?.taskTitle.trim() === "") {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  }, [formData]);
+
   return (
     <div className="TaskCardExpanded">
-      <form action="">
+      <form onSubmit={handleSubmit}>
         <div className="TaskCardExpanded__options">
-          <button className="TaskCardExpanded__deleteBtn">
+          <button
+            className="TaskCardExpanded__deleteBtn"
+            onClick={handleDelete}
+          >
             <AiOutlineDelete /> Delete
           </button>
-          <button className="TaskCardExpanded__saveBtn">
+          <button className="TaskCardExpanded__saveBtn" disabled={disabled}>
             <AiOutlineCheck /> Save
           </button>
         </div>
         <div className="TaskCardExpanded__header">
           <EditableInputWithoutIcon
-            text={"Title of task"}
+            text={formData?.taskTitle}
             placeholder="Title of task"
             type="input"
             childRef={inputRef}
@@ -55,10 +109,17 @@ const TaskCardExpanded = () => {
               name="taskTitle"
               placeholder="Title of task"
               ref={inputRef}
+              onChange={handleChange}
+              value={formData?.taskTitle || ""}
             />
           </EditableInputWithoutIcon>
           {/* <input type="checkbox" className="markCompleteCheckbox" /> */}
-          <select className="taskStatus">
+          <select
+            className="taskStatus"
+            name="taskStatus"
+            onChange={handleChange}
+            value={formData?.taskStatus || ""}
+          >
             <option className="taskStatus__notStarted">Not Started</option>
             <option className="taskStatus__completed">Completed</option>
             <option className="taskStatus__review">Pending Review</option>
@@ -71,7 +132,7 @@ const TaskCardExpanded = () => {
         </div>
         <div className="taskDesc">
           <EditableInputWithoutIcon
-            text={"Description of task "}
+            text={formData?.taskDesc}
             placeholder="Description of task"
             type="input"
             childRef={inputRef}
@@ -83,6 +144,8 @@ const TaskCardExpanded = () => {
               name="taskDesc"
               placeholder="Description of task"
               ref={inputRef}
+              onChange={handleChange}
+              value={formData?.taskDesc || ""}
             />
           </EditableInputWithoutIcon>
         </div>
@@ -94,11 +157,29 @@ const TaskCardExpanded = () => {
                 <AiOutlinePlus /> Add Tag
               </div>
               <div className="taskTags__tray" ref={taskTagsTrayRef}>
-                <div>High Priority</div>
-                <div>Completed</div>
-                <div>Pending</div>
-                <div>Overdue</div>
-                <div>Dependency Pending</div>
+                <div
+                  name="taskTags"
+                  value="high Priority"
+                  onClick={addAttribute}
+                >
+                  High Priority
+                </div>
+                <div name="taskTags" value="Completed" onClick={addAttribute}>
+                  Completed
+                </div>
+                <div name="taskTags" value="Pending" onClick={addAttribute}>
+                  Pending
+                </div>
+                <div name="taskTags" value="Overdue" onClick={addAttribute}>
+                  Overdue
+                </div>
+                <div
+                  name="taskTags"
+                  value="Dependency Pending"
+                  onClick={addAttribute}
+                >
+                  Dependency Pending
+                </div>
                 <span
                   className="overlay"
                   onClick={handleTagsTrayOverlayClick}
@@ -115,7 +196,13 @@ const TaskCardExpanded = () => {
         </div>
         <div className="dueDateContainer">
           Due Date :{" "}
-          <input type="date" name="due_date" className="standardOneLineInput" />
+          <input
+            type="date"
+            name="dueDate"
+            className="standardOneLineInput"
+            value={formData?.dueDate || ""}
+            onChange={handleChange}
+          />
         </div>
         <div className="addAssignees">
           <div className="addAssignees__header">
@@ -124,8 +211,12 @@ const TaskCardExpanded = () => {
               <AiOutlinePlus /> Add Members
             </button>
             <div className="addAssignees__tray" ref={addAssigneesTrayRef}>
-              <div>Vineet Singh Chauhan</div>
-              <div>Shyam Rangeela</div>
+              <div name="assignees" value="Vineet" onClick={addAttribute}>
+                Vineet Singh Chauhan
+              </div>
+              <div name="assignees" value="Shyam" onClick={addAttribute}>
+                Shyam Rangeela
+              </div>
               <div>Vineet Singh Chauhan</div>
               <div>Shyam Rangeela</div>
               <div>Vineet Singh Chauhan</div>

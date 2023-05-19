@@ -45,16 +45,31 @@ const MyTasks = () => {
     // console.log(workspaceId);
     const getTasks = async () => {
       try {
-        const response = await axiosPrivate.post("/api/gettasks", {
+        const response = await axiosPrivate.post("/api/gettaskgrp", {
           workspaceId: workspaceId,
         });
-        // console.log(response?.data);
-        data = response?.data;
+        console.log(response?.data);
+        const taskGrps = response?.data;
+        const getTasks = async () => {
+          taskGrps.forEach(async (e) => {
+            const res = await axiosPrivate.post("/api/gettasks", {
+              taskGroupInfo: e,
+              workspaceId: workspaceId,
+            });
+            console.log({ name: e.name, id: e.id, items: res?.data });
+            data = [...data, { name: e.name, id: e.id, items: res?.data }];
+            data.push({ name: e.name, id: e.id, items: res?.data });
+          });
+        };
+        await getTasks();
+        data = taskGrps;
+        console.log(data);
       } catch (err) {
         // console.log(err?.response?.status);
         if (err?.response?.status === 401 || err?.response?.status === 404) {
           navigate("/user/404", { state: { from: location }, replace: true });
         } else {
+          console.log(err);
           alert(err?.response?.data?.error || "Internal server error");
         }
       } finally {

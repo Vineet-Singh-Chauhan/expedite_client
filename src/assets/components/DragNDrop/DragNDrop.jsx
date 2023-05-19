@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 //*css
 import "./DragNDrop.scss";
 //*components
@@ -9,6 +9,8 @@ import useModal from "../../utilities/Modal/useModal";
 import NewGroupDialog from "../NewGroupDialog/NewGroupDialog";
 //*icons
 import { AiOutlinePlus } from "react-icons/ai";
+import { useParams } from "react-router-dom";
+import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
 const DragNDrop = ({ data }) => {
   const { isShowing, toggle } = useModal();
@@ -84,6 +86,28 @@ const DragNDrop = ({ data }) => {
       return "dragCurrent dndItem";
     return "dndItem";
   };
+  let params = useParams();
+  const workspaceId = params.id;
+  const axiosPrivate = useAxiosPrivate();
+  async function getTasks() {
+    setList([]);
+    const List = [];
+    for (const e of data) {
+      const tasks = await axiosPrivate.post("/api/gettasks", {
+        taskGroupInfo: e,
+        workspaceId: workspaceId,
+      });
+      List.push({ name: e.name, id: e.id, items: tasks?.data });
+      // setList([...list, { name: e.name, id: e.id, items: tasks?.data }]);
+    }
+    setList(List);
+  }
+  console.log(list);
+  // getTasks();
+  useEffect(() => {
+    data && getTasks();
+  }, [data]);
+
   return (
     <>
       <div className="dragNDrop">
@@ -108,7 +132,7 @@ const DragNDrop = ({ data }) => {
             }
           >
             <div className="groupTitle">{grp.name}</div>
-            {/* {grp.items.map((item, itemI) => (
+            {grp?.items?.map((item, itemI) => (
               <div
                 draggable
                 key={itemI}
@@ -127,10 +151,10 @@ const DragNDrop = ({ data }) => {
                     : null
                 }
               >
-                <TaskCard />
+                <TaskCard data={item} />
               </div>
-            ))} */}
-            <AddTaskBtn />
+            ))}
+            <AddTaskBtn grpId={grp.id} />
           </div>
         ))}
         <div className="dndGroup">

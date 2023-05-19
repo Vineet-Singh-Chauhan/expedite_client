@@ -8,7 +8,7 @@ import Modal from "../../utilities/Modal/Modal";
 import useModal from "../../utilities/Modal/useModal";
 import TaskCardExpanded from "../TaskCardExpanded/TaskCardExpanded";
 
-const AddTaskBtn = () => {
+const AddTaskBtn = ({ grpId }) => {
   const { isShowing, toggle } = useModal();
   return (
     <>
@@ -16,7 +16,7 @@ const AddTaskBtn = () => {
         <AiOutlinePlus /> Add Task
       </button>
       <Modal
-        Content={<TaskCardExpanded />}
+        Content={<TaskCardExpanded grpId={grpId} />}
         isShowing={isShowing}
         hide={toggle}
       />
