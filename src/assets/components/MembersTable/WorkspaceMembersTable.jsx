@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 //*CSS
 import "./WorkspaceMembersTable.scss";
@@ -9,18 +9,23 @@ import Row from "./components/Row";
 import Modal from "../../utilities/Modal/Modal";
 import useModal from "../../utilities/Modal/useModal";
 import AddMember from "../SettingsComponents/AddMember/AddMember";
+import useAuth from "../../../hooks/useAuth";
 
-const WorkspaceMembersTable = () => {
+const WorkspaceMembersTable = ({ members, isAdmin }) => {
   const handleAddMember = () => {};
+
   const { isShowing, toggle } = useModal();
   return (
     <div className="WorkspaceMembersTable">
       <div className="workspaceSettings__userlist">
         <div className="flex userListHead">
           <h2>Members </h2>
-          <button className="userListHead__button" onClick={toggle}>
-            <AiOutlinePlus /> Add
-          </button>
+          {isAdmin && (
+            <button className="userListHead__button" onClick={toggle}>
+              <AiOutlinePlus /> Add
+            </button>
+          )}
+
           <Modal isShowing={isShowing} hide={toggle} Content={<AddMember />} />
         </div>
 
@@ -33,22 +38,21 @@ const WorkspaceMembersTable = () => {
                 <th>S No.</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Action</th>
+                {isAdmin && <th>Action</th>}
               </tr>
             </thead>
             <tbody>
-              <Row
-                name="Vineet"
-                sno={1}
-                action="Remove"
-                email="vineetksc@gmail.com"
-              />
-              <Row
-                name="Shyam"
-                sno={2}
-                action="Remove"
-                email="shyam@gmail.com"
-              />
+              {members?.map((member, i) => (
+                <Row
+                  name={member.name}
+                  sno={i + 1}
+                  action="Remove"
+                  email={member.email}
+                  id={member.id}
+                  key={i}
+                  isAdmin={isAdmin}
+                />
+              ))}
             </tbody>
           </table>
         </div>

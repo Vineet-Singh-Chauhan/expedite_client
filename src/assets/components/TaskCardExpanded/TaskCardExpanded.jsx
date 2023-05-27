@@ -8,16 +8,10 @@ import { useParams } from "react-router-dom";
 import EditableInputWithoutIcon from "../../utilities/EditableInput/EditableInputWithoutIcon";
 import Label from "../Label/Label";
 //*Icons
-import {
-  AiOutlineCheck,
-  AiOutlineDelete,
-  AiOutlinePlus,
-  AiOutlineRight,
-  AiOutlineSave,
-} from "react-icons/ai";
+import { AiOutlineCheck, AiOutlineDelete, AiOutlinePlus } from "react-icons/ai";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
-const TaskCardExpanded = ({ grpId }) => {
+const TaskCardExpanded = ({ grpId, data }) => {
   const inputRef = useRef();
   const taskTagsTrayRef = useRef();
   const addAssigneesTrayRef = useRef();
@@ -35,11 +29,13 @@ const TaskCardExpanded = ({ grpId }) => {
   const handleaddAssigneesOverlayClick = () => {
     addAssigneesTrayRef.current.style.display = "none";
   };
-  const [formData, setFormData] = useState({
-    taskTags: [],
-    assignees: [],
-    taskStatus: "Not Started",
-  });
+  const [formData, setFormData] = useState(
+    data || {
+      taskTags: data?.taskTags || [],
+      assignees: data?.assignees || [],
+      taskStatus: data?.taskStatus || "Not Started",
+    }
+  );
   const [disabled, setDisabled] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -62,7 +58,7 @@ const TaskCardExpanded = ({ grpId }) => {
     e.preventDefault();
   };
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value.trim() });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const addAttribute = (e) => {
     const attribute = e.target.getAttribute("name");

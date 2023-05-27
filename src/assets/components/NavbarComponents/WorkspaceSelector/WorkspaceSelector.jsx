@@ -4,10 +4,10 @@ import "./WorkspaceSelector.scss";
 //* Icons
 import { FiChevronDown } from "react-icons/fi";
 import { Link } from "react-router-dom";
-import WorkspaceContext from "../../../../context/WorkspaceProvider";
+import useWorkspace from "../../../../hooks/useWorkspace";
 
 const Index = ({ workspaces }) => {
-  const { activeWorkspace, setActiveWorkSpace } = useContext(WorkspaceContext);
+  const { activeWorkspace, setActiveWorkSpace } = useWorkspace();
   // const [activeWorkspace, setActiveWorkSpace] = useState("Select");
   const trayRef = useRef();
   const toggleTray = () => {
@@ -19,11 +19,11 @@ const Index = ({ workspaces }) => {
   return (
     <div className="workspaceSelector">
       <div className="workSpace__logo">
-        {activeWorkspace?.slice(0, 1).toUpperCase() || "S"}
+        {activeWorkspace?.name?.slice(0, 1).toUpperCase() || "S"}
       </div>
       <div className="workSpace__name">
         <div className="workSpace__select" onClick={toggleTray}>
-          <span>{activeWorkspace || "Select"}</span>
+          <span>{activeWorkspace?.name || "Select"}</span>
           <FiChevronDown />
         </div>
 
@@ -32,9 +32,9 @@ const Index = ({ workspaces }) => {
             <Link
               key={i}
               to={`/user/${e.id}`}
-              onClick={() => {
-                setActiveWorkSpace(e.name);
-              }}
+              // onClick={() => {
+              //   setActiveWorkSpace({...activeWorkspace,e.name);
+              // }}
             >
               <div>{e.name}</div>
             </Link>

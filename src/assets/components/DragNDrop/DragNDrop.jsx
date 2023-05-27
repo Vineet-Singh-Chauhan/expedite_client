@@ -9,8 +9,8 @@ import useModal from "../../utilities/Modal/useModal";
 import NewGroupDialog from "../NewGroupDialog/NewGroupDialog";
 //*icons
 import { AiOutlinePlus } from "react-icons/ai";
-import { useParams } from "react-router-dom";
-import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
+// import { useParams } from "react-router-dom";
+// import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
 const DragNDrop = ({ data }) => {
   const { isShowing, toggle } = useModal();
@@ -86,37 +86,42 @@ const DragNDrop = ({ data }) => {
       return "dragCurrent dndItem";
     return "dndItem";
   };
-  let params = useParams();
-  const workspaceId = params.id;
-  const axiosPrivate = useAxiosPrivate();
-  async function getTasks() {
-    setList([]);
-    const List = [];
-    for (const e of data) {
-      const tasks = await axiosPrivate.post("/api/gettasks", {
-        taskGroupInfo: e,
-        workspaceId: workspaceId,
-      });
-      List.push({ name: e.name, id: e.id, items: tasks?.data });
-      // setList([...list, { name: e.name, id: e.id, items: tasks?.data }]);
-    }
-    setList(List);
-  }
-  console.log(list);
-  // getTasks();
-  useEffect(() => {
-    data && getTasks();
-  }, [data]);
+  // let params = useParams();
+  // const workspaceId = params.id;
+  // const axiosPrivate = useAxiosPrivate();
+  // async function getTasks() {
+  //   // setList([]);
+  //   const  tasks = await axiosPrivate.post("/api/gettasks", {
+  //     workspaceId: workspaceId,
+  //   });
+  //   setList(tasks);
+  //   // const List = [];
+  //   // for (const e of data) {
+  //     // const tasks = await axiosPrivate.post("/api/gettasks", {
+  //       // taskGroupInfo: e,
+  //       // workspaceId: workspaceId,
+  //     // });
+  //     // List.push({ name: e.name, id: e.id, items: tasks?.data });
+  //     // setList([...list, { name: e.name, id: e.id, items: tasks?.data }]);
+  //   // }
+  //   // setList(List);
+  // }
+  // console.log(list);
+  // // getTasks();
+  // useEffect(() => {
+  //   data && getTasks();
+  // }, [data]);
 
+  console.log(list);
   return (
     <>
       <div className="dragNDrop">
         {list.map((grp, grpI) => (
           <div
-            draggable
-            onDragStart={(e) => {
-              handleGroupDragStart(e, { grpI });
-            }}
+            // draggable
+            // onDragStart={(e) => {
+            //   handleGroupDragStart(e, { grpI });
+            // }}
             key={grpI}
             className="dndGroup"
             onDragEnter={

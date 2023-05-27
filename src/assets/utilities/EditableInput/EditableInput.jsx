@@ -23,7 +23,13 @@ const Editable = ({
 
   return (
     <div className="editable__inputWrapperOuter" {...props}>
-      {isEditing ? (
+      {props.noteditable ? (
+        <div className="editable__inputWrapper">
+          <span className="editable__content">
+            <span>{text || placeholder || "Editable content"}</span>
+          </span>
+        </div>
+      ) : isEditing ? (
         <div
           className="editable__inputWrapper"
           onBlur={() => setEditing(false)}
@@ -47,6 +53,7 @@ const Editable = ({
           </span>
         </div>
       )}
+      {}
     </div>
   );
 };

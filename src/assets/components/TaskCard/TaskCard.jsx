@@ -16,7 +16,7 @@ const TaskCard = ({ data }) => {
   return (
     <>
       <Modal
-        Content={<TaskCardExpanded />}
+        Content={<TaskCardExpanded data={data} grpId={data.grpId} />}
         isShowing={isShowing}
         hide={toggle}
       />

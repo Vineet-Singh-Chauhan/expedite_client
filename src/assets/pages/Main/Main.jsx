@@ -21,6 +21,7 @@ import useLoadingScreen from "../../components/LoadingScreen/useLoadingScreen";
 // import UserInfo from "../../components/SettingsComponents/UserInfo/UserInfo";
 // import WorkspaceTasks from "../WorspaceTasks/WorkspaceTasks";
 import MyTasks from "../MyTasks/MyTasks";
+import WorkspaceSettings from "../WorkspaceSettings/WorkspaceSettings";
 // import TaskCardExpanded from "../../components/TaskCardExpanded/TaskCardExpanded";
 const Main = () => {
   const { status, setLoadingStatus } = useLoadingScreen();
@@ -83,6 +84,7 @@ const Main = () => {
                   <Route path="/settings" element={<Settings />} />
                   <Route path="/404" element={<NotFound />} />
                   <Route path="/:id/" element={<MyTasks />} />
+                  <Route path="/:id/settings" element={<WorkspaceSettings />} />
                   <Route path="*" element={<NotFound />} />
                   {/* <Route path="/reset" element={<ResetPassword />} />
             <Route path="/dummy" element={<Dummy />} /> */}

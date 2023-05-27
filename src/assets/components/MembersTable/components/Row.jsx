@@ -5,7 +5,7 @@ import "./Row.scss";
 import useModal from "../../../utilities/Modal/useModal";
 import Modal from "../../../utilities/Modal/Modal";
 import RemoveMemberConfirm from "../../SettingsComponents/RemoveMemberConfirm/RemoveMemberConfirm";
-const Row = ({ sno, name, email, action }) => {
+const Row = ({ sno, name, email, action, isAdmin }) => {
   const { isShowing, toggle } = useModal();
   return (
     <tr className="userlistTableRow">
@@ -15,9 +15,11 @@ const Row = ({ sno, name, email, action }) => {
         <a href={`mailto:${email}`}>{email}</a>
       </td>
       <td>
-        <button className="userlist__actionBtn" onClick={toggle}>
-          {action}
-        </button>
+        {isAdmin && (
+          <button className="userlist__actionBtn" onClick={toggle}>
+            {action}
+          </button>
+        )}
         <Modal
           isShowing={isShowing}
           hide={toggle}

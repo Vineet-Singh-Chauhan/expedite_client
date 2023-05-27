@@ -33,8 +33,9 @@ import LoadingScreen from "../../components/LoadingScreen/LoadingScreen";
 //     items: [4, 5],
 //   },
 // ];
-let data = [];
+
 const MyTasks = () => {
+  const [data, setData] = useState();
   const navigate = useNavigate();
   const location = useLocation();
   const [loading, setLoading] = useState(true);
@@ -43,27 +44,46 @@ const MyTasks = () => {
   useEffect(() => {
     const workspaceId = params.id;
     // console.log(workspaceId);
-    const getTasks = async () => {
+    // const getTasks = async () => {
+    //   try {
+    //     const response = await axiosPrivate.post("/api/gettaskgrp", {
+    //       workspaceId: workspaceId,
+    //     });
+    //     console.log(response?.data);
+    //     const taskGrps = response?.data;
+    //     const getTasks = async () => {
+    //       taskGrps.forEach(async (e) => {
+    //         const res = await axiosPrivate.post("/api/gettasks", {
+    //           taskGroupInfo: e,
+    //           workspaceId: workspaceId,
+    //         });
+    //         console.log({ name: e.name, id: e.id, items: res?.data });
+    //         data = [...data, { name: e.name, id: e.id, items: res?.data }];
+    //         data.push({ name: e.name, id: e.id, items: res?.data });
+    //       });
+    //     };
+    //     await getTasks();
+    //     data = taskGrps;
+    //     console.log(data);
+    //   } catch (err) {
+    //     // console.log(err?.response?.status);
+    //     if (err?.response?.status === 401 || err?.response?.status === 404) {
+    //       navigate("/user/404", { state: { from: location }, replace: true });
+    //     } else {
+    //       console.log(err);
+    //       alert(err?.response?.data?.error || "Internal server error");
+    //     }
+    //   } finally {
+    //     setLoading(false);
+    //   }
+    // };
+    async function getTasks() {
       try {
-        const response = await axiosPrivate.post("/api/gettaskgrp", {
+        const response = await axiosPrivate.post("/api/gettasks", {
           workspaceId: workspaceId,
         });
-        console.log(response?.data);
-        const taskGrps = response?.data;
-        const getTasks = async () => {
-          taskGrps.forEach(async (e) => {
-            const res = await axiosPrivate.post("/api/gettasks", {
-              taskGroupInfo: e,
-              workspaceId: workspaceId,
-            });
-            console.log({ name: e.name, id: e.id, items: res?.data });
-            data = [...data, { name: e.name, id: e.id, items: res?.data }];
-            data.push({ name: e.name, id: e.id, items: res?.data });
-          });
-        };
-        await getTasks();
-        data = taskGrps;
-        console.log(data);
+        const tasks = response?.data;
+        setData(tasks);
       } catch (err) {
         // console.log(err?.response?.status);
         if (err?.response?.status === 401 || err?.response?.status === 404) {
@@ -75,7 +95,7 @@ const MyTasks = () => {
       } finally {
         setLoading(false);
       }
-    };
+    }
     getTasks();
   }, []);
   return (
