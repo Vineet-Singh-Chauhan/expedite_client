@@ -6,6 +6,8 @@ import RequireAuth from "./assets/components/RequireAuth";
 import LoadingScreen from "./assets/components/LoadingScreen/LoadingScreen";
 import "./assets/global/globalStyle.scss";
 import PersistLogin from "./assets/components/PersistLogin";
+import AcceptInvite from "./assets/components/AcceptInvite/AcceptInvite";
+import AcceptInvitePage from "./assets/pages/AcceptInvite/AcceptInvitePage";
 const AuthPage = lazy(() => import("./assets/pages/AuthPage/AuthPage"));
 const ForgotPassword = lazy(() =>
   import("./assets/pages/ForgotPassword/ForgotPassword")
@@ -25,6 +27,7 @@ function App() {
           {/* public Routes */}
           <Route path="auth" element={<AuthPage />} />
           <Route path="forgot" element={<ForgotPassword />} />
+          <Route path="invite/:inviteInfo" element={<AcceptInvitePage />} />
 
           {/* to be protected */}
 

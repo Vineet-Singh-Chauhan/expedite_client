@@ -1,6 +1,9 @@
 @import "../../../global/variables";
 .RemoveMemberConfirmModal {
   font-family: $primaryFamily;
+  h2 {
+    margin-top: 0.3rem;
+  }
   p {
     color: $secondaryFont;
     margin-top: 20px;

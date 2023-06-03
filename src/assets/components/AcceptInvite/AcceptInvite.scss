@@ -1,0 +1,22 @@
+@import "../../global/variables";
+.acceptInvite {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: $secondaryFont;
+  font-family: $primaryFont;
+  font-size: 1.2rem;
+  .acceptInviteContent {
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    p {
+      margin: 0.8rem 0;
+    }
+  }
+}

@@ -5,8 +5,11 @@ import "./Row.scss";
 import useModal from "../../../utilities/Modal/useModal";
 import Modal from "../../../utilities/Modal/Modal";
 import RemoveMemberConfirm from "../../SettingsComponents/RemoveMemberConfirm/RemoveMemberConfirm";
-const Row = ({ sno, name, email, action, isAdmin }) => {
+import { useParams } from "react-router-dom";
+const Row = ({ sno, name, email, action, isAdmin, id }) => {
   const { isShowing, toggle } = useModal();
+  const params = useParams();
+  const workspaceId = params.id;
   return (
     <tr className="userlistTableRow">
       <td>{sno}</td>
@@ -23,7 +26,14 @@ const Row = ({ sno, name, email, action, isAdmin }) => {
         <Modal
           isShowing={isShowing}
           hide={toggle}
-          Content={<RemoveMemberConfirm name={name} hide={toggle} />}
+          Content={
+            <RemoveMemberConfirm
+              name={name}
+              hide={toggle}
+              workspaceId={workspaceId}
+              userId={id}
+            />
+          }
           name={name}
         />
       </td>

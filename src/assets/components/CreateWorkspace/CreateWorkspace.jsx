@@ -33,7 +33,7 @@ const CreateWorkspace = ({ hide }) => {
         }
         if (response?.status === 201) {
           console.log(response?.data?.workspaceName);
-          setActiveWorkSpace(response?.data?.name);
+          // setActiveWorkSpace(response?.data?.name);
           hide();
           navigate(`/user/${response?.data?.id}`, {
             state: { from: location },

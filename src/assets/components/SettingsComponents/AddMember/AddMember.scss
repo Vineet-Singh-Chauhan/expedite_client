@@ -1,4 +1,9 @@
 @import "../../../global/variables";
 .AddMemberModal {
   font-family: $primaryFamily;
+  width: 70vw;
+  max-width: 600px;
+  h2 {
+    margin-top: 0.3rem;
+  }
 }
