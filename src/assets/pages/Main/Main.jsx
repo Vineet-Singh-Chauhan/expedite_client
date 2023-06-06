@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
@@ -22,8 +22,10 @@ import useLoadingScreen from "../../components/LoadingScreen/useLoadingScreen";
 // import WorkspaceTasks from "../WorspaceTasks/WorkspaceTasks";
 import MyTasks from "../MyTasks/MyTasks";
 import WorkspaceSettings from "../WorkspaceSettings/WorkspaceSettings";
+import FallbackLoading from "../../components/FallbackLoading/FallbackLoading";
 // import TaskCardExpanded from "../../components/TaskCardExpanded/TaskCardExpanded";
 const Main = () => {
+  const [loading, setLoading] = useState(false);
   const { status, setLoadingStatus } = useLoadingScreen();
   const { user, setUser } = useAuth();
   const axiosPrivate = useAxiosPrivate();
@@ -33,7 +35,8 @@ const Main = () => {
     let isMounted = true;
     const controller = new AbortController();
     const getUser = async () => {
-      setLoadingStatus(true);
+      // setLoadingStatus(true);
+      setLoading(true);
       try {
         const response = await axiosPrivate.post("/api/getuser", {
           signal: controller.signal,
@@ -47,7 +50,8 @@ const Main = () => {
         console.error(err);
         navigate("/auth", { state: { from: location }, replace: true });
       } finally {
-        setLoadingStatus(false);
+        // setLoadingStatus(false);
+        setLoading(false);
       }
     };
 
@@ -60,12 +64,19 @@ const Main = () => {
   }, []);
   return (
     <>
-      <LoadingScreen
+      {loading ? (
+        <>
+          <FallbackLoading />
+        </>
+      ) : (
+        <></>
+      )}
+      {/* <LoadingScreen
         status={status}
         hide={() => {
           setLoadingStatus(false);
         }}
-      />
+      /> */}
       {user && (
         <div className="mainPage">
           {/* <Link to="/dummy">Dummy</Link> */}

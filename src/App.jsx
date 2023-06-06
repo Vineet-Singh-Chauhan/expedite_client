@@ -8,6 +8,7 @@ import "./assets/global/globalStyle.scss";
 import PersistLogin from "./assets/components/PersistLogin";
 import AcceptInvite from "./assets/components/AcceptInvite/AcceptInvite";
 import AcceptInvitePage from "./assets/pages/AcceptInvite/AcceptInvitePage";
+import FallbackLoading from "./assets/components/FallbackLoading/FallbackLoading";
 const AuthPage = lazy(() => import("./assets/pages/AuthPage/AuthPage"));
 const ForgotPassword = lazy(() =>
   import("./assets/pages/ForgotPassword/ForgotPassword")
@@ -21,7 +22,7 @@ const Dummy = lazy(() => import("./assets/components/Dummy/Dummy"));
 
 function App() {
   return (
-    <Suspense fallback={<LoadingScreen status={true} />}>
+    <Suspense fallback={<FallbackLoading />}>
       <Routes>
         <Route path="/" element={<Layout />}>
           {/* public Routes */}

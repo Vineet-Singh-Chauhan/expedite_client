@@ -17,7 +17,7 @@ const WorkspaceInfo = () => {
   const { activeWorkspace, setActiveWorkspace } = useWorkspace();
   const { user } = useAuth();
   const [isAdmin, setAdmin] = useState(() => {
-    if (activeWorkspace?.admin === user.id) {
+    if (activeWorkspace?.adminId === user._id) {
       return true;
     }
     return false;
@@ -118,6 +118,7 @@ const WorkspaceInfo = () => {
       </div>
       <WorkspaceMembersTable
         members={activeWorkspace?.members}
+        invitees={activeWorkspace?.invitedMembers}
         isAdmin={isAdmin}
       />
     </div>

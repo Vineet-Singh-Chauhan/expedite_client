@@ -8,9 +8,14 @@ import LoginForm from "../../components/LoginForm/LoginForm";
 import SignUpForm from "../../components/SignUpForm/SignUpForm";
 import Spinner from "../../utilities/Spinner/Spinner";
 import useFetch from "./useFetch";
+import useAuth from "../../../hooks/useAuth";
 
 const AuthPage = () => {
   const [isLoginPage, setIsLoginPage] = useState(true);
+  const { setAuth, persist, setPersist } = useAuth();
+  useEffect(() => {
+    localStorage.setItem("expeditePersist", persist);
+  });
   const { loading, googleAuthError, handleGoogle } = useFetch(
     `${import.meta.env.VITE_BASE_URL}/api/google-auth`
   );
@@ -36,7 +41,7 @@ const AuthPage = () => {
         }
       );
 
-      google.accounts.id.prompt();
+      // google.accounts.id.prompt();
     }
   };
 
@@ -67,7 +72,7 @@ const AuthPage = () => {
           )}
 
           {/* //*to be populated by google auth */}
-          <div id="GoogleSignUpBtn" disabled={loading}></div>
+          <div id="GoogleSignUpBtn"></div>
 
           {loading ? (
             <Spinner size={"40px"} stroke={"4px"} />

@@ -9,10 +9,12 @@ import useModal from "../../utilities/Modal/useModal";
 import NewGroupDialog from "../NewGroupDialog/NewGroupDialog";
 //*icons
 import { AiOutlinePlus } from "react-icons/ai";
+import { FiSettings } from "react-icons/fi";
+import { Link } from "react-router-dom";
 // import { useParams } from "react-router-dom";
 // import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
-const DragNDrop = ({ data }) => {
+const DragNDrop = ({ data, workspaceId, workspaceName }) => {
   const { isShowing, toggle } = useModal();
   const [list, setList] = useState(data);
   const [dragging, setDragging] = useState(false);
@@ -115,6 +117,13 @@ const DragNDrop = ({ data }) => {
   console.log(list);
   return (
     <>
+      <div className="dragNDrop__settingsButton">
+        {workspaceName}
+        <Link to={`/user/${workspaceId}/settings`}>
+          <FiSettings />
+          Workspace Settings
+        </Link>
+      </div>
       <div className="dragNDrop">
         {list.map((grp, grpI) => (
           <div

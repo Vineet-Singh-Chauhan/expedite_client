@@ -10,7 +10,7 @@ const Settings = () => {
   return (
     <div className="settingsPage">
       <UserInfo />
-      <WorkspaceInfo />
+      {/* <WorkspaceInfo /> */}
     </div>
   );
 };

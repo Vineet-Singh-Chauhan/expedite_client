@@ -23,4 +23,14 @@
       border: 1px solid $error;
     }
   }
+  .invitelist__actionBtn {
+    background-color: $info;
+    color: #252525;
+    font-weight: 500;
+    &:hover {
+      background-color: $secondaryBg;
+      color: $info;
+      border: 1px solid $info;
+    }
+  }
 }

@@ -183,12 +183,12 @@ const TaskCardExpanded = ({ grpId, data }) => {
               </div>
             </div>
           </div>
-          <div className="labelContainer">
+          {/* <div className="labelContainer">
             <Label text="pending" bgColor={"#d66400"} />
           </div>
           <div className="labelContainer">
             <Label text="High priority" bgColor={"#eb3941"} />
-          </div>
+          </div> */}
         </div>
         <div className="dueDateContainer">
           Due Date :{" "}

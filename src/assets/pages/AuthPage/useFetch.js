@@ -4,14 +4,17 @@ import useAuth from "../../../hooks/useAuth";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const useFetch = (url) => {
-  const { setAuth } = useAuth();
+  const { setAuth, setPersist } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
   const [loading, setLoading] = useState(false);
   const [googleAuthError, setgoogleAuthError] = useState("");
+
   const handleGoogle = async (response) => {
     setLoading(true);
+    setPersist(true);
+    // localStorage.setItem("expeditePersist", true);
     postData(url, {
       credential: response.credential,
     })

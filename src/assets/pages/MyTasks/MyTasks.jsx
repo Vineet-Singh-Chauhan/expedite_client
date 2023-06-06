@@ -36,6 +36,7 @@ import LoadingScreen from "../../components/LoadingScreen/LoadingScreen";
 
 const MyTasks = () => {
   const [data, setData] = useState();
+  const [workspaceInfo, setWorkspaceInfo] = useState({});
   const navigate = useNavigate();
   const location = useLocation();
   const [loading, setLoading] = useState(true);
@@ -43,6 +44,7 @@ const MyTasks = () => {
   const axiosPrivate = useAxiosPrivate();
   useEffect(() => {
     const workspaceId = params.id;
+
     // console.log(workspaceId);
     // const getTasks = async () => {
     //   try {
@@ -82,8 +84,9 @@ const MyTasks = () => {
         const response = await axiosPrivate.post("/api/gettasks", {
           workspaceId: workspaceId,
         });
-        const tasks = response?.data;
+        const tasks = response?.data.tasks;
         setData(tasks);
+        setWorkspaceInfo(response?.data?.workspaceInfo);
       } catch (err) {
         // console.log(err?.response?.status);
         if (err?.response?.status === 401 || err?.response?.status === 404) {
@@ -103,7 +106,11 @@ const MyTasks = () => {
       {loading ? (
         <LoadingScreen status={true} msg={"Loading tasks.."} />
       ) : (
-        <DragNDrop data={data} />
+        <DragNDrop
+          data={data}
+          workspaceId={workspaceInfo.id}
+          workspaceName={workspaceInfo.name}
+        />
       )}
     </div>
   );

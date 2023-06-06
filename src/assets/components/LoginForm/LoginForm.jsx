@@ -30,9 +30,10 @@ const LoginForm = () => {
   const togglePersist = () => {
     setPersist((prev) => !prev);
   };
-  useEffect(() => {
-    localStorage.setItem("expeditePersist", persist);
-  });
+  //DONE: in auth page
+  // useEffect(() => {
+  //   localStorage.setItem("expeditePersist", persist);
+  // });
   const validateLoginFields = async (params) => {
     if (params.value === "") {
       return "This field cannot be empty!";
