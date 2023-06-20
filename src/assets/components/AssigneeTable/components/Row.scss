@@ -1,0 +1,36 @@
+@import "../../../global/variables";
+
+.userlistTableRow {
+  border: $base-border;
+  margin: 16px 0;
+  > td {
+    padding: 10px;
+  }
+  &:hover {
+    background: $secondaryBg;
+  }
+  .userlist__actionBtn {
+    background-color: $error;
+    color: $primaryFont;
+    cursor: pointer;
+    padding: 5px;
+    border: 1px solid transparent;
+    border-radius: 0.3rem;
+    transition: all 0.1s linear;
+    &:hover {
+      background-color: $secondaryBg;
+      color: $error;
+      border: 1px solid $error;
+    }
+  }
+  .invitelist__actionBtn {
+    background-color: $info;
+    color: #252525;
+    font-weight: 500;
+    &:hover {
+      background-color: $secondaryBg;
+      color: $info;
+      border: 1px solid $info;
+    }
+  }
+}

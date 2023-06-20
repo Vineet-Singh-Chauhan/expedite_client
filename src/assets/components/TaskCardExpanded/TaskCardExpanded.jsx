@@ -10,13 +10,18 @@ import Label from "../Label/Label";
 //*Icons
 import { AiOutlineCheck, AiOutlineDelete, AiOutlinePlus } from "react-icons/ai";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
+import useWorkspace from "../../../hooks/useWorkspace";
+import WorkspaceMembersTable from "../MembersTable/WorkspaceMembersTable";
+import AssigneeTable from "../AssigneeTable/AssigneeTable";
+// import { json } from "stream/consumers";
 
-const TaskCardExpanded = ({ grpId, data }) => {
+const TaskCardExpanded = ({ grpId, data, hide }) => {
   const inputRef = useRef();
   const taskTagsTrayRef = useRef();
   const addAssigneesTrayRef = useRef();
   const axiosPrivate = useAxiosPrivate();
   const params = useParams();
+  const { activeWorkspace } = useWorkspace();
   const handleAddTag = () => {
     taskTagsTrayRef.current.style.display = "block";
   };
@@ -53,9 +58,17 @@ const TaskCardExpanded = ({ grpId, data }) => {
         console.log(err.message);
       }
     }
+    hide();
   };
-  const handleDelete = (e) => {
+  const handleDelete = async (e) => {
     e.preventDefault();
+    console.log(data.id);
+    const response = await axiosPrivate.post("/api/deletetask", {
+      taskId: data.id,
+      grpId,
+      workspaceId: params.id,
+    });
+    hide();
   };
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -63,10 +76,16 @@ const TaskCardExpanded = ({ grpId, data }) => {
   const addAttribute = (e) => {
     const attribute = e.target.getAttribute("name");
     const value = e.target.getAttribute("value");
-    if (!formData[attribute].includes(value)) {
+    if (
+      !formData[attribute].includes(value) &&
+      !formData[attribute].some((e) => e.id == JSON.parse(value).id)
+    ) {
       setFormData({
         ...formData,
-        [attribute]: [...formData[attribute], value],
+        [attribute]: [
+          ...formData[attribute],
+          attribute === "assignees" ? JSON.parse(value) : value,
+        ],
       });
     }
   };
@@ -183,15 +202,16 @@ const TaskCardExpanded = ({ grpId, data }) => {
               </div>
             </div>
           </div>
-          {/* <div className="labelContainer">
-            <Label text="pending" bgColor={"#d66400"} />
-          </div>
           <div className="labelContainer">
-            <Label text="High priority" bgColor={"#eb3941"} />
-          </div> */}
+            {data?.taskTags.map((e, i) => (
+              <Label text={e} key={i} formData={formData} grpId={grpId} />
+            ))}
+          </div>
         </div>
         <div className="dueDateContainer">
           Due Date :{" "}
+          {formData?.dueDate &&
+            new Intl.DateTimeFormat("en-US").format(new Date(data?.dueDate))}
           <input
             type="date"
             name="dueDate"
@@ -203,22 +223,25 @@ const TaskCardExpanded = ({ grpId, data }) => {
         <div className="addAssignees">
           <div className="addAssignees__header">
             <h3>Assignees</h3>
-            <button onClick={handleAddAssignees}>
+            <div className="addAssignees__button" onClick={handleAddAssignees}>
               <AiOutlinePlus /> Add Members
-            </button>
+            </div>
             <div className="addAssignees__tray" ref={addAssigneesTrayRef}>
-              <div name="assignees" value="Vineet" onClick={addAttribute}>
-                Vineet Singh Chauhan
-              </div>
-              <div name="assignees" value="Shyam" onClick={addAttribute}>
-                Shyam Rangeela
-              </div>
-              <div>Vineet Singh Chauhan</div>
-              <div>Shyam Rangeela</div>
-              <div>Vineet Singh Chauhan</div>
-              <div>Shyam Rangeela</div>
-              <div>Vineet Singh Chauhan</div>
-              <div>Shyam Rangeela</div>
+              {Array.from(activeWorkspace.members).map((e, i) => (
+                <div
+                  name="assignees"
+                  key={i}
+                  value={JSON.stringify({
+                    id: e.id,
+                    name: e.name,
+                    email: e.email,
+                  })}
+                  onClick={addAttribute}
+                >
+                  {e.name}
+                </div>
+              ))}
+
               <span
                 className="overlay"
                 onClick={handleaddAssigneesOverlayClick}
@@ -226,33 +249,12 @@ const TaskCardExpanded = ({ grpId, data }) => {
             </div>
           </div>
           <div className="assigneesTable__container">
-            <table className="assigneesTable">
-              <thead>
-                <tr>
-                  <th>S No.</th>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="assigneesTableRow">
-                  <td>1</td>
-                  <td>Vineet</td>
-                  <td>
-                    <a href={`mailto:Vineetksc@gmail.com`}>
-                      Vineetksc@gmail.com
-                    </a>
-                  </td>
-                  <td>
-                    <button className="assignees__actionBtn">
-                      {/* onClick={toggle} */}
-                      Remove
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <AssigneeTable
+              members={data?.assignees}
+              formData={formData}
+              setFormData={setFormData}
+              grpId={grpId}
+            />
           </div>
         </div>
         {/* //TODO: IN LATER PHASE */}

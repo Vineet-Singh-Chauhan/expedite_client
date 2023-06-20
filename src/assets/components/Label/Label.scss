@@ -4,13 +4,42 @@
   text-transform: uppercase;
   font-family: $primaryFamily;
   color: rgba(255, 255, 255, 0.872);
+  position: relative;
+  overflow: hidden;
   // background-color: rgb(236, 58, 58);
-  padding: 2px;
+  padding: 3px 5px;
   font-size: 0.6rem;
   font-weight: 600;
   border-radius: 0.3rem;
   word-wrap: none;
   &:not(:last-of-type) {
     margin-right: 0.3rem;
+  }
+  &[data-tasktag="Completed"] {
+    background: #008000;
+  }
+  &[data-tasktag="Overdue"] {
+    background: #e74c3c;
+  }
+  &[data-tasktag="Pending"] {
+    background: #f39c12;
+  }
+  &[data-tasktag="Dependency Pending"] {
+    background: #3498db;
+  }
+  &[data-tasktag="high Priority"] {
+    background: #d35400;
+  }
+  .taskLabel__overlay {
+    position: absolute;
+    inset: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: #0000089c;
+    backdrop-filter: blur(2px);
+  }
+  &:hover .taskLabel__overlay {
+    display: flex;
   }
 }

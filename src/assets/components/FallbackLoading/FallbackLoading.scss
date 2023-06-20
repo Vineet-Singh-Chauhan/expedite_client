@@ -16,25 +16,28 @@
     h1 {
       color: $primaryFont;
       font-weight: 700;
-      font-size: $font-size-lg;
+      // font-size: 1.6rem;
       font-family: $logoFamily;
       letter-spacing: 0.1rem;
       margin: $base-margin 0;
-      font-size: 1.8rem;
+      font-size: 2rem;
       background: linear-gradient(
         to right,
-        rgba(255, 255, 255, 0.4) 20%,
-        rgba(255, 255, 255, 0.5) 40%,
-        rgba(255, 255, 255, 0.8) 50%,
-        rgba(255, 255, 255, 0.5) 60%,
-        rgba(255, 255, 255, 0.4) 80%
+        // rgba(255, 255, 255, 0.4) 20%,
+        // rgba(255, 255, 255, 0.5) 40%,
+        // rgba(255, 255, 255, 0.8) 50%,
+        // rgba(255, 255, 255, 0.5) 60%,
+        // rgba(255, 255, 255, 0.4) 80%
+        #67747a 20%,
+        #fff 50%,
+        #67747a 80%
       );
       background-size: 200% auto;
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
       text-fill-color: transparent;
-      animation: textShine 3s linear infinite;
+      animation: textShine 4s linear infinite reverse;
     }
   }
 }

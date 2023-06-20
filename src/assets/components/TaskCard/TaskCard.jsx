@@ -12,18 +12,21 @@ import TaskCardExpanded from "../TaskCardExpanded/TaskCardExpanded";
 import UserTextIcon from "../UserTextIcon/UserTextIcon";
 
 const TaskCard = ({ data }) => {
+  console.log(data);
   const { isShowing, toggle } = useModal();
   return (
     <>
       <Modal
-        Content={<TaskCardExpanded data={data} grpId={data.grpId} />}
+        Content={
+          <TaskCardExpanded data={data} grpId={data.grpId} hide={toggle} />
+        }
         isShowing={isShowing}
         hide={toggle}
       />
       <div className="taskCard" onClick={toggle}>
         <div className="labelsContainer">
           {data?.taskTags.map((e, i) => (
-            <Label key={i} text={e} bgColor={"#d63031"} />
+            <Label text={e} key={i} formData={data} grpId={data.grpId} />
           ))}
           {/* <Label text="Pending" bgColor={"#ff9900"} />
           <Label text="Completed" bgColor={"#00cec9"} />
@@ -39,7 +42,11 @@ const TaskCard = ({ data }) => {
           </span>
           <span className="assignees">
             {data?.assignees.map((e, i) => (
-              <UserTextIcon key={i} text={e} bgColor={"#1ac888"} />
+              <UserTextIcon
+                key={i}
+                text={e.name.substring(1, 0).toUpperCase()}
+                bgColor={"#1ac888"}
+              />
             ))}
             {/* <UserTextIcon text="AD" bgColor={"#f6c31c"} />
             <UserTextIcon text="V" bgColor={"#17c0eb"} /> */}

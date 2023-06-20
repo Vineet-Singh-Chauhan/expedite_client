@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 // import { useParams } from "react-router-dom";
 // import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
-const DragNDrop = ({ data, workspaceId, workspaceName }) => {
+const DragNDrop = ({ data }) => {
   const { isShowing, toggle } = useModal();
   const [list, setList] = useState(data);
   const [dragging, setDragging] = useState(false);
@@ -117,13 +117,6 @@ const DragNDrop = ({ data, workspaceId, workspaceName }) => {
   console.log(list);
   return (
     <>
-      <div className="dragNDrop__settingsButton">
-        {workspaceName}
-        <Link to={`/user/${workspaceId}/settings`}>
-          <FiSettings />
-          Workspace Settings
-        </Link>
-      </div>
       <div className="dragNDrop">
         {list.map((grp, grpI) => (
           <div

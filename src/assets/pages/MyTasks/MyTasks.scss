@@ -1,0 +1,22 @@
+@import "../../global/variables";
+.dragNDrop__settingsButton {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: $primaryFamily;
+  color: $primaryFont;
+  & > a {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 1rem;
+    padding: 0.3rem;
+    border-radius: 0.3rem;
+    &:hover {
+      background: $secondaryBg;
+      cursor: pointer;
+    }
+  }
+}

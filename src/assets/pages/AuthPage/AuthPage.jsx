@@ -9,6 +9,7 @@ import SignUpForm from "../../components/SignUpForm/SignUpForm";
 import Spinner from "../../utilities/Spinner/Spinner";
 import useFetch from "./useFetch";
 import useAuth from "../../../hooks/useAuth";
+import FallbackLoading from "../../components/FallbackLoading/FallbackLoading";
 
 const AuthPage = () => {
   const [isLoginPage, setIsLoginPage] = useState(true);
@@ -51,6 +52,7 @@ const AuthPage = () => {
 
   return (
     <div className="authPage container">
+      {/* <FallbackLoading /> */}
       <div className="formContainer">
         <div className="formContainer__header">
           <span className="logo">Expedite</span>

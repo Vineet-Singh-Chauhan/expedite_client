@@ -131,3 +131,6 @@ a {
   border-radius: 0.3rem;
   text-align: center;
 }
+::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}

@@ -16,7 +16,7 @@ const AddTaskBtn = ({ grpId }) => {
         <AiOutlinePlus /> Add Task
       </button>
       <Modal
-        Content={<TaskCardExpanded grpId={grpId} />}
+        Content={<TaskCardExpanded grpId={grpId} hide={toggle} />}
         isShowing={isShowing}
         hide={toggle}
       />
