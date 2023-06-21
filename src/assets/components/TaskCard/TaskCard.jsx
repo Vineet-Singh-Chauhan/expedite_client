@@ -12,13 +12,13 @@ import TaskCardExpanded from "../TaskCardExpanded/TaskCardExpanded";
 import UserTextIcon from "../UserTextIcon/UserTextIcon";
 
 const TaskCard = ({ data }) => {
-  console.log(data);
+  // console.log(data);
   const { isShowing, toggle } = useModal();
   return (
     <>
       <Modal
         Content={
-          <TaskCardExpanded data={data} grpId={data.grpId} hide={toggle} />
+          <TaskCardExpanded data={data} grpId={data?.grpId} hide={toggle} />
         }
         isShowing={isShowing}
         hide={toggle}

@@ -10,24 +10,44 @@ import NewGroupDialog from "../NewGroupDialog/NewGroupDialog";
 //*icons
 import { AiOutlinePlus } from "react-icons/ai";
 import { FiSettings } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 // import { useParams } from "react-router-dom";
 // import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
 const DragNDrop = ({ data }) => {
+  const axiosPrivate = useAxiosPrivate();
+  const params = useParams();
   const { isShowing, toggle } = useModal();
   const [list, setList] = useState(data);
+  const dragPair = useRef();
+  // const [dragPair, setDragPair] = useState({
+  //   toPos: "",
+  //   fromGrp: "",
+  //   toGrp: "",
+  //   taskId: "",
+  // });
   const [dragging, setDragging] = useState(false);
   const [grpDragging, setGrpdragging] = useState(false);
   const dragItem = useRef();
   const dragNode = useRef();
-  const handleDragStart = (e, params) => {
+  const handleDragStart = async (e, params) => {
     console.log("drag started", params);
     dragItem.current = params;
     dragNode.current = e.target;
     dragNode.current.addEventListener("dragend", handleDragEnd);
-
+    console.log(dragNode.current);
+    console.log(dragItem.current);
+    const grpId = dragNode.current.parentElement.getAttribute("data-grpid");
+    const taskId = dragNode.current.getAttribute("data-taskid");
+    console.log(grpId, taskId);
+    dragPair.current = {
+      fromGrp: grpId,
+      taskId: taskId,
+    };
+    // setDragPair({ ...dragPair, fromGrp: grpId, taskId: taskId });
     // this makes fxn a kind of async type
+    // console.log(dragPair);
     setTimeout(() => {
       setDragging(true);
     }, 0);
@@ -43,18 +63,39 @@ const DragNDrop = ({ data }) => {
       setGrpdragging(true);
     }, 0);
   };
-  const handleDragEnd = () => {
+  const handleDragEnd = async () => {
     console.log("ending drag");
     dragNode.current.removeEventListener("dragend", handleDragEnd);
     dragItem.current = null;
     dragNode.current = null;
+    const response = await axiosPrivate.post("/api/dragsettle", {
+      ...dragPair.current,
+      workspaceId: params.id,
+    });
     setDragging(false);
+    console.log(dragPair.current);
+    console.log("drag end");
+    dragPair.current = null;
   };
   const handleDragEnter = (e, params) => {
-    console.log("dran enter", params);
+    // console.log("dran enter", params);
     const currentItem = dragItem.current;
+    const grpId =
+      e.target.parentElement.parentElement.getAttribute("data-grpid");
+    console.log("toGRp", grpId);
+    // setDragPair({
+    //   ...dragPair,
+    //   toGrp: grpId,
+    //   toPos: params.itemI,
+    // });
+    dragPair.current = {
+      ...dragPair.current,
+      toGrp: grpId,
+      toPos: params.itemI,
+    };
+    console.log(dragPair.current);
     if (e.target != dragNode.current) {
-      console.log("target not smae");
+      // console.log("target not smae");
       setList((oldList) => {
         let newList = JSON.parse(JSON.stringify(oldList));
         newList[params.grpI].items.splice(
@@ -70,7 +111,7 @@ const DragNDrop = ({ data }) => {
   const handleGroupDragEnd = (e, params) => {
     console.log("dran enter", params);
     const currentItem = dragItem.current;
-    console.log(e.target);
+    // console.log(e.target);
     if (e.target != dragNode.current) {
       console.log("target not smae from grp");
       setList((oldList) => {
@@ -84,37 +125,15 @@ const DragNDrop = ({ data }) => {
   };
   const getStyles = (params) => {
     const currentItem = dragItem.current;
-    if (currentItem.grpI === params.grpI && currentItem.itemI === params.itemI)
+    if (
+      currentItem?.grpI === params.grpI &&
+      currentItem?.itemI === params.itemI
+    )
       return "dragCurrent dndItem";
     return "dndItem";
   };
-  // let params = useParams();
-  // const workspaceId = params.id;
-  // const axiosPrivate = useAxiosPrivate();
-  // async function getTasks() {
-  //   // setList([]);
-  //   const  tasks = await axiosPrivate.post("/api/gettasks", {
-  //     workspaceId: workspaceId,
-  //   });
-  //   setList(tasks);
-  //   // const List = [];
-  //   // for (const e of data) {
-  //     // const tasks = await axiosPrivate.post("/api/gettasks", {
-  //       // taskGroupInfo: e,
-  //       // workspaceId: workspaceId,
-  //     // });
-  //     // List.push({ name: e.name, id: e.id, items: tasks?.data });
-  //     // setList([...list, { name: e.name, id: e.id, items: tasks?.data }]);
-  //   // }
-  //   // setList(List);
-  // }
-  // console.log(list);
-  // // getTasks();
-  // useEffect(() => {
-  //   data && getTasks();
-  // }, [data]);
+  useState(() => {}, [list]);
 
-  console.log(list);
   return (
     <>
       <div className="dragNDrop">
@@ -125,7 +144,8 @@ const DragNDrop = ({ data }) => {
             //   handleGroupDragStart(e, { grpI });
             // }}
             key={grpI}
-            className="dndGroup"
+            data-grpid={grp.id}
+            className={`dndGroup`}
             onDragEnter={
               dragging && !grp.items.length
                 ? (e) => {
@@ -143,6 +163,8 @@ const DragNDrop = ({ data }) => {
               <div
                 draggable
                 key={itemI}
+                data-grpid={grp.id}
+                data-taskid={item?.id}
                 className={dragging ? getStyles({ grpI, itemI }) : "dndItem"}
                 onTouchMove={(e) => {
                   handleDragStart(e, { grpI, itemI });
@@ -158,7 +180,11 @@ const DragNDrop = ({ data }) => {
                     : null
                 }
               >
-                <TaskCard data={item} />
+                <TaskCard
+                  data={item}
+                  data-grpid={grp.id}
+                  data-taskid={item?.id}
+                />
               </div>
             ))}
             <AddTaskBtn grpId={grp.id} />
