@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+
 //*css
 import "./DragNDrop.scss";
 //*components
@@ -7,11 +8,12 @@ import AddTaskBtn from "../AddTaskBtn/AddTaskBtn";
 import Modal from "../../utilities/Modal/Modal";
 import useModal from "../../utilities/Modal/useModal";
 import NewGroupDialog from "../NewGroupDialog/NewGroupDialog";
+
 //*icons
 import { AiOutlinePlus } from "react-icons/ai";
-import { FiSettings } from "react-icons/fi";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
+// import getStatus from "../../../hooks/getStatus";
 // import { useParams } from "react-router-dom";
 // import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
@@ -20,40 +22,31 @@ const DragNDrop = ({ data }) => {
   const params = useParams();
   const { isShowing, toggle } = useModal();
   const [list, setList] = useState(data);
-  const dragPair = useRef();
-  // const [dragPair, setDragPair] = useState({
-  //   toPos: "",
-  //   fromGrp: "",
-  //   toGrp: "",
-  //   taskId: "",
-  // });
+  console.log(list);
   const [dragging, setDragging] = useState(false);
   const [grpDragging, setGrpdragging] = useState(false);
   const dragItem = useRef();
   const dragNode = useRef();
+  const dragPair = useRef();
   const handleDragStart = async (e, params) => {
     console.log("drag started", params);
     dragItem.current = params;
     dragNode.current = e.target;
     dragNode.current.addEventListener("dragend", handleDragEnd);
-    console.log(dragNode.current);
-    console.log(dragItem.current);
-    const grpId = dragNode.current.parentElement.getAttribute("data-grpid");
-    const taskId = dragNode.current.getAttribute("data-taskid");
-    console.log(grpId, taskId);
+    const grpId = dragNode.current?.parentElement?.getAttribute("data-grpid");
+    const taskId = dragNode.current?.getAttribute("data-taskid");
     dragPair.current = {
       fromGrp: grpId,
       taskId: taskId,
+      fromPos: params.itemI,
     };
-    // setDragPair({ ...dragPair, fromGrp: grpId, taskId: taskId });
-    // this makes fxn a kind of async type
-    // console.log(dragPair);
+    console.log(dragPair.current);
     setTimeout(() => {
       setDragging(true);
     }, 0);
   };
   const handleGroupDragStart = (e, params) => {
-    console.log("drag started", params);
+    // console.log("drag started", params);
     dragItem.current = params;
     dragNode.current = e.target;
     dragNode.current.addEventListener("dragend", handleDragEnd);
@@ -73,21 +66,16 @@ const DragNDrop = ({ data }) => {
       workspaceId: params.id,
     });
     setDragging(false);
-    console.log(dragPair.current);
-    console.log("drag end");
+    // console.log(dragPair.current);
+    // console.log("drag end");
     dragPair.current = null;
+    // getStatus("getData", params.id);
   };
   const handleDragEnter = (e, params) => {
-    // console.log("dran enter", params);
+    console.log("dran enter", params);
     const currentItem = dragItem.current;
     const grpId =
-      e.target.parentElement.parentElement.getAttribute("data-grpid");
-    console.log("toGRp", grpId);
-    // setDragPair({
-    //   ...dragPair,
-    //   toGrp: grpId,
-    //   toPos: params.itemI,
-    // });
+      e.target?.parentElement?.parentElement.getAttribute("data-grpid");
     dragPair.current = {
       ...dragPair.current,
       toGrp: grpId,
@@ -95,7 +83,6 @@ const DragNDrop = ({ data }) => {
     };
     console.log(dragPair.current);
     if (e.target != dragNode.current) {
-      // console.log("target not smae");
       setList((oldList) => {
         let newList = JSON.parse(JSON.stringify(oldList));
         newList[params.grpI].items.splice(
@@ -109,11 +96,11 @@ const DragNDrop = ({ data }) => {
     }
   };
   const handleGroupDragEnd = (e, params) => {
-    console.log("dran enter", params);
+    // console.log("dran enter", params);
     const currentItem = dragItem.current;
     // console.log(e.target);
     if (e.target != dragNode.current) {
-      console.log("target not smae from grp");
+      // console.log("target not smae from grp");
       setList((oldList) => {
         // let newList = [...oldList,]
         let newList = JSON.parse(JSON.stringify(oldList));
@@ -132,8 +119,6 @@ const DragNDrop = ({ data }) => {
       return "dragCurrent dndItem";
     return "dndItem";
   };
-  useState(() => {}, [list]);
-
   return (
     <>
       <div className="dragNDrop">
@@ -182,6 +167,7 @@ const DragNDrop = ({ data }) => {
               >
                 <TaskCard
                   data={item}
+                  grpId={grp.id}
                   data-grpid={grp.id}
                   data-taskid={item?.id}
                 />

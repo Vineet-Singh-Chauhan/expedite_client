@@ -11,22 +11,20 @@ import TaskCardExpanded from "../TaskCardExpanded/TaskCardExpanded";
 //*Icons
 import UserTextIcon from "../UserTextIcon/UserTextIcon";
 
-const TaskCard = ({ data }) => {
+const TaskCard = ({ data, grpId }) => {
   // console.log(data);
   const { isShowing, toggle } = useModal();
   return (
     <>
       <Modal
-        Content={
-          <TaskCardExpanded data={data} grpId={data?.grpId} hide={toggle} />
-        }
+        Content={<TaskCardExpanded data={data} grpId={grpId} hide={toggle} />}
         isShowing={isShowing}
         hide={toggle}
       />
       <div className="taskCard" onClick={toggle}>
         <div className="labelsContainer">
           {data?.taskTags.map((e, i) => (
-            <Label text={e} key={i} formData={data} grpId={data.grpId} />
+            <Label text={e} key={i} formData={data} grpId={grpId} />
           ))}
           {/* <Label text="Pending" bgColor={"#ff9900"} />
           <Label text="Completed" bgColor={"#00cec9"} />

@@ -209,9 +209,11 @@ const TaskCardExpanded = ({ grpId, data, hide }) => {
           </div>
         </div>
         <div className="dueDateContainer">
-          Due Date :{" "}
+          Due Date :
           {formData?.dueDate &&
-            new Intl.DateTimeFormat("en-US").format(new Date(data?.dueDate))}
+            new Intl.DateTimeFormat("en-US").format(
+              new Date(formData?.dueDate)
+            )}
           <input
             type="date"
             name="dueDate"
