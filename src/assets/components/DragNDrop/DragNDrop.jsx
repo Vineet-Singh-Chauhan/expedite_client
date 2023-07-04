@@ -12,8 +12,10 @@ import NewGroupDialog from "../NewGroupDialog/NewGroupDialog";
 //*icons
 import { AiOutlinePlus } from "react-icons/ai";
 import { TbDragDrop } from "react-icons/tb";
+import { FiEdit2 } from "react-icons/fi";
 import { useParams } from "react-router-dom";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
+import Editable from "../../utilities/EditableInput/EditableInput";
 
 const DragNDrop = ({ data }) => {
   const axiosPrivate = useAxiosPrivate();
@@ -25,6 +27,7 @@ const DragNDrop = ({ data }) => {
   const dragItem = useRef();
   const dragNode = useRef();
   const dragPair = useRef();
+  const inputRef = useRef();
   const handleDragStart = async (e, params) => {
     e.stopPropagation();
     console.log("drag started", params);
@@ -110,6 +113,18 @@ const DragNDrop = ({ data }) => {
     return "dndItem";
   };
 
+  const handleChange = async (e, grpId) => {
+    e.preventDefault();
+    const name = e.target.value.trim();
+    // console.log(name, grpId);
+    if (name === "") return;
+    const response = await axiosPrivate.post("/api/updateTaskGroupName", {
+      name: name,
+      grpId: grpId,
+      workspaceId: params.id,
+    });
+  };
+
   return (
     <>
       <div className="dragNDrop">
@@ -136,8 +151,24 @@ const DragNDrop = ({ data }) => {
             }
           >
             <div className="groupTitle">
-              {grp.name}
-              <TbDragDrop className="dndGroupHandle" />
+              <Editable
+                text={grp.name}
+                placeholder="Group Name"
+                type="input"
+                childRef={inputRef}
+                className="groupNameField"
+              >
+                <input
+                  className="groupNameFieldInput"
+                  type="text"
+                  name="groupName"
+                  placeholder="Group Name"
+                  ref={inputRef}
+                  onBlur={(e) => {
+                    handleChange(e, grp.id);
+                  }}
+                />
+              </Editable>
             </div>
             {grp?.items?.map((item, itemI) => (
               <div

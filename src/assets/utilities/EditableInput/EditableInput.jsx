@@ -22,11 +22,13 @@ const Editable = ({
   };
 
   return (
-    <div className="editable__inputWrapperOuter" {...props}>
+    <div className={`editable__inputWrapperOuter `}>
       {props.noteditable ? (
         <div className="editable__inputWrapper">
           <span className="editable__content">
-            <span>{text || placeholder || "Editable content"}</span>
+            <span className={props.className}>
+              {text || placeholder || "Editable content"}
+            </span>
           </span>
         </div>
       ) : isEditing ? (
@@ -46,7 +48,9 @@ const Editable = ({
       ) : (
         <div className="editable__inputWrapper">
           <span className="editable__content">
-            <span>{text || placeholder || "Editable content"}</span>
+            <span className={props.className}>
+              {text || placeholder || "Editable content"}
+            </span>
           </span>
           <span className="editable__editIcon" onClick={() => setEditing(true)}>
             <FiEdit2 />

@@ -2,25 +2,30 @@
 .editable__inputWrapperOuter {
   // margin-top: 5px;
   // margin-bottom: 20px;
-
+  .editable__inputWrapper {
+    flex: 1;
+  }
   .editable__inputWrapper {
     display: flex;
     align-items: center;
     gap: 0 10px;
-    width: 400px;
+    // width: 400px;
+    flex: 1;
     position: relative;
   }
   .editable__inputWrapper input {
     color: $secondaryFont;
     width: 90%;
     padding: 5px 0;
+    flex: 1;
   }
   .editable__inputWrapper textarea {
-    position: absolute;
-    top: 0;
+    // position: absolute;
+    // top: 0;
     color: $secondaryFont;
-    width: 90%;
+    // width: 90%;
     padding: 5px 0;
+    flex: 1;
   }
   .editable__inputWrapper span {
     color: $secondaryFont;
@@ -34,7 +39,7 @@
     height: 100%;
     display: flex;
     align-items: center;
-    height: 3rem;
+    // height: 3rem;
   }
   .editable__editIcon {
     &:hover {
