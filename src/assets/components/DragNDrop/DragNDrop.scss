@@ -18,6 +18,11 @@
     padding: 0.5rem;
     .groupTitle {
       margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      .dndGroupHandle {
+        color: $secondaryFont;
+      }
     }
     .dndItem {
       // min-height: 150px;

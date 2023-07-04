@@ -11,11 +11,9 @@ import NewGroupDialog from "../NewGroupDialog/NewGroupDialog";
 
 //*icons
 import { AiOutlinePlus } from "react-icons/ai";
+import { TbDragDrop } from "react-icons/tb";
 import { useParams } from "react-router-dom";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
-// import getStatus from "../../../hooks/getStatus";
-// import { useParams } from "react-router-dom";
-// import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
 const DragNDrop = ({ data }) => {
   const axiosPrivate = useAxiosPrivate();
@@ -24,38 +22,31 @@ const DragNDrop = ({ data }) => {
   const [list, setList] = useState(data);
   console.log(list);
   const [dragging, setDragging] = useState(false);
-  const [grpDragging, setGrpdragging] = useState(false);
   const dragItem = useRef();
   const dragNode = useRef();
   const dragPair = useRef();
   const handleDragStart = async (e, params) => {
+    e.stopPropagation();
     console.log("drag started", params);
     dragItem.current = params;
     dragNode.current = e.target;
     dragNode.current.addEventListener("dragend", handleDragEnd);
-    const grpId = dragNode.current?.parentElement?.getAttribute("data-grpid");
+    const grpId =
+      dragNode.current?.parentElement?.getAttribute("data-grpid") ||
+      dragNode.current?.getAttribute("data-grpid");
     const taskId = dragNode.current?.getAttribute("data-taskid");
     dragPair.current = {
       fromGrp: grpId,
       taskId: taskId,
-      fromPos: params.itemI,
+      fromPos:
+        typeof params.itemI === typeof undefined ? params.grpI : params.itemI,
     };
     console.log(dragPair.current);
     setTimeout(() => {
       setDragging(true);
     }, 0);
   };
-  const handleGroupDragStart = (e, params) => {
-    // console.log("drag started", params);
-    dragItem.current = params;
-    dragNode.current = e.target;
-    dragNode.current.addEventListener("dragend", handleDragEnd);
 
-    // this makes fxn a kind of async type
-    setTimeout(() => {
-      setGrpdragging(true);
-    }, 0);
-  };
   const handleDragEnd = async () => {
     console.log("ending drag");
     dragNode.current.removeEventListener("dragend", handleDragEnd);
@@ -66,12 +57,10 @@ const DragNDrop = ({ data }) => {
       workspaceId: params.id,
     });
     setDragging(false);
-    // console.log(dragPair.current);
-    // console.log("drag end");
     dragPair.current = null;
-    // getStatus("getData", params.id);
   };
   const handleDragEnter = (e, params) => {
+    e.stopPropagation();
     console.log("dran enter", params);
     const currentItem = dragItem.current;
     const grpId =
@@ -79,37 +68,38 @@ const DragNDrop = ({ data }) => {
     dragPair.current = {
       ...dragPair.current,
       toGrp: grpId,
-      toPos: params.itemI,
+      toPos:
+        typeof params.itemI === typeof undefined ? params.grpI : params.itemI,
     };
     console.log(dragPair.current);
     if (e.target != dragNode.current) {
-      setList((oldList) => {
-        let newList = JSON.parse(JSON.stringify(oldList));
-        newList[params.grpI].items.splice(
-          params.itemI,
-          0,
-          newList[currentItem.grpI].items.splice(currentItem.itemI, 1)[0]
-        );
-        dragItem.current = params;
-        return newList;
-      });
+      if (typeof currentItem.itemI === typeof undefined) {
+        setList((oldList) => {
+          // let newList = [...oldList,]
+          let newList = JSON.parse(JSON.stringify(oldList));
+          newList.splice(
+            params.grpI,
+            0,
+            newList.splice(currentItem.grpI, 1)[0]
+          );
+          dragItem.current = params;
+          return newList;
+        });
+      } else {
+        setList((oldList) => {
+          let newList = JSON.parse(JSON.stringify(oldList));
+          newList[params.grpI].items.splice(
+            params.itemI,
+            0,
+            newList[currentItem.grpI].items.splice(currentItem.itemI, 1)[0]
+          );
+          dragItem.current = params;
+          return newList;
+        });
+      }
     }
   };
-  const handleGroupDragEnd = (e, params) => {
-    // console.log("dran enter", params);
-    const currentItem = dragItem.current;
-    // console.log(e.target);
-    if (e.target != dragNode.current) {
-      // console.log("target not smae from grp");
-      setList((oldList) => {
-        // let newList = [...oldList,]
-        let newList = JSON.parse(JSON.stringify(oldList));
-        newList.splice(params.grpI, 0, newList.splice(currentItem.grpI, 1)[0]);
-        dragItem.current = params;
-        return newList;
-      });
-    }
-  };
+
   const getStyles = (params) => {
     const currentItem = dragItem.current;
     if (
@@ -119,31 +109,36 @@ const DragNDrop = ({ data }) => {
       return "dragCurrent dndItem";
     return "dndItem";
   };
+
   return (
     <>
       <div className="dragNDrop">
         {list.map((grp, grpI) => (
           <div
-            // draggable
-            // onDragStart={(e) => {
-            //   handleGroupDragStart(e, { grpI });
-            // }}
+            draggable
+            onDragStart={(e) => {
+              e.stopPropagation();
+              handleDragStart(e, { grpI });
+            }}
             key={grpI}
             data-grpid={grp.id}
             className={`dndGroup`}
             onDragEnter={
-              dragging && !grp.items.length
+              dragging && typeof dragItem.current?.itemI === typeof undefined
+                ? (e) => {
+                    handleDragEnter(e, { grpI });
+                  }
+                : dragging && !grp.items.length
                 ? (e) => {
                     handleDragEnter(e, { grpI, itemI: 0 });
-                  }
-                : grpDragging
-                ? (e) => {
-                    handleGroupDragEnd(e, { grpI });
                   }
                 : null
             }
           >
-            <div className="groupTitle">{grp.name}</div>
+            <div className="groupTitle">
+              {grp.name}
+              <TbDragDrop className="dndGroupHandle" />
+            </div>
             {grp?.items?.map((item, itemI) => (
               <div
                 draggable
@@ -151,15 +146,14 @@ const DragNDrop = ({ data }) => {
                 data-grpid={grp.id}
                 data-taskid={item?.id}
                 className={dragging ? getStyles({ grpI, itemI }) : "dndItem"}
-                onTouchMove={(e) => {
-                  handleDragStart(e, { grpI, itemI });
-                }}
                 onDragStart={(e) => {
+                  e.stopPropagation();
                   handleDragStart(e, { grpI, itemI });
                 }}
                 onDragEnter={
                   dragging
                     ? (e) => {
+                        e.stopPropagation();
                         handleDragEnter(e, { grpI, itemI });
                       }
                     : null
