@@ -82,7 +82,11 @@ const UserInfo = () => {
           <div className="infoTitle">Date of Birth</div>
           <div className="infoVal">
             <Editable
-              text={new Intl.DateTimeFormat("en-US").format(new Date(user.dob))}
+              text={
+                user.dob
+                  ? new Intl.DateTimeFormat("en-US").format(new Date(user.dob))
+                  : "Set Date of Birth"
+              }
               type="input"
               childRef={inputRef}
             >

@@ -24,7 +24,7 @@ const NewGroupDialog = ({ hide }) => {
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
 
-    if (data.NewGroupName) {
+    if (data.NewGroupName.trim()) {
       try {
         setLoading(true);
         const response = await axiosPrivate.post("/api/createtaskgrp", {

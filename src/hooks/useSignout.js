@@ -5,9 +5,13 @@ const useSignout = () => {
   const signout = async () => {
     setAuth({});
     try {
-      const response = await axios.post("/api/signout", {
-        withCredentials: true,
-      });
+      const response = await axios.post(
+        "/api/signout",
+        {},
+        {
+          withCredentials: true,
+        }
+      );
     } catch (error) {
       console.log(error);
     }

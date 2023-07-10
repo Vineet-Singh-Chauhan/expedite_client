@@ -10,8 +10,6 @@ import { FiSettings } from "react-icons/fi";
 import useWorkspace from "../../../hooks/useWorkspace";
 
 const MyTasks = () => {
-  const [data, setData] = useState();
-  const [workspaceInfo, setWorkspaceInfo] = useState({});
   const { activeWorkspace, setActiveWorkspace } = useWorkspace();
   const navigate = useNavigate();
   const location = useLocation();
@@ -20,19 +18,12 @@ const MyTasks = () => {
   const axiosPrivate = useAxiosPrivate();
   useEffect(() => {
     const workspaceId = params.id;
-
     const getWorkspaceInfo = async () => {
       try {
         const response = await axiosPrivate.post("/api/workspaceinfo", {
           workspaceId: workspaceId,
         });
-        const taskResponse = await axiosPrivate.post("/api/gettasks", {
-          workspaceId: workspaceId,
-        });
-        const tasks = taskResponse?.data?.tasks;
-        setData(tasks);
         const data = response?.data;
-        console.log(data);
         setActiveWorkspace(data);
       } catch (err) {
         if (err?.response?.status === 401 || err?.response?.status === 404) {
@@ -60,7 +51,7 @@ const MyTasks = () => {
               Workspace Settings
             </Link>
           </div>
-          <DragNDrop data={data} />
+          <DragNDrop />
         </>
       )}
     </div>

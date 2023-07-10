@@ -16,7 +16,7 @@ const Navbar = () => {
     <div className="main__Navbar">
       <div className="leftMenu">
         <WorkspaceSelector workspaces={user.workspaces} />
-        <Notifications notifications={user.notifications} />
+        {/* <Notifications notifications={user.notifications} /> */}
       </div>
       <div className="centralMenu">
         <Searchbar />

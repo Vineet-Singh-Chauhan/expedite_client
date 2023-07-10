@@ -26,6 +26,8 @@ const ChangePassword = () => {
   });
   const handleSubmit = (e) => {
     e.preventDefault();
+    setSuccessMsg();
+    setResMsg();
     e.target.querySelectorAll("input").forEach((e) => {
       e.setAttribute("focused", true);
       validate(e, formValues);

@@ -17,7 +17,7 @@ const WorkspaceInfo = () => {
   const { activeWorkspace, setActiveWorkspace } = useWorkspace();
   const { user } = useAuth();
   const [isAdmin, setAdmin] = useState(() => {
-    if (activeWorkspace?.adminId === user._id) {
+    if (activeWorkspace?.admin._id === user._id) {
       return true;
     }
     return false;
@@ -89,7 +89,11 @@ const WorkspaceInfo = () => {
                 onBlur={handleChange}
               />
             </Editable> */}
-            <span>{activeWorkspace?.adminName}</span>
+            <span>
+              {activeWorkspace?.admin.firstName +
+                " " +
+                activeWorkspace?.admin.lastName}
+            </span>
           </div>
         </div>
 

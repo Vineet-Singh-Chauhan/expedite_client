@@ -31,7 +31,7 @@ const Index = ({ workspaces }) => {
           {workspaces.map((e, i) => (
             <Link
               key={i}
-              to={`/user/${e.id}`}
+              to={`/user/${e._id}`}
               // onClick={() => {
               //   setActiveWorkSpace({...activeWorkspace,e.name);
               // }}

@@ -11,7 +11,7 @@ const AssigneeTable = ({ members, grpId, formData, setFormData }) => {
     if (formData?.taskTitle) {
       try {
         //   console.log(grpId);
-        const newAssignees = formData?.assignees.filter((e) => e.id != id);
+        const newAssignees = formData?.assignees.filter((e) => e._id != id);
         await setFormData({ ...formData, assignees: newAssignees });
         const response = await axiosPrivate.post("/api/createtask", {
           ...formData,
@@ -49,14 +49,14 @@ const AssigneeTable = ({ members, grpId, formData, setFormData }) => {
                 <tbody>
                   {members?.map((member, i) => (
                     <Row
-                      name={member.name}
+                      name={member.firstName + " " + member.lastName}
                       sno={i + 1}
                       action="Remove"
                       email={member.email}
-                      id={member.id}
+                      id={member._id}
                       key={i}
                       onClick={() => {
-                        RemoveMember(member.id, formData);
+                        RemoveMember(member._id, formData);
                       }}
                     />
                   ))}

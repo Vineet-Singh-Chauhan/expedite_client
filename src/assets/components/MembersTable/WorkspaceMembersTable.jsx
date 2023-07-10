@@ -14,7 +14,7 @@ import Row2 from "./components/Row2";
 
 const WorkspaceMembersTable = ({ members, invitees, isAdmin }) => {
   const handleAddMember = () => {};
-
+  console.log(invitees);
   const { isShowing, toggle } = useModal();
   return (
     <div className="WorkspaceMembersTable">
@@ -49,11 +49,11 @@ const WorkspaceMembersTable = ({ members, invitees, isAdmin }) => {
                 <tbody>
                   {members?.map((member, i) => (
                     <Row
-                      name={member.name}
+                      name={member.firstName + " " + member.lastName}
                       sno={i + 1}
                       action="Remove"
                       email={member.email}
-                      id={member.id}
+                      id={member._id}
                       key={i}
                       isAdmin={isAdmin}
                     />

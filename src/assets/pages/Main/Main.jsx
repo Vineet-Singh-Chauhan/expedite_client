@@ -35,7 +35,6 @@ const Main = () => {
     let isMounted = true;
     const controller = new AbortController();
     const getUser = async () => {
-      // setLoadingStatus(true);
       setLoading(true);
       try {
         const response = await axiosPrivate.post("/api/getuser", {
@@ -43,14 +42,11 @@ const Main = () => {
           withCredentials: true,
           credentials: "include",
         });
-        // console.log(response.data);
         isMounted && setUser(response.data);
-        // console.log(user);
       } catch (err) {
         console.error(err);
         navigate("/auth", { state: { from: location }, replace: true });
       } finally {
-        // setLoadingStatus(false);
         setLoading(false);
       }
     };

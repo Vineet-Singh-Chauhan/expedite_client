@@ -42,7 +42,7 @@ const TaskCard = ({ data, grpId }) => {
             {data?.assignees.map((e, i) => (
               <UserTextIcon
                 key={i}
-                text={e.name.substring(1, 0).toUpperCase()}
+                text={e.firstName.substring(1, 0).toUpperCase()}
                 bgColor={"#1ac888"}
               />
             ))}

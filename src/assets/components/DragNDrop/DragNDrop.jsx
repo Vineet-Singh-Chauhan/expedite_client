@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
-
+import { useParams } from "react-router-dom";
+import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 //*css
 import "./DragNDrop.scss";
 //*components
@@ -8,21 +9,18 @@ import AddTaskBtn from "../AddTaskBtn/AddTaskBtn";
 import Modal from "../../utilities/Modal/Modal";
 import useModal from "../../utilities/Modal/useModal";
 import NewGroupDialog from "../NewGroupDialog/NewGroupDialog";
+import Editable from "../../utilities/EditableInput/EditableInput";
+import LoadingScreen from "../LoadingScreen/LoadingScreen";
 
 //*icons
 import { AiOutlinePlus } from "react-icons/ai";
-import { TbDragDrop } from "react-icons/tb";
-import { FiEdit2 } from "react-icons/fi";
-import { useParams } from "react-router-dom";
-import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
-import Editable from "../../utilities/EditableInput/EditableInput";
 
-const DragNDrop = ({ data }) => {
+const DragNDrop = () => {
   const axiosPrivate = useAxiosPrivate();
   const params = useParams();
+  const [loading, setLoading] = useState(true);
   const { isShowing, toggle } = useModal();
-  const [list, setList] = useState(data);
-  console.log(list);
+  const [list, setList] = useState();
   const [dragging, setDragging] = useState(false);
   const dragItem = useRef();
   const dragNode = useRef();
@@ -91,10 +89,10 @@ const DragNDrop = ({ data }) => {
       } else {
         setList((oldList) => {
           let newList = JSON.parse(JSON.stringify(oldList));
-          newList[params.grpI].items.splice(
+          newList[params.grpI].tasks.splice(
             params.itemI,
             0,
-            newList[currentItem.grpI].items.splice(currentItem.itemI, 1)[0]
+            newList[currentItem.grpI].tasks.splice(currentItem.itemI, 1)[0]
           );
           dragItem.current = params;
           return newList;
@@ -125,94 +123,127 @@ const DragNDrop = ({ data }) => {
     });
   };
 
+  const getTasks = async () => {
+    try {
+      const taskResponse = await axiosPrivate.post("/api/gettasks", {
+        workspaceId: params.id,
+      });
+      const tasks = taskResponse?.data?.taskGroups;
+      console.log(tasks);
+      setList(tasks);
+      console.log(taskResponse?.data?.taskGroups);
+    } catch (err) {
+      if (err?.response?.status === 401 || err?.response?.status === 404) {
+        navigate("/user/404", { state: { from: location }, replace: true });
+      } else {
+        console.log(err);
+        alert(err?.response?.data?.error || "Internal server error");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    getTasks();
+  }, []);
+
   return (
     <>
-      <div className="dragNDrop">
-        {list.map((grp, grpI) => (
-          <div
-            draggable
-            onDragStart={(e) => {
-              e.stopPropagation();
-              handleDragStart(e, { grpI });
-            }}
-            key={grpI}
-            data-grpid={grp.id}
-            className={`dndGroup`}
-            onDragEnter={
-              dragging && typeof dragItem.current?.itemI === typeof undefined
-                ? (e) => {
-                    handleDragEnter(e, { grpI });
-                  }
-                : dragging && !grp.items.length
-                ? (e) => {
-                    handleDragEnter(e, { grpI, itemI: 0 });
-                  }
-                : null
-            }
-          >
-            <div className="groupTitle">
-              <Editable
-                text={grp.name}
-                placeholder="Group Name"
-                type="input"
-                childRef={inputRef}
-                className="groupNameField"
-              >
-                <input
-                  className="groupNameFieldInput"
-                  type="text"
-                  name="groupName"
-                  placeholder="Group Name"
-                  ref={inputRef}
-                  onBlur={(e) => {
-                    handleChange(e, grp.id);
-                  }}
-                />
-              </Editable>
-            </div>
-            {grp?.items?.map((item, itemI) => (
+      {loading ? (
+        <LoadingScreen status={true} msg={"Loading tasks.."} />
+      ) : (
+        <>
+          <div className="dragNDrop">
+            {list?.map((grp, grpI) => (
               <div
                 draggable
-                key={itemI}
-                data-grpid={grp.id}
-                data-taskid={item?.id}
-                className={dragging ? getStyles({ grpI, itemI }) : "dndItem"}
                 onDragStart={(e) => {
                   e.stopPropagation();
-                  handleDragStart(e, { grpI, itemI });
+                  handleDragStart(e, { grpI });
                 }}
+                key={grpI}
+                data-grpid={grp._id}
+                className={`dndGroup`}
                 onDragEnter={
-                  dragging
+                  dragging &&
+                  typeof dragItem.current?.itemI === typeof undefined
                     ? (e) => {
-                        e.stopPropagation();
-                        handleDragEnter(e, { grpI, itemI });
+                        handleDragEnter(e, { grpI });
+                      }
+                    : dragging && !grp.tasks.length
+                    ? (e) => {
+                        handleDragEnter(e, { grpI, itemI: 0 });
                       }
                     : null
                 }
               >
-                <TaskCard
-                  data={item}
-                  grpId={grp.id}
-                  data-grpid={grp.id}
-                  data-taskid={item?.id}
-                />
+                <div className="groupTitle">
+                  <Editable
+                    text={grp.name}
+                    placeholder="Group Name"
+                    type="input"
+                    childRef={inputRef}
+                    className="groupNameField"
+                  >
+                    <input
+                      className="groupNameFieldInput"
+                      type="text"
+                      name="groupName"
+                      placeholder="Group Name"
+                      ref={inputRef}
+                      onBlur={(e) => {
+                        handleChange(e, grp._id);
+                      }}
+                    />
+                  </Editable>
+                </div>
+                {grp?.tasks?.map((item, itemI) => (
+                  <div
+                    draggable
+                    key={itemI}
+                    data-grpid={grp._id}
+                    data-taskid={item?._id}
+                    className={
+                      dragging ? getStyles({ grpI, itemI }) : "dndItem"
+                    }
+                    onDragStart={(e) => {
+                      e.stopPropagation();
+                      handleDragStart(e, { grpI, itemI });
+                    }}
+                    onDragEnter={
+                      dragging
+                        ? (e) => {
+                            e.stopPropagation();
+                            handleDragEnter(e, { grpI, itemI });
+                          }
+                        : null
+                    }
+                  >
+                    <TaskCard
+                      data={item}
+                      grpId={grp._id}
+                      data-grpid={grp._id}
+                      data-taskid={item?._id}
+                    />
+                  </div>
+                ))}
+                <AddTaskBtn grpId={grp._id} />
               </div>
             ))}
-            <AddTaskBtn grpId={grp.id} />
+            <div className="dndGroup">
+              <div className="groupTitle">Create New Group</div>
+              <button className="createGrp__btn" onClick={toggle}>
+                <AiOutlinePlus /> Create Group
+              </button>
+            </div>
           </div>
-        ))}
-        <div className="dndGroup">
-          <div className="groupTitle">Create New Group</div>
-          <button className="createGrp__btn" onClick={toggle}>
-            <AiOutlinePlus /> Create Group
-          </button>
-        </div>
-      </div>
-      <Modal
-        Content={<NewGroupDialog hide={toggle} />}
-        isShowing={isShowing}
-        hide={toggle}
-      />
+          <Modal
+            Content={<NewGroupDialog hide={toggle} />}
+            isShowing={isShowing}
+            hide={toggle}
+          />
+        </>
+      )}
     </>
   );
 };

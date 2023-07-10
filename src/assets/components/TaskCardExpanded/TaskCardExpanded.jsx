@@ -64,7 +64,7 @@ const TaskCardExpanded = ({ grpId, data, hide }) => {
     e.preventDefault();
     console.log(data.id);
     const response = await axiosPrivate.post("/api/deletetask", {
-      taskId: data.id,
+      taskId: data._id,
       grpId,
       workspaceId: params.id,
     });
@@ -76,16 +76,10 @@ const TaskCardExpanded = ({ grpId, data, hide }) => {
   const addAttribute = (e) => {
     const attribute = e.target.getAttribute("name");
     const value = e.target.getAttribute("value");
-    if (
-      !formData[attribute].includes(value) &&
-      !formData[attribute].some((e) => e.id == JSON.parse(value).id)
-    ) {
+    if (!formData[attribute].includes(value)) {
       setFormData({
         ...formData,
-        [attribute]: [
-          ...formData[attribute],
-          attribute === "assignees" ? JSON.parse(value) : value,
-        ],
+        [attribute]: [...formData[attribute], value],
       });
     }
   };
@@ -233,14 +227,10 @@ const TaskCardExpanded = ({ grpId, data, hide }) => {
                 <div
                   name="assignees"
                   key={i}
-                  value={JSON.stringify({
-                    id: e.id,
-                    name: e.name,
-                    email: e.email,
-                  })}
+                  value={e._id}
                   onClick={addAttribute}
                 >
-                  {e.name}
+                  {e.firstName + " " + e.lastName}
                 </div>
               ))}
 
