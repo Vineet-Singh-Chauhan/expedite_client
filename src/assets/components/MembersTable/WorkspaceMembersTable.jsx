@@ -1,20 +1,20 @@
-import React, { useState } from "react";
+import React, { lazy } from "react";
+import useModal from "../../utilities/Modal/useModal";
+import useAuth from "../../../hooks/useAuth";
 
 //*CSS
 import "./WorkspaceMembersTable.scss";
 //*icons
 import { AiOutlinePlus } from "react-icons/ai";
 //*components
-import Row from "./components/Row";
-import Modal from "../../utilities/Modal/Modal";
-import useModal from "../../utilities/Modal/useModal";
-import AddMember from "../SettingsComponents/AddMember/AddMember";
-import useAuth from "../../../hooks/useAuth";
-import Row2 from "./components/Row2";
+const Row = lazy(() => import("./components/Row"));
+const Modal = lazy(() => import("../../utilities/Modal/Modal"));
+const AddMember = lazy(() =>
+  import("../SettingsComponents/AddMember/AddMember")
+);
+const Row2 = lazy(() => import("./components/Row2"));
 
 const WorkspaceMembersTable = ({ members, invitees, isAdmin }) => {
-  const handleAddMember = () => {};
-  console.log(invitees);
   const { isShowing, toggle } = useModal();
   return (
     <div className="WorkspaceMembersTable">

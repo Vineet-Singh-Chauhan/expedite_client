@@ -1,17 +1,19 @@
-import React from "react";
+import React, { lazy } from "react";
+import useModal from "../../../utilities/Modal/useModal";
 
 //*CSS
 import "./Createbtn.scss";
 
 //*Icons
 import { AiOutlinePlus } from "react-icons/ai";
-import Modal from "../../../utilities/Modal/Modal";
-import useModal from "../../../utilities/Modal/useModal";
-import CreateWorkspace from "../../CreateWorkspace/CreateWorkspace";
 
 //*Components
+const Modal = lazy(() => import("../../../utilities/Modal/Modal"));
+const CreateWorkspace = lazy(() =>
+  import("../../CreateWorkspace/CreateWorkspace")
+);
 
-const Createbtn = ({ className, onClick }) => {
+const Createbtn = ({ className }) => {
   const { isShowing, toggle } = useModal();
   return (
     <>

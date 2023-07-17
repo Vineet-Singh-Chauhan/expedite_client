@@ -4,6 +4,9 @@
   color: $secondaryFont;
   width: 80vw;
   max-width: 800px;
+  height: 100%;
+  padding: 0px 10px;
+  overflow-y: auto;
   .TaskCardExpanded__options {
     margin: 0.3rem 0;
     // margin-bottom: 0.8rem;
@@ -71,7 +74,6 @@
     margin: 1rem 0;
     .taskDescTextarea {
       width: 100%;
-      // height: fit-content;
       resize: none;
     }
   }

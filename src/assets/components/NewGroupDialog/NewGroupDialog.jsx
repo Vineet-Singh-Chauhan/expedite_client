@@ -1,11 +1,13 @@
-import React, { useState } from "react";
-//*css
-import "./NewGroupDialog.scss";
-import Input from "../../utilities/form/Input";
-import MainButton from "../../utilities/MainButton/MainButton";
+import React, { lazy, useState } from "react";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import Spinner from "../../utilities/Spinner/Spinner";
+import useTask from "../../../hooks/useTask";
+//*css
+import "./NewGroupDialog.scss";
+//*Components
+const Input = lazy(() => import("../../utilities/form/Input"));
+const MainButton = lazy(() => import("../../utilities/MainButton/MainButton"));
+const Spinner = lazy(() => import("../../utilities/Spinner/Spinner"));
 
 const NewGroupDialog = ({ hide }) => {
   const [errMsg, setErrMsg] = useState("This field is required!");
@@ -14,6 +16,7 @@ const NewGroupDialog = ({ hide }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const params = useParams();
+  const { setList } = useTask();
   const axiosPrivate = useAxiosPrivate();
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,6 +41,9 @@ const NewGroupDialog = ({ hide }) => {
         if (response?.status === 201) {
           hide();
         }
+        setList((oldList) => {
+          return [...oldList, response.data];
+        });
       } catch (err) {
         if (err?.response?.status === 403 || err?.response?.status === 401) {
           navigate("/auth", { state: { from: location }, replace: true });

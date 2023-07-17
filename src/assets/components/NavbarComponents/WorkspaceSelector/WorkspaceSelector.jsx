@@ -1,14 +1,13 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useRef } from "react";
+import { Link } from "react-router-dom";
+import useWorkspace from "../../../../hooks/useWorkspace";
 //*CSS
 import "./WorkspaceSelector.scss";
 //* Icons
 import { FiChevronDown } from "react-icons/fi";
-import { Link } from "react-router-dom";
-import useWorkspace from "../../../../hooks/useWorkspace";
 
 const Index = ({ workspaces }) => {
-  const { activeWorkspace, setActiveWorkSpace } = useWorkspace();
-  // const [activeWorkspace, setActiveWorkSpace] = useState("Select");
+  const { activeWorkspace } = useWorkspace();
   const trayRef = useRef();
   const toggleTray = () => {
     trayRef.current.style.display = "block";
@@ -29,13 +28,7 @@ const Index = ({ workspaces }) => {
 
         <div className="workSpaces__options" ref={trayRef}>
           {workspaces.map((e, i) => (
-            <Link
-              key={i}
-              to={`/user/${e._id}`}
-              // onClick={() => {
-              //   setActiveWorkSpace({...activeWorkspace,e.name);
-              // }}
-            >
+            <Link key={i} to={`/user/${e._id}`}>
               <div>{e.name}</div>
             </Link>
           ))}

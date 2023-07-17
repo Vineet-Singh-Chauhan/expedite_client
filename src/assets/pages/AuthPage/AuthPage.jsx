@@ -1,58 +1,39 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy } from "react";
+import useGoogleAuth from "./useGoogleAuth";
+import useAuth from "../../../hooks/useAuth";
 
 //*CSS*/
 import "./AuthPage.scss";
 
 //*components*/
-import LoginForm from "../../components/LoginForm/LoginForm";
-import SignUpForm from "../../components/SignUpForm/SignUpForm";
-import Spinner from "../../utilities/Spinner/Spinner";
-import useFetch from "./useFetch";
-import useAuth from "../../../hooks/useAuth";
-import FallbackLoading from "../../components/FallbackLoading/FallbackLoading";
+const LoginForm = lazy(() => import("../../components/LoginForm/LoginForm"));
+const SignUpForm = lazy(() => import("../../components/SignUpForm/SignUpForm"));
+const Spinner = lazy(() => import("../../utilities/Spinner/Spinner"));
 
 const AuthPage = () => {
   const [isLoginPage, setIsLoginPage] = useState(true);
-  const { setAuth, persist, setPersist } = useAuth();
-  useEffect(() => {
-    localStorage.setItem("expeditePersist", persist);
-  });
-  const { loading, googleAuthError, handleGoogle } = useFetch(
-    `${import.meta.env.VITE_BASE_URL}/api/google-auth`
-  );
+  const { persist } = useAuth();
+  const { loading, googleAuthError, handleGoogle, initializeGoogleAuth } =
+    useGoogleAuth();
+
+  // function to switch forms
   const handleFormChange = (e) => {
     e.preventDefault();
     setIsLoginPage(!isLoginPage);
   };
-  const initializeGoogleAuth = () => {
-    /* global google */
-    if (window.google) {
-      google.accounts.id.initialize({
-        client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
-        callback: handleGoogle,
-      });
 
-      google.accounts.id.renderButton(
-        document.getElementById("GoogleSignUpBtn"),
-        {
-          theme: "outline",
-          size: "large",
-          text: "signup_with",
-          shape: "rectangular",
-        }
-      );
+  //setting persist login
+  useEffect(() => {
+    localStorage.setItem("expeditePersist", persist);
+  });
 
-      // google.accounts.id.prompt();
-    }
-  };
-
+  // initializing google auth
   useEffect(() => {
     initializeGoogleAuth();
   }, [handleGoogle]);
 
   return (
     <div className="authPage container">
-      {/* <FallbackLoading /> */}
       <div className="formContainer">
         <div className="formContainer__header">
           <span className="logo">Expedite</span>
@@ -73,7 +54,7 @@ const AuthPage = () => {
             </h3>
           )}
 
-          {/* //*to be populated by google auth */}
+          {/*to be populated by google auth */}
           <div id="GoogleSignUpBtn"></div>
 
           {loading ? (

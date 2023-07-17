@@ -1,18 +1,17 @@
-import React from "react";
+import React, { lazy } from "react";
+import useModal from "../../utilities/Modal/useModal";
 
 //*CSS
 import "./TaskCard.scss";
 //*Components
-import Label from "../Label/Label";
-import Modal from "../../utilities/Modal/Modal";
-import useModal from "../../utilities/Modal/useModal";
-import TaskCardExpanded from "../TaskCardExpanded/TaskCardExpanded";
-
-//*Icons
-import UserTextIcon from "../UserTextIcon/UserTextIcon";
+const Label = lazy(() => import("../Label/Label"));
+const Modal = lazy(() => import("../../utilities/Modal/Modal"));
+const TaskCardExpanded = lazy(() =>
+  import("../TaskCardExpanded/TaskCardExpanded")
+);
+const UserTextIcon = lazy(() => import("../UserTextIcon/UserTextIcon"));
 
 const TaskCard = ({ data, grpId }) => {
-  // console.log(data);
   const { isShowing, toggle } = useModal();
   return (
     <>
@@ -26,10 +25,6 @@ const TaskCard = ({ data, grpId }) => {
           {data?.taskTags.map((e, i) => (
             <Label text={e} key={i} formData={data} grpId={grpId} />
           ))}
-          {/* <Label text="Pending" bgColor={"#ff9900"} />
-          <Label text="Completed" bgColor={"#00cec9"} />
-          <Label text="Overdue" bgColor={"#636e72"} />
-          <Label text="Frontend" bgColor={"#a29bfe"} /> */}
         </div>
         <h1>{data?.taskTitle}</h1>
         <p>{data?.taskDesc}</p>
@@ -42,12 +37,10 @@ const TaskCard = ({ data, grpId }) => {
             {data?.assignees.map((e, i) => (
               <UserTextIcon
                 key={i}
-                text={e.firstName.substring(1, 0).toUpperCase()}
+                text={e.firstName[0].toUpperCase()}
                 bgColor={"#1ac888"}
               />
             ))}
-            {/* <UserTextIcon text="AD" bgColor={"#f6c31c"} />
-            <UserTextIcon text="V" bgColor={"#17c0eb"} /> */}
           </span>
         </div>
       </div>

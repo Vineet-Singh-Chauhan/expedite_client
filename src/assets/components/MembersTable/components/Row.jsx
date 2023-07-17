@@ -1,11 +1,14 @@
-import React from "react";
+import React, { lazy } from "react";
+import { useParams } from "react-router-dom";
+import useModal from "../../../utilities/Modal/useModal";
 //*CSS
 import "./Row.scss";
 //*Components
-import useModal from "../../../utilities/Modal/useModal";
-import Modal from "../../../utilities/Modal/Modal";
-import RemoveMemberConfirm from "../../SettingsComponents/RemoveMemberConfirm/RemoveMemberConfirm";
-import { useParams } from "react-router-dom";
+const Modal = lazy(() => import("../../../utilities/Modal/Modal"));
+const RemoveMemberConfirm = lazy(() =>
+  import("../../SettingsComponents/RemoveMemberConfirm/RemoveMemberConfirm")
+);
+
 const Row = ({ sno, name, email, action, isAdmin, id }) => {
   const { isShowing, toggle } = useModal();
   const params = useParams();

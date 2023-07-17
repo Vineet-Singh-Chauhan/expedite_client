@@ -1,18 +1,22 @@
-import React, { useState } from "react";
+import React, { lazy, useState } from "react";
+import useAxiosPrivate from "../../../../hooks/useAxiosPrivate";
+import { useLocation, useNavigate } from "react-router-dom";
+import useWorkspace from "../../../../hooks/useWorkspace";
 //*CSS
 import "./CancelInvite.scss";
 //*Components
-import MainButton from "../../../utilities/MainButton/MainButton";
-import Spinner from "../../../utilities/Spinner/Spinner";
-import useAxiosPrivate from "../../../../hooks/useAxiosPrivate";
-import { useLocation, useNavigate } from "react-router-dom";
+const MainButton = lazy(() =>
+  import("../../../utilities/MainButton/MainButton")
+);
+const Spinner = lazy(() => import("../../../utilities/Spinner/Spinner"));
+
 const CancelInvite = ({ email, workspaceId, hide }) => {
-  //   console.log(workspaceId, userId);
   const axiosPrivate = useAxiosPrivate();
   const [resMsg, setResMsg] = useState();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const { setActiveWorkspace } = useWorkspace();
   const handleRemove = async (e) => {
     e.preventDefault();
     setResMsg();
@@ -28,6 +32,13 @@ const CancelInvite = ({ email, workspaceId, hide }) => {
         navigate("/auth", { state: { from: location }, replace: true });
       }
       if (response?.status === 204) {
+        setActiveWorkspace((old) => {
+          const index = old.invitedMembers.indexOf(email);
+          if (index != -1) {
+            old.invitedMembers.splice(index, 1);
+          }
+          return { ...old };
+        });
         console.log(response?.data);
         hide();
       }

@@ -1,34 +1,47 @@
-import React, { useState, useRef, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useRef, useEffect, lazy } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
+import useAuth from "../../../hooks/useAuth";
+import useSocket from "../../../hooks/useSocket";
+import useTask from "../../../hooks/useTask";
+import useModal from "../../utilities/Modal/useModal";
+
 //*css
 import "./DragNDrop.scss";
-//*components
-import TaskCard from "../TaskCard/TaskCard";
-import AddTaskBtn from "../AddTaskBtn/AddTaskBtn";
-import Modal from "../../utilities/Modal/Modal";
-import useModal from "../../utilities/Modal/useModal";
-import NewGroupDialog from "../NewGroupDialog/NewGroupDialog";
-import Editable from "../../utilities/EditableInput/EditableInput";
-import LoadingScreen from "../LoadingScreen/LoadingScreen";
 
+//*components
+const TaskCard = lazy(() => import("../TaskCard/TaskCard"));
+const AddTaskBtn = lazy(() => import("../AddTaskBtn/AddTaskBtn"));
+const Modal = lazy(() => import("../../utilities/Modal/Modal"));
+const NewGroupDialog = lazy(() => import("../NewGroupDialog/NewGroupDialog"));
+const Editable = lazy(() =>
+  import("../../utilities/EditableInput/EditableInput")
+);
+const LoadingScreen = lazy(() => import("../LoadingScreen/LoadingScreen"));
 //*icons
 import { AiOutlinePlus } from "react-icons/ai";
+
+let selectedWorkspaceCompare;
 
 const DragNDrop = () => {
   const axiosPrivate = useAxiosPrivate();
   const params = useParams();
+  const { socket } = useSocket();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const { isShowing, toggle } = useModal();
-  const [list, setList] = useState();
   const [dragging, setDragging] = useState(false);
   const dragItem = useRef();
   const dragNode = useRef();
   const dragPair = useRef();
   const inputRef = useRef();
+  const { user } = useAuth();
+  const location = useLocation();
+  const { list, setList } = useTask();
+
   const handleDragStart = async (e, params) => {
     e.stopPropagation();
-    console.log("drag started", params);
+    // console.log("drag started", params);
     dragItem.current = params;
     dragNode.current = e.target;
     dragNode.current.addEventListener("dragend", handleDragEnd);
@@ -42,14 +55,14 @@ const DragNDrop = () => {
       fromPos:
         typeof params.itemI === typeof undefined ? params.grpI : params.itemI,
     };
-    console.log(dragPair.current);
+    // console.log(dragPair.current);
     setTimeout(() => {
       setDragging(true);
     }, 0);
   };
 
   const handleDragEnd = async () => {
-    console.log("ending drag");
+    // console.log("ending drag");
     dragNode.current.removeEventListener("dragend", handleDragEnd);
     dragItem.current = null;
     dragNode.current = null;
@@ -59,10 +72,12 @@ const DragNDrop = () => {
     });
     setDragging(false);
     dragPair.current = null;
+    socket.emit("dragEnd", { workspaceId: params.id });
   };
+
   const handleDragEnter = (e, params) => {
     e.stopPropagation();
-    console.log("dran enter", params);
+    // console.log("dran enter", params);
     const currentItem = dragItem.current;
     const grpId =
       e.target?.parentElement?.parentElement.getAttribute("data-grpid");
@@ -72,7 +87,7 @@ const DragNDrop = () => {
       toPos:
         typeof params.itemI === typeof undefined ? params.grpI : params.itemI,
     };
-    console.log(dragPair.current);
+    // console.log(dragPair.current);
     if (e.target != dragNode.current) {
       if (typeof currentItem.itemI === typeof undefined) {
         setList((oldList) => {
@@ -111,11 +126,16 @@ const DragNDrop = () => {
     return "dndItem";
   };
 
-  const handleChange = async (e, grpId) => {
+  const changeGrpName = async (e, grpId) => {
     e.preventDefault();
     const name = e.target.value.trim();
     // console.log(name, grpId);
     if (name === "") return;
+    setList((oldList) => {
+      const index = oldList.findIndex((ele) => ele._id === grpId);
+      oldList[index].name = name;
+      return [...oldList];
+    });
     const response = await axiosPrivate.post("/api/updateTaskGroupName", {
       name: name,
       grpId: grpId,
@@ -129,9 +149,7 @@ const DragNDrop = () => {
         workspaceId: params.id,
       });
       const tasks = taskResponse?.data?.taskGroups;
-      console.log(tasks);
       setList(tasks);
-      console.log(taskResponse?.data?.taskGroups);
     } catch (err) {
       if (err?.response?.status === 401 || err?.response?.status === 404) {
         navigate("/user/404", { state: { from: location }, replace: true });
@@ -143,8 +161,27 @@ const DragNDrop = () => {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     getTasks();
+    selectedWorkspaceCompare = params.id;
+    return () => {
+      console.log("clean up");
+      socket.off("setup", user);
+    };
+  }, []);
+
+  useEffect(() => {
+    socket.on("settleDrag", (newMessageRecieved) => {
+      if (
+        !selectedWorkspaceCompare ||
+        selectedWorkspaceCompare !== newMessageRecieved.workspaceId
+      ) {
+        //give notification
+      } else {
+        getTasks();
+      }
+    });
   }, []);
 
   return (
@@ -192,7 +229,7 @@ const DragNDrop = () => {
                       placeholder="Group Name"
                       ref={inputRef}
                       onBlur={(e) => {
-                        handleChange(e, grp._id);
+                        changeGrpName(e, grp._id);
                       }}
                     />
                   </Editable>
@@ -230,6 +267,7 @@ const DragNDrop = () => {
                 <AddTaskBtn grpId={grp._id} />
               </div>
             ))}
+            {/* </TaskContext.Consumer> */}
             <div className="dndGroup">
               <div className="groupTitle">Create New Group</div>
               <button className="createGrp__btn" onClick={toggle}>

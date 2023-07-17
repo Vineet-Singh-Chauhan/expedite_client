@@ -9,7 +9,7 @@
     display: flex;
     align-items: center;
     gap: 0 10px;
-    width: 400px;
+    // width: 400px;
     position: relative;
     &:hover {
       cursor: text;
@@ -42,6 +42,11 @@
     display: flex;
     align-items: center;
     // height: 3rem;
+    span {
+      width: 100%;
+      max-height: 200px;
+      overflow-y: auto;
+    }
   }
   .editable__editIcon {
     &:hover {

@@ -1,17 +1,22 @@
-import React, { useEffect, useRef, useState } from "react";
-import "./WorkspaceSettings.scss";
-import WorkspaceInfo from "../../components/SettingsComponents/WorkspaceInfo/WorkspaceInfo";
+import React, { lazy, useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
-import LoadingScreen from "../../components/LoadingScreen/LoadingScreen";
 import useWorkspace from "../../../hooks/useWorkspace";
+//*css
+import "./WorkspaceSettings.scss";
+//*components
+const WorkspaceInfo = lazy(() =>
+  import("../../components/SettingsComponents/WorkspaceInfo/WorkspaceInfo")
+);
+const LoadingScreen = lazy(() =>
+  import("../../components/LoadingScreen/LoadingScreen")
+);
 
 const WorkspaceSettings = () => {
   const params = useParams();
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const location = useLocation();
-  const [data, setData] = useState();
   const { setActiveWorkspace } = useWorkspace();
   const [loading, setLoading] = useState(true);
   const workspaceId = params.id;

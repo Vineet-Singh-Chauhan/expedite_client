@@ -1,4 +1,5 @@
 import React from "react";
+//*CSS
 import "./MainButton.scss";
 const MainButton = ({ title, type, Icon, onClick, className, disabled }) => {
   return (

@@ -1,16 +1,14 @@
-import React, { useState } from "react";
+import React, { lazy } from "react";
 
 //*CSS
 import "./AssigneeTable.scss";
-//*icons
 //*components
-import Row from "./components/Row";
+const Row = lazy(() => import("./components/Row"));
 
 const AssigneeTable = ({ members, grpId, formData, setFormData }) => {
   async function RemoveMember(id, formData) {
     if (formData?.taskTitle) {
       try {
-        //   console.log(grpId);
         const newAssignees = formData?.assignees.filter((e) => e._id != id);
         await setFormData({ ...formData, assignees: newAssignees });
         const response = await axiosPrivate.post("/api/createtask", {
@@ -18,7 +16,6 @@ const AssigneeTable = ({ members, grpId, formData, setFormData }) => {
           grpId,
           workspaceId: params.id,
         });
-        console.log(response.message);
       } catch (err) {
         console.log(err.message);
       }

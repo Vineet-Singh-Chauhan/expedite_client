@@ -1,19 +1,19 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { lazy, useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
+import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
+import useWorkspace from "../../../hooks/useWorkspace";
+import useTask from "../../../hooks/useTask";
 //*css
 import "./TaskCardExpanded.scss";
 //*Components
-import Editable from "../../utilities/EditableInput/EditableInput";
-import Input from "../../utilities/form/Input";
-import { useParams } from "react-router-dom";
-import EditableInputWithoutIcon from "../../utilities/EditableInput/EditableInputWithoutIcon";
-import Label from "../Label/Label";
+const EditableInputWithoutIcon = lazy(() =>
+  import("../../utilities/EditableInput/EditableInputWithoutIcon")
+);
+const Label = lazy(() => import("../Label/Label"));
+const AssigneeTable = lazy(() => import("../AssigneeTable/AssigneeTable"));
+
 //*Icons
 import { AiOutlineCheck, AiOutlineDelete, AiOutlinePlus } from "react-icons/ai";
-import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
-import useWorkspace from "../../../hooks/useWorkspace";
-import WorkspaceMembersTable from "../MembersTable/WorkspaceMembersTable";
-import AssigneeTable from "../AssigneeTable/AssigneeTable";
-// import { json } from "stream/consumers";
 
 const TaskCardExpanded = ({ grpId, data, hide }) => {
   const inputRef = useRef();
@@ -22,6 +22,7 @@ const TaskCardExpanded = ({ grpId, data, hide }) => {
   const axiosPrivate = useAxiosPrivate();
   const params = useParams();
   const { activeWorkspace } = useWorkspace();
+  const { setList } = useTask();
   const handleAddTag = () => {
     taskTagsTrayRef.current.style.display = "block";
   };
@@ -44,16 +45,27 @@ const TaskCardExpanded = ({ grpId, data, hide }) => {
   const [disabled, setDisabled] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    if (formData?.taskTitle) {
+    if (formData?.taskTitle.trim()) {
       try {
-        console.log(grpId);
         const response = await axiosPrivate.post("/api/createtask", {
           ...formData,
           grpId,
           workspaceId: params.id,
         });
-        console.log(response.message);
+        setList((oldList) => {
+          const taskGrp = oldList.findIndex((ele) => ele._id === grpId);
+          const index = oldList[taskGrp].tasks.findIndex(
+            (ele) => ele._id === data?._id
+          );
+          if (index === -1) {
+            oldList[taskGrp].tasks = [
+              ...oldList[taskGrp].tasks,
+              response?.data,
+            ];
+          }
+          oldList[taskGrp].tasks[index] = { ...formData };
+          return [...oldList];
+        });
       } catch (err) {
         console.log(err.message);
       }
@@ -62,7 +74,6 @@ const TaskCardExpanded = ({ grpId, data, hide }) => {
   };
   const handleDelete = async (e) => {
     e.preventDefault();
-    console.log(data.id);
     const response = await axiosPrivate.post("/api/deletetask", {
       taskId: data._id,
       grpId,
@@ -83,6 +94,19 @@ const TaskCardExpanded = ({ grpId, data, hide }) => {
       });
     }
   };
+  const addAssignees = (e) => {
+    const value = e.target.getAttribute("value");
+    if (!formData["assignees"].includes(value)) {
+      setFormData({
+        ...formData,
+        assignees: [
+          ...formData["assignees"],
+          activeWorkspace.members.find((e) => e._id === value),
+        ],
+      });
+    }
+  };
+
   useEffect(() => {
     if (!formData?.taskTitle || formData?.taskTitle.trim() === "") {
       setDisabled(true);
@@ -197,7 +221,7 @@ const TaskCardExpanded = ({ grpId, data, hide }) => {
             </div>
           </div>
           <div className="labelContainer">
-            {data?.taskTags.map((e, i) => (
+            {formData?.taskTags.map((e, i) => (
               <Label text={e} key={i} formData={formData} grpId={grpId} />
             ))}
           </div>
@@ -228,7 +252,7 @@ const TaskCardExpanded = ({ grpId, data, hide }) => {
                   name="assignees"
                   key={i}
                   value={e._id}
-                  onClick={addAttribute}
+                  onClick={addAssignees}
                 >
                   {e.firstName + " " + e.lastName}
                 </div>
@@ -242,7 +266,7 @@ const TaskCardExpanded = ({ grpId, data, hide }) => {
           </div>
           <div className="assigneesTable__container">
             <AssigneeTable
-              members={data?.assignees}
+              members={formData?.assignees}
               formData={formData}
               setFormData={setFormData}
               grpId={grpId}

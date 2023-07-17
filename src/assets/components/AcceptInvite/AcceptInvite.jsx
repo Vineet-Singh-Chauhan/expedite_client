@@ -1,19 +1,21 @@
-import React, { useState } from "react";
+import React, { lazy, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 //*css
 import "./AcceptInvite.scss";
-import Input from "../../utilities/form/Input";
-import MainButton from "../../utilities/MainButton/MainButton";
-import Spinner from "../../utilities/Spinner/Spinner";
-import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+//*components
+const MainButton = lazy(() => import("../../utilities/MainButton/MainButton"));
+const Spinner = lazy(() => import("../../utilities/Spinner/Spinner"));
 
 const AcceptInvite = ({ data }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const axiosPrivate = useAxiosPrivate();
   const [resMsg, setResMsg] = useState();
+  const [loading, setLoading] = useState(false);
   const params = useParams();
   const inviteInfo = params.inviteInfo;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -23,8 +25,6 @@ const AcceptInvite = ({ data }) => {
         inviteInfo,
       });
       const workspaceId = response?.data?.workspaceId;
-      console.log(workspaceId);
-      console.log(response?.data);
       if (response?.status === 403 || response?.status === 401) {
         navigate("/auth", { state: { from: location }, replace: true });
       }
@@ -41,7 +41,7 @@ const AcceptInvite = ({ data }) => {
       setLoading(false);
     }
   };
-  const [loading, setLoading] = useState(false);
+
   return (
     <div className="acceptInvite">
       <div className="container acceptInviteContent">

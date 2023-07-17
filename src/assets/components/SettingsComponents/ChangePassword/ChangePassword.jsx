@@ -1,13 +1,18 @@
-import React, { useState } from "react";
+import React, { lazy, useState } from "react";
+import useAxiosPrivate from "../../../../hooks/useAxiosPrivate";
 
 //*CSS
 import "./ChangePassword.scss";
 //*Components
-import PasswordInput from "../../../utilities/form/PasswordInput";
-import MainButton from "../../../utilities/MainButton/MainButton";
+const PasswordInput = lazy(() =>
+  import("../../../utilities/form/PasswordInput")
+);
+const MainButton = lazy(() =>
+  import("../../../utilities/MainButton/MainButton")
+);
+const Spinner = lazy(() => import("../../../utilities/Spinner/Spinner"));
+
 import validate from "../../../utilities/FormValidation/FormValidation";
-import useAxiosPrivate from "../../../../hooks/useAxiosPrivate";
-import Spinner from "../../../utilities/Spinner/Spinner";
 
 const ChangePassword = () => {
   const [resMsg, setResMsg] = useState(undefined);
@@ -28,48 +33,43 @@ const ChangePassword = () => {
     e.preventDefault();
     setSuccessMsg();
     setResMsg();
-    e.target.querySelectorAll("input").forEach((e) => {
+    const fields = e.target.querySelectorAll("input");
+    for (const e of fields) {
       e.setAttribute("focused", true);
       validate(e, formValues);
-    });
-
-    setTimeout(() => {
-      let isValid = true;
-      for (let key in formErrors) {
-        if (formErrors[key] !== false) {
-          isValid = false;
-          return;
-        }
+    }
+    let isValid = true;
+    for (let key in formErrors) {
+      if (formErrors[key] !== false) {
+        isValid = false;
+        return;
       }
-
-      setTimeout(() => {
-        if (isValid) {
-          setLoading(true);
-          const submit = async () => {
-            try {
-              const response = await axiosPrivate.post(
-                "/api/updateuser",
-                formValues
-              );
-              console.log(response);
-              if (response.data.error) {
-                setResMsg(response.data.error);
-              }
-              if (response?.status === 200) {
-                setResMsg("");
-                setSuccessMsg("Password updated successfully!");
-              }
-            } catch (err) {
-              console.log("from catch", err);
-              setResMsg(err.response.data?.error);
-            } finally {
-              setLoading(false);
-            }
-          };
-          submit();
+    }
+    if (isValid) {
+      setLoading(true);
+      const submit = async () => {
+        try {
+          const response = await axiosPrivate.post(
+            "/api/updateuser",
+            formValues
+          );
+          console.log(response);
+          if (response.data.error) {
+            setResMsg(response.data.error);
+          }
+          if (response?.status === 200) {
+            setResMsg("");
+            setSuccessMsg("Password updated successfully!");
+          }
+        } catch (err) {
+          console.log("from catch", err);
+          setResMsg(err.response.data?.error);
+        } finally {
+          setLoading(false);
         }
-      }, 0);
-    }, 0);
+      };
+      submit();
+    }
   };
   const handleChange = (e) => {
     validate(e.target, formValues).then((result) => {

@@ -1,15 +1,21 @@
-import React, { useRef } from "react";
+import React, { lazy } from "react";
+import useAuth from "../../../../hooks/useAuth";
 
 //*CSS
 import "./Navbar.scss";
 
 //* components
-import WorkspaceSelector from "../../NavbarComponents/WorkspaceSelector/WorkspaceSelector";
-import Notifications from "../../NavbarComponents/Notifications/Notifications";
-import Searchbar from "../../NavbarComponents/Searchbar/Searchbar";
-import Usermenu from "../../NavbarComponents/Usermenu/Usermenu";
-import Createbtn from "../../NavbarComponents/CreateBtn/Createbtn";
-import useAuth from "../../../../hooks/useAuth";
+const WorkspaceSelector = lazy(() =>
+  import("../../NavbarComponents/WorkspaceSelector/WorkspaceSelector")
+);
+const Searchbar = lazy(() =>
+  import("../../NavbarComponents/Searchbar/Searchbar")
+);
+const Usermenu = lazy(() => import("../../NavbarComponents/Usermenu/Usermenu"));
+const Createbtn = lazy(() =>
+  import("../../NavbarComponents/CreateBtn/Createbtn")
+);
+
 const Navbar = () => {
   const { user } = useAuth();
   return (

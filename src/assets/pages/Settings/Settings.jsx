@@ -1,16 +1,16 @@
-import React from "react";
+import React, { lazy } from "react";
 
 //*CSS
 import "./Settings.scss";
 //*Components
-import UserInfo from "../../components/SettingsComponents/UserInfo/UserInfo";
-import WorkspaceInfo from "../../components/SettingsComponents/WorkspaceInfo/WorkspaceInfo";
+const UserInfo = lazy(() =>
+  import("../../components/SettingsComponents/UserInfo/UserInfo")
+);
 
 const Settings = () => {
   return (
     <div className="settingsPage">
       <UserInfo />
-      {/* <WorkspaceInfo /> */}
     </div>
   );
 };

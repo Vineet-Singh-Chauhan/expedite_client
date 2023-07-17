@@ -1,12 +1,14 @@
-import React from "react";
+import React, { lazy } from "react";
+import useModal from "../../utilities/Modal/useModal";
 //*css
 import "./AddTaskBtn.scss";
 //*icons
 import { AiOutlinePlus } from "react-icons/ai";
 //*Components
-import Modal from "../../utilities/Modal/Modal";
-import useModal from "../../utilities/Modal/useModal";
-import TaskCardExpanded from "../TaskCardExpanded/TaskCardExpanded";
+const Modal = lazy(() => import("../../utilities/Modal/Modal"));
+const TaskCardExpanded = lazy(() =>
+  import("../TaskCardExpanded/TaskCardExpanded")
+);
 
 const AddTaskBtn = ({ grpId }) => {
   const { isShowing, toggle } = useModal();

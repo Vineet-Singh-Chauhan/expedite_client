@@ -7,6 +7,7 @@ import Spinner from "../../utilities/Spinner/Spinner";
 //*icons
 import { MdError } from "react-icons/md";
 import { AiFillCheckCircle } from "react-icons/ai";
+
 const LoadingScreen = ({ status, msg, hide }) =>
   status
     ? ReactDOM.createPortal(

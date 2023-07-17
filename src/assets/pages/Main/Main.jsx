@@ -1,36 +1,40 @@
-import React, { useEffect, useState } from "react";
-import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import React, { lazy, useEffect, useState } from "react";
+import {
+  Outlet,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
-import MainPageOutlet from "../../components/MainPageOutlet";
 
 //*CSS
 import "./Main.scss";
 
 //*Components
-import Navbar from "../../components/Main/Navbar/Navbar";
-import SideBar from "../../components/Main/Sidebar/SideBar";
-import EmptyWorkspace from "../../components/EmptyWorkspace/EmptyWorkspace";
-import NotFound from "../NotFound/NotFound";
-import Settings from "../Settings/Settings";
-import NetworkIssue from "../../components/NetworkIssue/NetworkIssue";
-import LoadingScreen from "../../components/LoadingScreen/LoadingScreen";
-import useLoadingScreen from "../../components/LoadingScreen/useLoadingScreen";
-// import WorkspaceSettings from "../WorkspaceSettings/WorkspaceSettings";
-// import UserInfo from "../../components/SettingsComponents/UserInfo/UserInfo";
-// import WorkspaceTasks from "../WorspaceTasks/WorkspaceTasks";
-import MyTasks from "../MyTasks/MyTasks";
-import WorkspaceSettings from "../WorkspaceSettings/WorkspaceSettings";
-import FallbackLoading from "../../components/FallbackLoading/FallbackLoading";
-// import TaskCardExpanded from "../../components/TaskCardExpanded/TaskCardExpanded";
+const Navbar = lazy(() => import("../../components/Main/Navbar/Navbar"));
+const SideBar = lazy(() => import("../../components/Main/Sidebar/SideBar"));
+const EmptyWorkspace = lazy(() =>
+  import("../../components/EmptyWorkspace/EmptyWorkspace")
+);
+const NotFound = lazy(() => import("../NotFound/NotFound"));
+const Settings = lazy(() => import("../Settings/Settings"));
+const MyTasks = lazy(() => import("../MyTasks/MyTasks"));
+const WorkspaceSettings = lazy(() =>
+  import("../WorkspaceSettings/WorkspaceSettings")
+);
+const FallbackLoading = lazy(() =>
+  import("../../components/FallbackLoading/FallbackLoading")
+);
+
 const Main = () => {
   const [loading, setLoading] = useState(false);
-  const { status, setLoadingStatus } = useLoadingScreen();
   const { user, setUser } = useAuth();
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const location = useLocation();
+
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
@@ -52,12 +56,12 @@ const Main = () => {
     };
 
     getUser();
-
     return () => {
       isMounted = false;
       controller.abort();
     };
   }, []);
+
   return (
     <>
       {loading ? (
@@ -67,15 +71,9 @@ const Main = () => {
       ) : (
         <></>
       )}
-      {/* <LoadingScreen
-        status={status}
-        hide={() => {
-          setLoadingStatus(false);
-        }}
-      /> */}
+
       {user && (
         <div className="mainPage">
-          {/* <Link to="/dummy">Dummy</Link> */}
           <div className="main__navbarContainer">
             <Navbar />
           </div>
@@ -85,27 +83,14 @@ const Main = () => {
             </div>
             <div className="main__workspaceArea">
               <Routes>
-                <Route element={<MainPageOutlet />}>
+                <Route element={<Outlet />}>
                   <Route path="/" element={<EmptyWorkspace />} />
-                  <Route path="/home" element={<EmptyWorkspace />} />
                   <Route path="/settings" element={<Settings />} />
-                  <Route path="/404" element={<NotFound />} />
                   <Route path="/:id/" element={<MyTasks />} />
                   <Route path="/:id/settings" element={<WorkspaceSettings />} />
-                  <Route path="*" element={<NotFound />} />
-                  {/* <Route path="/reset" element={<ResetPassword />} />
-            <Route path="/dummy" element={<Dummy />} /> */}
+                  <Route path="/404" element={<NotFound />} />
                 </Route>
               </Routes>
-              {/* <MainPageOutlet /> */}
-              {/* <EmptyWorkspace /> */}
-              {/* <Settings /> */}
-              {/* <UserInfo /> */}
-              {/* <WorkspaceSettings /> */}
-              {/* <WorkspaceTasks /> */}
-              {/* <CreateNewTask /> */}
-              {/* <MyTasks /> */}
-              {/* <NetworkIssue /> */}
             </div>
           </div>
         </div>

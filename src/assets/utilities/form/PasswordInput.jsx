@@ -1,12 +1,16 @@
 import React, { useState } from "react";
+//*CSS
 import "./Input.scss";
+//*icons
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
+
 const PasswordInput = (props) => {
   const [visible, setVisible] = useState(false);
+  const [wasFocused, setWasFocused] = useState(false);
+
   const handleVisibilityToggle = (e) => {
     setVisible(!visible);
   };
-  const [wasFocused, setWasFocused] = useState(false);
   const handleBlur = (e) => {
     setWasFocused(true);
   };
@@ -17,16 +21,12 @@ const PasswordInput = (props) => {
           {props.label}
           {props.required ? <span>&nbsp;*&nbsp;</span> : <></>}
         </label>
-        {/* {props.errorMsg ? ( */}
         <span className="errorField">
           {props.name === "confirmPassword" ||
           props.name === "confirmNewPassword"
             ? "Passwords do not match!"
             : props.errorMsg}
         </span>
-        {/* ) : ( */}
-        {/* <></> */}
-        {/* )} */}
       </div>
 
       <div className="passwordWrapper">
@@ -44,7 +44,6 @@ const PasswordInput = (props) => {
             props.name == "confirmPassword" && setWasFocused(true);
           }}
           autoComplete="true"
-          // onInvalid={()=>{props.name == "confirmPassword" && setError}}
         />
         {visible ? (
           <AiFillEyeInvisible

@@ -1,21 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { lazy, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
+import useWorkspace from "../../../hooks/useWorkspace";
+import useSocket from "../../../hooks/useSocket";
+import { TaskProvider } from "../../../context/TaskProvider";
 //*css
 import "./MyTasks.scss";
 //*Components
-import DragNDrop from "../../components/DragNDrop/DragNDrop";
-import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
-import LoadingScreen from "../../components/LoadingScreen/LoadingScreen";
+const DragNDrop = lazy(() => import("../../components/DragNDrop/DragNDrop"));
+const LoadingScreen = lazy(() =>
+  import("../../components/LoadingScreen/LoadingScreen")
+);
+
+//*Icons
 import { FiSettings } from "react-icons/fi";
-import useWorkspace from "../../../hooks/useWorkspace";
 
 const MyTasks = () => {
-  const { activeWorkspace, setActiveWorkspace } = useWorkspace();
+  let params = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const [loading, setLoading] = useState(true);
-  let params = useParams();
+  const { socket } = useSocket();
   const axiosPrivate = useAxiosPrivate();
+  const [loading, setLoading] = useState(true);
+  const { activeWorkspace, setActiveWorkspace } = useWorkspace();
   useEffect(() => {
     const workspaceId = params.id;
     const getWorkspaceInfo = async () => {
@@ -37,7 +44,9 @@ const MyTasks = () => {
       }
     };
     getWorkspaceInfo();
+    socket.emit("joinWorkspace", workspaceId);
   }, []);
+
   return (
     <div>
       {loading ? (
@@ -51,7 +60,9 @@ const MyTasks = () => {
               Workspace Settings
             </Link>
           </div>
-          <DragNDrop />
+          <TaskProvider>
+            <DragNDrop />
+          </TaskProvider>
         </>
       )}
     </div>

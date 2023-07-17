@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
 import useRefreshToken from "../../hooks/useRefreshToken";
 import useAuth from "../../hooks/useAuth";
+//*Components
 import LoadingScreen from "./LoadingScreen/LoadingScreen";
+import { Outlet } from "react-router-dom";
 
 const PersistLogin = () => {
-  const [loading, setLoading] = useState(true);
   const refresh = useRefreshToken();
   const { auth, persist } = useAuth();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let isMounted = true;
@@ -25,14 +26,9 @@ const PersistLogin = () => {
     return () => (isMounted = false);
   }, []);
 
-  // useEffect(() => {
-  // console.log("loading");
-  // console.log(`at: ${JSON.stringify(auth?.accessToken)}`);
-  // }, []);
   return (
     <>{!persist ? <Outlet /> : loading ? <LoadingScreen /> : <Outlet />}</>
   );
-  // return <Outlet />;
 };
 
 export default PersistLogin;

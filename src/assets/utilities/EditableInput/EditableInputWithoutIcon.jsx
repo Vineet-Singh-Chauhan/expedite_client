@@ -30,21 +30,12 @@ const EditableInputWithoutIcon = ({
           onKeyDown={(e) => handleKeyDown(e, type)}
         >
           <span className="editable__content">{children}</span>
-          {/* <span
-            className="editable__editIcon"
-            onClick={() => setEditing(!isEditing)}
-          >
-            <FiEdit2 />
-          </span> */}
         </div>
       ) : (
         <div className="editable__inputWrapper">
           <span className="editable__content" onClick={() => setEditing(true)}>
             <span>{text || placeholder || "Editable content"}</span>
           </span>
-          {/* <span className="editable__editIcon" onClick={() => setEditing(true)}>
-            <FiEdit2 />
-          </span> */}
         </div>
       )}
     </div>

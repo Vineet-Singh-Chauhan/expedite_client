@@ -1,9 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 //*css
 import "./NotFound.scss";
 //*icons
 import { TbError404 } from "react-icons/tb";
-import { useNavigate } from "react-router-dom";
 const NotFound = () => {
   const navigate = useNavigate();
   const goBack = () => navigate(-1);

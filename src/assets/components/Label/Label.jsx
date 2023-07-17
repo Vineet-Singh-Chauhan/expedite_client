@@ -1,15 +1,17 @@
 import React from "react";
+import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
+import { useParams } from "react-router-dom";
 
 //*css
 import "./Label.scss";
+//*icons
 import { AiFillCloseCircle } from "react-icons/ai";
-import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
-import { useParams } from "react-router-dom";
+
 const Label = ({ text, bgColor, formData, grpId }) => {
   const axiosPrivate = useAxiosPrivate();
   const params = useParams();
   const handleRemoveLabel = async (e) => {
-    // console.log(e.target);
+    // e.stopPropagation();
     const newFormData = formData;
     newFormData.taskTags = newFormData.taskTags.filter((e) => e !== text);
 

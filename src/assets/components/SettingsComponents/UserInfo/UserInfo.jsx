@@ -1,31 +1,38 @@
-import React, { useRef } from "react";
+import React, { lazy, useRef } from "react";
+import useAuth from "../../../../hooks/useAuth";
+import useAxiosPrivate from "../../../../hooks/useAxiosPrivate";
+import useModal from "../../../utilities/Modal/useModal";
 
 //*CSS
 import "./UserInfo.scss";
 //*Components
-import Editable from "../../../utilities/EditableInput/EditableInput";
-import Modal from "../../../utilities/Modal/Modal";
-import useModal from "../../../utilities/Modal/useModal";
-import ChangePassword from "../../../components/SettingsComponents/ChangePassword/ChangePassword";
-import MainButton from "../../../utilities/MainButton/MainButton";
+const Editable = lazy(() =>
+  import("../../../utilities/EditableInput/EditableInput")
+);
+const Modal = lazy(() => import("../../../utilities/Modal/Modal"));
+const ChangePassword = lazy(() =>
+  import("../../../components/SettingsComponents/ChangePassword/ChangePassword")
+);
+const MainButton = lazy(() =>
+  import("../../../utilities/MainButton/MainButton")
+);
+
 //*icons
 import { BsFillInfoCircleFill } from "react-icons/bs";
-import useAuth from "../../../../hooks/useAuth";
-import useAxiosPrivate from "../../../../hooks/useAxiosPrivate";
 
 const UserInfo = () => {
-  const { user, setUser } = useAuth();
   const inputRef = useRef();
+  const { user, setUser } = useAuth();
   const { isShowing, toggle } = useModal();
   const axiosPrivate = useAxiosPrivate();
-  const handlePasswordChange = () => {};
   const handleChange = async (e) => {
     try {
+      if (!e.target.value.trim()) return;
+      setUser({ ...user, [e.target.name]: e.target.value });
       const response = await axiosPrivate.post("/api/updateuser", {
         [e.target.name]: e.target.value,
       });
       if (response?.status == 201) {
-        setUser({ ...user, [e.target.name]: e.target.value });
       }
     } catch (err) {
       console.log(err.message);
@@ -105,7 +112,6 @@ const UserInfo = () => {
           <div className="infoTitle">Email</div>
           <div className="infoVal">
             <span>{user.email}</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;
             <BsFillInfoCircleFill className="infoBtn" />
           </div>
         </div>
@@ -114,7 +120,6 @@ const UserInfo = () => {
           <div className="infoTitle">Password</div>
           <div className="infoVal">
             <span>*********</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;
             <MainButton title="Change Password" onClick={toggle} />
             <Modal
               isShowing={isShowing}

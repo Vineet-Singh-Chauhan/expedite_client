@@ -1,13 +1,17 @@
-import React, { useRef, useState } from "react";
-//*CSS
-import "./WorkspaceInfo.scss";
-//*components
-import Editable from "../../../utilities/EditableInput/EditableInput";
-import WorkspaceMembersTable from "../../MembersTable/WorkspaceMembersTable";
+import React, { lazy, useRef, useState } from "react";
 import useAuth from "../../../../hooks/useAuth";
 import useAxiosPrivate from "../../../../hooks/useAxiosPrivate";
 import { useParams } from "react-router-dom";
 import useWorkspace from "../../../../hooks/useWorkspace";
+//*CSS
+import "./WorkspaceInfo.scss";
+//*components
+const WorkspaceMembersTable = lazy(() =>
+  import("../../MembersTable/WorkspaceMembersTable")
+);
+const Editable = lazy(() =>
+  import("../../../utilities/EditableInput/EditableInput")
+);
 
 const WorkspaceInfo = () => {
   const inputRef = useRef();
@@ -24,16 +28,17 @@ const WorkspaceInfo = () => {
   });
   console.log(activeWorkspace?.members);
   const handleChange = async (e) => {
+    if (!e.target.value.trim()) return;
     try {
+      setActiveWorkspace({
+        ...activeWorkspace,
+        [e.target.name]: e.target.value,
+      });
       const response = await axiosPrivate.post("/api/updateworkspace", {
         [e.target.name]: e.target.value,
         workspaceId: workspaceId,
       });
       if (response?.status == 200) {
-        setActiveWorkspace({
-          ...activeWorkspace,
-          [e.target.name]: e.target.value,
-        });
         console.log("done");
       }
     } catch (err) {
@@ -72,23 +77,8 @@ const WorkspaceInfo = () => {
         <div className="infoWrapper">
           <div className="infoTitle">Admin</div>
           <div className="infoVal">
-            {/* TODO: Latter make admin editable, below is code */}
-            {/* <Editable
-              text={activeWorkspace?.adminName}
-              placeholder="Workspace Admin"
-              type="input"
-              childRef={inputRef}
-              noteditable={!isAdmin ? true : undefined}
-            >
-              <input
-                className="settingInput"
-                type="text"
-                name="adminName"
-                placeholder="Workspace Admin"
-                ref={inputRef}
-                onBlur={handleChange}
-              />
-            </Editable> */}
+            {/* TODO: Latter make admin editable */}
+
             <span>
               {activeWorkspace?.admin.firstName +
                 " " +

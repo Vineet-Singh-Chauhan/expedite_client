@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React, { lazy, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import useAxiosPrivate from "../../../../hooks/useAxiosPrivate";
+import useWorkspace from "../../../../hooks/useWorkspace";
 //*css
 import "./AddMember.scss";
 //*Components
-import Input from "../../../utilities/form/Input";
-import MainButton from "../../../utilities/MainButton/MainButton";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import useAxiosPrivate from "../../../../hooks/useAxiosPrivate";
+const Input = lazy(() => import("../../../utilities/form/Input"));
+const MainButton = lazy(() =>
+  import("../../../utilities/MainButton/MainButton")
+);
+const Spinner = lazy(() => import("../../../utilities/Spinner/Spinner"));
+
 import { emailregex } from "../../../utilities/FormValidation/regex";
-import Spinner from "../../../utilities/Spinner/Spinner";
 const AddMember = () => {
   const [resMsg, setResMsg] = useState();
   const [loading, setLoading] = useState(false);
@@ -18,6 +22,7 @@ const AddMember = () => {
   const params = useParams();
   const workspaceId = params.id;
   const axiosPrivate = useAxiosPrivate();
+  const { activeWorkspace, setActiveWorkspace } = useWorkspace();
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSuccessMsg();
@@ -37,12 +42,14 @@ const AddMember = () => {
           email: email,
           workspaceId,
         });
-        console.log(response);
         if (response?.status === 403 || response?.status === 401) {
           navigate("/auth", { state: { from: location }, replace: true });
         }
         if (response?.status === 204) {
-          console.log(response?.data);
+          setActiveWorkspace((old) => {
+            old.invitedMembers.push(email);
+            return { ...old };
+          });
           setSuccessMsg("Invitation sent !");
           // hide();
         }

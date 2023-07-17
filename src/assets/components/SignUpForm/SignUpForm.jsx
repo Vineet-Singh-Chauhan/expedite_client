@@ -1,16 +1,18 @@
-import React, { useState } from "react";
+import React, { lazy, useState } from "react";
+import useLoadingScreen from "../LoadingScreen/useLoadingScreen";
+import axios from "../../../api/axios";
+
 //* CSS
 import "./SignUpForm.scss";
+
 //*Components
-import PasswordInput from "../../utilities/form/PasswordInput";
-import Input from "../../utilities/form/Input";
-import MainButton from "../../utilities/MainButton/MainButton";
-//*Icons
+const PasswordInput = lazy(() => import("../../utilities/form/PasswordInput"));
+const Input = lazy(() => import("../../utilities/form/Input"));
+const MainButton = lazy(() => import("../../utilities/MainButton/MainButton"));
+const Spinner = lazy(() => import("../../utilities/Spinner/Spinner"));
+const LoadingScreen = lazy(() => import("../LoadingScreen/LoadingScreen"));
+
 import validate from "../../utilities/FormValidation/FormValidation";
-import postData from "../../utilities/PostFunctions/postData";
-import LoadingScreen from "../LoadingScreen/LoadingScreen";
-import useLoadingScreen from "../LoadingScreen/useLoadingScreen";
-import Spinner from "../../utilities/Spinner/Spinner";
 
 const SignUpForm = () => {
   const { status, setLoadingStatus } = useLoadingScreen();
@@ -48,11 +50,11 @@ const SignUpForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    e.target.querySelectorAll("input").forEach((e) => {
+    const fields = e.target.querySelectorAll("input");
+    for (const e of fields) {
       e.setAttribute("focused", true);
       validate(e, formValues);
-    });
-
+    }
     if (formValues.gender === "") {
       setFormErrors({ ...formErrors, gender: "This field cannot be blank!" });
       return;
@@ -62,36 +64,36 @@ const SignUpForm = () => {
       return;
     }
     console.log(formErrors);
-    setTimeout(() => {
-      let isValid = true;
-      for (let key in formErrors) {
-        if (formErrors[key] !== false) {
-          isValid = false;
-          return;
-        }
+
+    let isValid = true;
+    for (let key in formErrors) {
+      if (formErrors[key] !== false) {
+        isValid = false;
+        return;
       }
-      setTimeout(() => {
-        if (isValid) {
-          setLoadingStatus(true);
-          postData(`${import.meta.env.VITE_BASE_URL}/api/signup`, formValues)
-            .then((data) => {
-              console.log(data);
-              if (data.error) {
-                setLoadingStatus("error");
-                setResMsg(data.error.message);
-                return;
-              }
-              setResMsg(data.message);
-              setLoadingStatus("success");
-            })
-            .catch((error) => {
-              console.log("from catch", error);
-              setResMsg(error.message);
-              setLoadingStatus("error");
-            });
-        }
-      }, 0);
-    }, 0);
+    }
+    if (isValid) {
+      setLoadingStatus(true);
+
+      await axios
+        .post(`/api/signup`, formValues)
+        .then((res) => {
+          const data = res?.data;
+          console.log(data);
+          if (data.error) {
+            setLoadingStatus("error");
+            setResMsg(data.error.message);
+            return;
+          }
+          setResMsg(data.message);
+          setLoadingStatus("success");
+        })
+        .catch((error) => {
+          console.log("from catch", error);
+          setResMsg(error?.response?.data?.error.message || error?.message);
+          setLoadingStatus("error");
+        });
+    }
   };
 
   return (

@@ -9,6 +9,7 @@ required={true}
 />
 */
 import React, { useState } from "react";
+//*css
 import "./Input.scss";
 const Input = (props) => {
   const [wasFocused, setWasFocused] = useState(false);
@@ -22,11 +23,7 @@ const Input = (props) => {
           {props.label}
           {props.required ? <span>&nbsp;*&nbsp;</span> : <></>}
         </label>
-        {/* {props.errorMsg ? ( */}
         <span className="errorField">{props.errorMsg}</span>
-        {/* ) : ( */}
-        {/* <></> */}
-        {/* )} */}
       </div>
 
       <input

@@ -6,13 +6,14 @@ import MainButton from "../../../utilities/MainButton/MainButton";
 import Spinner from "../../../utilities/Spinner/Spinner";
 import useAxiosPrivate from "../../../../hooks/useAxiosPrivate";
 import { useLocation, useNavigate } from "react-router-dom";
+import useWorkspace from "../../../../hooks/useWorkspace";
 const RemoveMemberConfirm = ({ name, workspaceId, userId, hide }) => {
-  console.log(workspaceId, userId);
   const axiosPrivate = useAxiosPrivate();
   const [resMsg, setResMsg] = useState();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const { activeWorkspace, setActiveWorkspace } = useWorkspace();
   const handleRemove = async (e) => {
     e.preventDefault();
     setResMsg();
@@ -23,12 +24,14 @@ const RemoveMemberConfirm = ({ name, workspaceId, userId, hide }) => {
         userId: userId,
         workspaceId: workspaceId,
       });
-      console.log(response);
       if (response?.status === 403 || response?.status === 401) {
         navigate("/auth", { state: { from: location }, replace: true });
       }
       if (response?.status === 204) {
-        console.log(response?.data);
+        setActiveWorkspace((old) => {
+          old.members = old.members.filter((e) => e._id !== userId);
+          return { ...old };
+        });
         hide();
       }
     } catch (err) {
