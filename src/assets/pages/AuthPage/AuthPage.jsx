@@ -4,7 +4,8 @@ import useAuth from "../../../hooks/useAuth";
 
 //*CSS*/
 import "./AuthPage.scss";
-
+//*image
+import authImage from "../../images/authImg.png";
 //*components*/
 const LoginForm = lazy(() => import("../../components/LoginForm/LoginForm"));
 const SignUpForm = lazy(() => import("../../components/SignUpForm/SignUpForm"));
@@ -74,7 +75,9 @@ const AuthPage = () => {
           {isLoginPage ? <LoginForm /> : <SignUpForm />}
         </div>
       </div>
-      <div className="LoginPageimageSection"></div>
+      <div className="LoginPageimageSection">
+        <img src={authImage} className="authImg" />
+      </div>
     </div>
   );
 };

@@ -1,11 +1,12 @@
 @import "../../global/variables";
 .authPage {
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   color: $secondaryFont;
   font-family: $primaryFamily;
   .formContainer {
     width: 40%;
+    overflow-y: auto;
     padding: $base-padding;
     .formContainer__header {
       display: flex;
@@ -61,9 +62,16 @@
   }
   .LoginPageimageSection {
     background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     flex: 1;
+    position: relative;
   }
 
+  .authImg {
+    width: 90%;
+  }
   //* media queries 1200
   @media (max-width: 1200px) {
     .formContainer {
