@@ -5,6 +5,7 @@ import useAuth from "../../../hooks/useAuth";
 import useSocket from "../../../hooks/useSocket";
 import useTask from "../../../hooks/useTask";
 import useModal from "../../utilities/Modal/useModal";
+import useWorkspace from "../../../hooks/useWorkspace";
 
 //*css
 import "./DragNDrop.scss";
@@ -38,7 +39,6 @@ const DragNDrop = () => {
   const { user } = useAuth();
   const location = useLocation();
   const { list, setList } = useTask();
-
   const handleDragStart = async (e, params) => {
     e.stopPropagation();
     // console.log("drag started", params);
@@ -70,9 +70,12 @@ const DragNDrop = () => {
       ...dragPair.current,
       workspaceId: params.id,
     });
+    socket.emit("changeEmitted", {
+      workspaceId: params.id,
+      sender: user._id,
+    });
     setDragging(false);
     dragPair.current = null;
-    socket.emit("dragEnd", { workspaceId: params.id });
   };
 
   const handleDragEnter = (e, params) => {
@@ -136,14 +139,19 @@ const DragNDrop = () => {
       oldList[index].name = name;
       return [...oldList];
     });
-    const response = await axiosPrivate.post("/api/updateTaskGroupName", {
-      name: name,
-      grpId: grpId,
+    const payload = { grpId, name, workspaceId: params.id };
+    const response = await axiosPrivate.post(
+      "/api/updateTaskGroupName",
+      payload
+    );
+    socket.emit("changeEmitted", {
       workspaceId: params.id,
+      sender: user._id,
     });
   };
 
   const getTasks = async () => {
+    console.log("getTasks runned");
     try {
       const taskResponse = await axiosPrivate.post("/api/gettasks", {
         workspaceId: params.id,
@@ -165,23 +173,19 @@ const DragNDrop = () => {
   useEffect(() => {
     getTasks();
     selectedWorkspaceCompare = params.id;
-    return () => {
-      console.log("clean up");
-      socket.off("setup", user);
-    };
   }, []);
 
   useEffect(() => {
-    socket.on("settleDrag", (newMessageRecieved) => {
-      if (
-        !selectedWorkspaceCompare ||
-        selectedWorkspaceCompare !== newMessageRecieved.workspaceId
-      ) {
+    socket.on("changeRecieved", (workspace) => {
+      if (!selectedWorkspaceCompare || selectedWorkspaceCompare !== workspace) {
         //give notification
       } else {
         getTasks();
       }
     });
+    return () => {
+      socket.off("changeRecieved");
+    };
   }, []);
 
   return (

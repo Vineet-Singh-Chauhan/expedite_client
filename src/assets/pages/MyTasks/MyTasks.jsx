@@ -14,6 +14,7 @@ const LoadingScreen = lazy(() =>
 
 //*Icons
 import { FiSettings } from "react-icons/fi";
+import useAuth from "../../../hooks/useAuth";
 
 const MyTasks = () => {
   let params = useParams();
@@ -23,6 +24,7 @@ const MyTasks = () => {
   const axiosPrivate = useAxiosPrivate();
   const [loading, setLoading] = useState(true);
   const { activeWorkspace, setActiveWorkspace } = useWorkspace();
+  const { user } = useAuth();
   useEffect(() => {
     const workspaceId = params.id;
     const getWorkspaceInfo = async () => {
@@ -32,6 +34,7 @@ const MyTasks = () => {
         });
         const data = response?.data;
         setActiveWorkspace(data);
+        socket.emit("joinWorkspace", workspaceId);
       } catch (err) {
         if (err?.response?.status === 401 || err?.response?.status === 404) {
           navigate("/user/404", { state: { from: location }, replace: true });
@@ -44,8 +47,11 @@ const MyTasks = () => {
       }
     };
     getWorkspaceInfo();
-    socket.emit("joinWorkspace", workspaceId);
-  }, []);
+    socket.emit("setup", user);
+    return () => {
+      socket.off("setup");
+    };
+  }, [params.id]);
 
   return (
     <div>
@@ -61,7 +67,7 @@ const MyTasks = () => {
             </Link>
           </div>
           <TaskProvider>
-            <DragNDrop />
+            <DragNDrop key={params.id} />
           </TaskProvider>
         </>
       )}

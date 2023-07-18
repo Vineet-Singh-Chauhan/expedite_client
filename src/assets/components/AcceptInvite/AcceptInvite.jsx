@@ -25,6 +25,7 @@ const AcceptInvite = ({ data }) => {
         inviteInfo,
       });
       const workspaceId = response?.data?.workspaceId;
+      console.log(response?.data);
       if (response?.status === 403 || response?.status === 401) {
         navigate("/auth", { state: { from: location }, replace: true });
       }

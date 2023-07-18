@@ -2,6 +2,9 @@ import React, { lazy, useState } from "react";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import useTask from "../../../hooks/useTask";
+import useSocket from "../../../hooks/useSocket";
+import useAuth from "../../../hooks/useAuth";
+import useWorkspace from "../../../hooks/useWorkspace";
 //*css
 import "./NewGroupDialog.scss";
 //*Components
@@ -18,6 +21,8 @@ const NewGroupDialog = ({ hide }) => {
   const params = useParams();
   const { setList } = useTask();
   const axiosPrivate = useAxiosPrivate();
+  const { socket } = useSocket();
+  const { user } = useAuth();
   const handleSubmit = async (e) => {
     e.preventDefault();
     e.target.querySelectorAll("input").forEach((e) => {
@@ -39,8 +44,13 @@ const NewGroupDialog = ({ hide }) => {
           navigate("/auth", { state: { from: location }, replace: true });
         }
         if (response?.status === 201) {
+          socket.emit("changeEmitted", {
+            workspaceId: params.id,
+            sender: user._id,
+          });
           hide();
         }
+
         setList((oldList) => {
           return [...oldList, response.data];
         });

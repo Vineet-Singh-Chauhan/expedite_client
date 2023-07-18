@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 import useWorkspace from "../../../hooks/useWorkspace";
 import useTask from "../../../hooks/useTask";
+import useAuth from "../../../hooks/useAuth";
+import useSocket from "../../../hooks/useSocket";
 //*css
 import "./TaskCardExpanded.scss";
 //*Components
@@ -23,6 +25,8 @@ const TaskCardExpanded = ({ grpId, data, hide }) => {
   const params = useParams();
   const { activeWorkspace } = useWorkspace();
   const { setList } = useTask();
+  const { socket } = useSocket();
+  const { user } = useAuth();
   const handleAddTag = () => {
     taskTagsTrayRef.current.style.display = "block";
   };
@@ -52,6 +56,10 @@ const TaskCardExpanded = ({ grpId, data, hide }) => {
           grpId,
           workspaceId: params.id,
         });
+        socket.emit("changeEmitted", {
+          workspaceId: params.id,
+          sender: user._id,
+        });
         setList((oldList) => {
           const taskGrp = oldList.findIndex((ele) => ele._id === grpId);
           const index = oldList[taskGrp].tasks.findIndex(
@@ -74,11 +82,30 @@ const TaskCardExpanded = ({ grpId, data, hide }) => {
   };
   const handleDelete = async (e) => {
     e.preventDefault();
+
     const response = await axiosPrivate.post("/api/deletetask", {
       taskId: data._id,
       grpId,
       workspaceId: params.id,
     });
+    if (response?.status === 200) {
+      socket.emit("changeEmitted", {
+        workspaceId: params.id,
+        sender: user._id,
+      });
+      setList((oldList) => {
+        const taskGrp = oldList.findIndex((ele) => ele._id === grpId);
+        const index = oldList[taskGrp].tasks.findIndex(
+          (ele) => ele._id === data?._id
+        );
+        if (index === -1) {
+          return oldList;
+        }
+        oldList[taskGrp].tasks.splice(index, 1);
+        return [...oldList];
+      });
+    }
+
     hide();
   };
   const handleChange = (e) => {
