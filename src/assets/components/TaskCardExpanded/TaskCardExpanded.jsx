@@ -82,6 +82,7 @@ const TaskCardExpanded = ({ grpId, data, hide }) => {
   };
   const handleDelete = async (e) => {
     e.preventDefault();
+    setDisabled(true);
 
     const response = await axiosPrivate.post("/api/deletetask", {
       taskId: data._id,
@@ -105,6 +106,7 @@ const TaskCardExpanded = ({ grpId, data, hide }) => {
         return [...oldList];
       });
     }
+    setDisabled(false);
 
     hide();
   };
